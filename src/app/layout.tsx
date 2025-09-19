@@ -6,7 +6,7 @@ import { Footer } from '@/components/layout/footer';
 import { Toaster } from "@/components/ui/toaster";
 
 export const metadata: Metadata = {
-  title: 'Mongol Nom - Бизнесийн лавлах',
+  title: 'Шар ном - Бизнесийн лавлах',
   description: 'Монголын бизнес, үйлчилгээний байгууллагуудын нэгдсэн сан',
 };
 

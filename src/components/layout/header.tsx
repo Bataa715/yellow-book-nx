@@ -9,7 +9,7 @@ export function Header() {
         <Link href="/" className="flex items-center gap-2" prefetch={false}>
           <BookMarked className="h-8 w-8 text-primary" />
           <span className="text-xl font-bold text-foreground">
-            Mongol Nom
+            Шар ном
           </span>
         </Link>
         <nav className="flex items-center gap-2 sm:gap-4">
