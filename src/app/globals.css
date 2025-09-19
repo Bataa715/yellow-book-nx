@@ -4,32 +4,32 @@
 
 @layer base {
   :root {
-    --background: 25 56% 92%; /* #F5E7DE */
-    --foreground: 25 25% 25%; /* Dark Brown for text */
+    --background: 0 0% 100%; /* White */
+    --foreground: 240 10% 3.9%; /* Black */
     
-    --card: 25 56% 95%; /* Slightly lighter than background */
-    --card-foreground: 25 25% 25%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
 
-    --popover: 25 56% 95%;
-    --popover-foreground: 25 25% 25%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
 
     --primary: 28 87% 66%; /* #F4A460 */
-    --primary-foreground: 30 50% 5%; /* Darker color for text on primary */
+    --primary-foreground: 30 50% 5%;
 
-    --secondary: 38 100% 90%; /* A variant of Moccasin */
-    --secondary-foreground: 25 25% 25%;
+    --secondary: 240 4.8% 95.9%; /* Light Gray */
+    --secondary-foreground: 240 5.9% 10%;
 
-    --muted: 30 50% 88%;
-    --muted-foreground: 25 25% 45%;
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
 
-    --accent: 38 100% 85%; /* #FFE4B5 */
-    --accent-foreground: 25 25% 25%;
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 240 5.9% 10%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 25 50% 85%;
-    --input: 25 50% 88%;
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
     --ring: 28 87% 66%;
 
     --chart-1: 12 76% 61%;
@@ -39,14 +39,14 @@
     --chart-5: 27 87% 67%;
     --radius: 0.5rem;
 
-    /* Sidebar colors - kept for potential future use */
-    --sidebar-background: 25 56% 93%;
-    --sidebar-foreground: 25 25% 25%;
+    /* Sidebar colors */
+    --sidebar-background: 240 4.8% 97.5%;
+    --sidebar-foreground: 240 5.9% 10%;
     --sidebar-primary: 28 87% 66%;
     --sidebar-primary-foreground: 30 50% 5%;
-    --sidebar-accent: 38 100% 88%;
-    --sidebar-accent-foreground: 25 25% 25%;
-    --sidebar-border: 25 50% 85%;
+    --sidebar-accent: 240 4.8% 94%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 240 5.9% 90%;
     --sidebar-ring: 28 87% 66%;
   }
 
