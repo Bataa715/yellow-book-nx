@@ -193,6 +193,22 @@ function BusinessDetails() {
                                 </ul>
                             </CardContent>
                         </Card>
+                         <Card>
+                            <CardHeader>
+                                <CardTitle className="flex items-center"><MapPin className="mr-3"/>Байршил</CardTitle>
+                            </CardHeader>
+                            <CardContent>
+                                <div className="aspect-w-16 aspect-h-9 rounded-lg overflow-hidden">
+                                     <iframe
+                                        className="w-full h-full"
+                                        src={`https://maps.google.com/maps?q=${business.location.lat},${business.location.lng}&hl=mn&z=15&output=embed`}
+                                        allowFullScreen={false}
+                                        loading="lazy"
+                                        referrerPolicy="no-referrer-when-downgrade"
+                                    ></iframe>
+                                </div>
+                            </CardContent>
+                        </Card>
                     </div>
                 </CardContent>
             </Card>
