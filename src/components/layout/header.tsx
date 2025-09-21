@@ -13,9 +13,6 @@ export function Header() {
           </span>
         </Link>
         <nav className="flex items-center gap-2 sm:gap-4">
-          <Button variant="ghost" asChild>
-            <Link href="/search">Хайх</Link>
-          </Button>
           <Button asChild>
             <Link href="/add-listing">Бизнес нэмэх</Link>
           </Button>
