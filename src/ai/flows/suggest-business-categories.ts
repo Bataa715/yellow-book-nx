@@ -1,64 +1,65 @@
-'use server';
+# Шар ном - Төслийн шаардлага
 
-/**
- * @fileOverview AI-powered business category suggestion flow.
- *
- * This file defines a Genkit flow that suggests relevant business categories
- * based on a business description provided as input.
- *
- * - suggestBusinessCategories - A function that suggests business categories based on a description.
- * - SuggestBusinessCategoriesInput - The input type for the suggestBusinessCategories function.
- * - SuggestBusinessCategoriesOutput - The return type for the suggestBusinessCategories function.
- */
+Энэхүү баримт бичигт "Шар ном" дижитал лавлахын үндсэн шаардлага, функц болон ирээдүйн төлөвлөгөөг тодорхойлно.
 
-import {ai} from '@/ai/genkit';
-import {z} from 'genkit';
+## 1. Үндсэн зорилго
 
-const SuggestBusinessCategoriesInputSchema = z.object({
-  businessDescription: z
-    .string()
-    .describe('A detailed description of the business.'),
-});
-export type SuggestBusinessCategoriesInput = z.infer<
-  typeof SuggestBusinessCategoriesInputSchema
->;
+Монголын бизнес, үйлчилгээний байгууллагуудын нэгдсэн, ашиглахад хялбар, үнэн зөв мэдээллийн санг бүрдүүлж, хэрэглэгчдийг хайсан үйлчилгээтэй нь хурдан холбох.
 
-const SuggestBusinessCategoriesOutputSchema = z.object({
-  suggestedCategories: z
-    .array(z.string())
-    .describe('An array of suggested business categories.'),
-});
-export type SuggestBusinessCategoriesOutput = z.infer<
-  typeof SuggestBusinessCategoriesOutputSchema
->;
+## 2. Хэрэглэгчийн талаас харагдах функцууд (Frontend)
 
-export async function suggestBusinessCategories(
-  input: SuggestBusinessCategoriesInput
-): Promise<SuggestBusinessCategoriesOutput> {
-  return suggestBusinessCategoriesFlow(input);
-}
+### 2.1. Хайлт ба шүүлтүүр
+- **Үндсэн хайлт:** Бизнесийн нэр, түлхүүр үг, үйлчилгээний төрлөөр хайх.
+- **Байршлаар хайх:** Хот, дүүрэг, хороогоор хайлт хийх.
+- **Ангиллаар хайх:** Нүүр хуудаснаас болон хайлтын хуудаснаас ангилал сонгож хайх.
+- **Хайлтын үр дүн:** Олдсон бизнесүүдийг жагсаалтаар харуулах (зураг, нэр, үнэлгээ, хаяг).
 
-const prompt = ai.definePrompt({
-  name: 'suggestBusinessCategoriesPrompt',
-  input: {schema: SuggestBusinessCategoriesInputSchema},
-  output: {schema: SuggestBusinessCategoriesOutputSchema},
-  prompt: `You are a helpful assistant that suggests business categories based on a given business description.
+### 2.2. Бизнесийн дэлгэрэнгүй хуудас
+- Бизнесийн нэр, лого, тайлбар.
+- Зургийн цомог (Карусель).
+- Холбоо барих мэдээлэл (утас, имэйл, вэбсайт).
+- Хаяг, байршлыг харуулсан Google Map.
+- Цагийн хуваарь.
+- Хэрэглэгчийн үнэлгээ (одоор) ба сэтгэгдлүүд.
 
-  Given the following business description, suggest a list of relevant business categories.
+### 2.3. Хэрэглэгчийн оролцоо
+- **Шинэ бизнес бүртгүүлэх:** Хэрэглэгчид өөрийн болон бусдын бизнесийг мэдээллийн санд нэмэх хүсэлт илгээх форм.
+- **Сэтгэгдэл бичих, үнэлгээ өгөх:** Бизнесийн үйлчилгээг үнэлж, сэтгэгдэл үлдээх. (Ирээдүйд нэвтрэх шаардлагатай болгож болно).
 
-  Description: {{{businessDescription}}}
+## 3. Backend ба удирдлагын систем
 
-  Respond with a JSON array of strings.  For example: ["Category 1", "Category 2", "Category 3"]`,
-});
+### 3.1. API
+- `/api/businesses`: Бүх бизнесүүдийг шүүлтүүрийн хамт буцаах.
+- `/api/businesses/[id]`: Тодорхой нэг бизнесийн дэлгэрэнгүй мэдээллийг буцаах.
+- `/api/businesses/[id]/reviews`: Тухайн бизнесийн сэтгэгдлүүдийг буцаах.
+- `/api/categories`: Боломжит бүх ангиллыг буцаах.
+- (POST) `/api/businesses`: Шинэ бизнес нэмэх хүсэлтийг хүлээн авах.
+- (POST) `/api/reviews`: Шинэ сэтгэгдэл нэмэх хүсэлтийг хүлээн авах.
 
-const suggestBusinessCategoriesFlow = ai.defineFlow(
-  {
-    name: 'suggestBusinessCategoriesFlow',
-    inputSchema: SuggestBusinessCategoriesInputSchema,
-    outputSchema: SuggestBusinessCategoriesOutputSchema,
-  },
-  async input => {
-    const {output} = await prompt(input);
-    return output!;
-  }
-);
+### 3.2. Өгөгдлийн сан
+- **Businesses:** Бизнесийн мэдээллийг хадгалах хүснэгт.
+- **Reviews:** Сэтгэгдлийн мэдээллийг хадгалах хүснэгт.
+- **Categories:** Ангиллын мэдээллийг хадгалах хүснэгт.
+- **Users:** (Ирээдүйд) Хэрэглэгчийн мэдээлэл, нэвтрэх эрхийг хадгалах.
+
+### 3.3. Админ панел (Ирээдүйд)
+- Шинээр нэмэгдсэн бизнесийн хүсэлтийг батлах/цуцлах.
+- Одоо байгаа бизнесийн мэдээллийг засах/устгах.
+- Сэтгэгдлийг хянах, зохисгүй сэтгэгдлийг устгах.
+- Ангилал нэмэх, засах, устгах.
+
+## 4. Техникийн шаардлага
+
+- **Frontend:** Next.js, React, Tailwind CSS, ShadCN/UI
+- **Backend:** Next.js API Routes (Одоогийн байдлаар), Node.js (Ирээдүйд)
+- **Өгөгдлийн сан:** JSON файл (Загвар), PostgreSQL/Firebase Firestore (Ирээдүйд)
+- **Газрын зураг:** Google Maps API
+
+## 5. Ирээдүйд хийх ажлууд (Roadmap)
+
+- **Хэрэглэгчийн профайл:** Хэрэглэгчид бүртгэл үүсгэж, өөрийн нэмсэн бизнес, бичсэн сэтгэгдлээ удирдах.
+- **Онцлох бизнес:** Нүүр хуудсанд онцлох, эрэлттэй бизнесүүдийг харуулах.
+- **Зар сурталчилгаа:** Бизнес эрхлэгчдэд өөрсдийн байгууллагыг сурталчлах боломж олгох.
+- **Мэдэгдэл:** Хэрэглэгчийн сэтгэгдэлд хариу ирэх, бизнесийн мэдээлэл шинэчлэгдэх үед мэдэгдэл илгээх.
+- **Monorepo бүтэц:** Nx ашиглан `apps/web`, `apps/api` гэсэн бүтэц рүү шилжүүлэх.
+- **Prisma ORM:** Өгөгдлийн сантай харьцахдаа Prisma ашиглах.

@@ -1,108 +1,65 @@
-'use client';
+# Шар ном - Төслийн шаардлага
 
-import { useState } from 'react';
-import { Textarea } from '@/components/ui/textarea';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Loader2, Sparkles } from 'lucide-react';
-import { suggestBusinessCategories } from '@/ai/flows/suggest-business-categories';
-import { useToast } from "@/hooks/use-toast"
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
+Энэхүү баримт бичигт "Шар ном" дижитал лавлахын үндсэн шаардлага, функц болон ирээдүйн төлөвлөгөөг тодорхойлно.
 
-interface AiCategorySuggesterProps {
-  description: string;
-  onDescriptionChange: (value: string) => void;
-  selectedCategories: string[];
-  onCategoryToggle: (category: string) => void;
-}
+## 1. Үндсэн зорилго
 
-export function AiCategorySuggester({ 
-  description, 
-  onDescriptionChange,
-  selectedCategories,
-  onCategoryToggle
-}: AiCategorySuggesterProps) {
-  const [isLoading, setIsLoading] = useState(false);
-  const [suggestedCategories, setSuggestedCategories] = useState<string[]>([]);
-  const { toast } = useToast()
+Монголын бизнес, үйлчилгээний байгууллагуудын нэгдсэн, ашиглахад хялбар, үнэн зөв мэдээллийн санг бүрдүүлж, хэрэглэгчдийг хайсан үйлчилгээтэй нь хурдан холбох.
 
-  const handleSuggestCategories = async () => {
-    if (!description || description.trim().length < 20) {
-        toast({
-            variant: "destructive",
-            title: "Тайлбар хангалтгүй",
-            description: "Санал болгохын тулд дор хаяж 20 тэмдэгттэй бизнесийн тайлбар оруулна уу.",
-        })
-      return;
-    }
+## 2. Хэрэглэгчийн талаас харагдах функцууд (Frontend)
 
-    setIsLoading(true);
-    setSuggestedCategories([]);
-    try {
-      const result = await suggestBusinessCategories({ businessDescription: description });
-      setSuggestedCategories(result.suggestedCategories);
-      if (result.suggestedCategories.length > 0) {
-        toast({
-          title: "Ангилал олдлоо!",
-          description: "Санал болгосон ангиллуудаас сонголт хийнэ үү.",
-        })
-      } else {
-        toast({
-          title: "Ангилал олдсонгүй",
-          description: "Таны тайлбарт тохирох ангилал олдсонгүй. Та өөрөө шивж нэмнэ үү.",
-        })
-      }
-    } catch (error) {
-       toast({
-        variant: "destructive",
-        title: "Алдаа гарлаа",
-        description: "Ангилал санал болгоход алдаа гарлаа. Дараа дахин оролдоно уу.",
-      })
-      console.error("Error suggesting categories:", error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+### 2.1. Хайлт ба шүүлтүүр
+- **Үндсэн хайлт:** Бизнесийн нэр, түлхүүр үг, үйлчилгээний төрлөөр хайх.
+- **Байршлаар хайх:** Хот, дүүрэг, хороогоор хайлт хийх.
+- **Ангиллаар хайх:** Нүүр хуудаснаас болон хайлтын хуудаснаас ангилал сонгож хайх.
+- **Хайлтын үр дүн:** Олдсон бизнесүүдийг жагсаалтаар харуулах (зураг, нэр, үнэлгээ, хаяг).
 
-  return (
-    <div className="space-y-4">
-      <Textarea
-        placeholder="Танай бизнесийн талаар дэлгэрэнгүй тайлбар. Жишээ нь: 'Бид Улаанбаатар хотод байрлах итали ресторанаар пицца, паста зэрэг хоолоор үйлчилдэг...'"
-        value={description}
-        onChange={(e) => onDescriptionChange(e.target.value)}
-        rows={6}
-      />
-      <Button type="button" onClick={handleSuggestCategories} disabled={isLoading}>
-        {isLoading ? (
-          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-        ) : (
-          <Sparkles className="mr-2 h-4 w-4" />
-        )}
-        AI-аас ангилал санал болгох
-      </Button>
+### 2.2. Бизнесийн дэлгэрэнгүй хуудас
+- Бизнесийн нэр, лого, тайлбар.
+- Зургийн цомог (Карусель).
+- Холбоо барих мэдээлэл (утас, имэйл, вэбсайт).
+- Хаяг, байршлыг харуулсан Google Map.
+- Цагийн хуваарь.
+- Хэрэглэгчийн үнэлгээ (одоор) ба сэтгэгдлүүд.
 
-      {(suggestedCategories.length > 0 || isLoading) && (
-         <Alert>
-          <Sparkles className="h-4 w-4" />
-          <AlertTitle>Санал болгож буй ангиллууд</AlertTitle>
-          <AlertDescription>
-            AI-н санал болгосон ангиллуудаас сонгоно уу. Эсвэл өөрөө шинээр нэмж болно.
-          </AlertDescription>
-        </Alert>
-      )}
+### 2.3. Хэрэглэгчийн оролцоо
+- **Шинэ бизнес бүртгүүлэх:** Хэрэглэгчид өөрийн болон бусдын бизнесийг мэдээллийн санд нэмэх хүсэлт илгээх форм.
+- **Сэтгэгдэл бичих, үнэлгээ өгөх:** Бизнесийн үйлчилгээг үнэлж, сэтгэгдэл үлдээх. (Ирээдүйд нэвтрэх шаардлагатай болгож болно).
 
-      <div className="flex flex-wrap gap-2">
-        {suggestedCategories.map((category) => (
-          <Badge
-            key={category}
-            variant={selectedCategories.includes(category) ? 'default' : 'secondary'}
-            onClick={() => onCategoryToggle(category)}
-            className="cursor-pointer text-sm px-3 py-1"
-          >
-            {category}
-          </Badge>
-        ))}
-      </div>
-    </div>
-  );
-}
+## 3. Backend ба удирдлагын систем
+
+### 3.1. API
+- `/api/businesses`: Бүх бизнесүүдийг шүүлтүүрийн хамт буцаах.
+- `/api/businesses/[id]`: Тодорхой нэг бизнесийн дэлгэрэнгүй мэдээллийг буцаах.
+- `/api/businesses/[id]/reviews`: Тухайн бизнесийн сэтгэгдлүүдийг буцаах.
+- `/api/categories`: Боломжит бүх ангиллыг буцаах.
+- (POST) `/api/businesses`: Шинэ бизнес нэмэх хүсэлтийг хүлээн авах.
+- (POST) `/api/reviews`: Шинэ сэтгэгдэл нэмэх хүсэлтийг хүлээн авах.
+
+### 3.2. Өгөгдлийн сан
+- **Businesses:** Бизнесийн мэдээллийг хадгалах хүснэгт.
+- **Reviews:** Сэтгэгдлийн мэдээллийг хадгалах хүснэгт.
+- **Categories:** Ангиллын мэдээллийг хадгалах хүснэгт.
+- **Users:** (Ирээдүйд) Хэрэглэгчийн мэдээлэл, нэвтрэх эрхийг хадгалах.
+
+### 3.3. Админ панел (Ирээдүйд)
+- Шинээр нэмэгдсэн бизнесийн хүсэлтийг батлах/цуцлах.
+- Одоо байгаа бизнесийн мэдээллийг засах/устгах.
+- Сэтгэгдлийг хянах, зохисгүй сэтгэгдлийг устгах.
+- Ангилал нэмэх, засах, устгах.
+
+## 4. Техникийн шаардлага
+
+- **Frontend:** Next.js, React, Tailwind CSS, ShadCN/UI
+- **Backend:** Next.js API Routes (Одоогийн байдлаар), Node.js (Ирээдүйд)
+- **Өгөгдлийн сан:** JSON файл (Загвар), PostgreSQL/Firebase Firestore (Ирээдүйд)
+- **Газрын зураг:** Google Maps API
+
+## 5. Ирээдүйд хийх ажлууд (Roadmap)
+
+- **Хэрэглэгчийн профайл:** Хэрэглэгчид бүртгэл үүсгэж, өөрийн нэмсэн бизнес, бичсэн сэтгэгдлээ удирдах.
+- **Онцлох бизнес:** Нүүр хуудсанд онцлох, эрэлттэй бизнесүүдийг харуулах.
+- **Зар сурталчилгаа:** Бизнес эрхлэгчдэд өөрсдийн байгууллагыг сурталчлах боломж олгох.
+- **Мэдэгдэл:** Хэрэглэгчийн сэтгэгдэлд хариу ирэх, бизнесийн мэдээлэл шинэчлэгдэх үед мэдэгдэл илгээх.
+- **Monorepo бүтэц:** Nx ашиглан `apps/web`, `apps/api` гэсэн бүтэц рүү шилжүүлэх.
+- **Prisma ORM:** Өгөгдлийн сантай харьцахдаа Prisma ашиглах.

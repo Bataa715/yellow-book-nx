@@ -15,11 +15,11 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { AiCategorySuggester } from '@/components/ai-category-suggester';
 import { Badge } from '@/components/ui/badge';
 import { X } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { useState } from 'react';
+import { Textarea } from '@/components/ui/textarea';
 
 const formSchema = z.object({
   businessName: z.string().min(2, 'Нэр дор хаяж 2 үсэгтэй байх ёстой.'),
@@ -50,14 +50,6 @@ export default function AddListingPage() {
     },
   });
 
-  const handleCategoryToggle = (category: string) => {
-    const currentCategories = form.getValues('categories');
-    const newCategories = currentCategories.includes(category)
-      ? currentCategories.filter((c) => c !== category)
-      : [...currentCategories, category];
-    form.setValue('categories', newCategories, { shouldValidate: true });
-  };
-  
   const handleAddNewCategory = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter' && newCategory.trim() !== '') {
       e.preventDefault();
@@ -108,6 +100,23 @@ export default function AddListingPage() {
                   </FormItem>
                 )}
               />
+              
+              <FormField
+                control={form.control}
+                name="description"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Дэлгэрэнгүй тайлбар</FormLabel>
+                    <FormControl>
+                      <Textarea 
+                        placeholder="Танай бизнесийн талаар дэлгэрэнгүй тайлбар. Жишээ нь: 'Бид Улаанбаатар хотод байрлах итали ресторанаар пицца, паста зэрэг хоолоор үйлчилдэг...'"
+                        rows={6}
+                        {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
               <Controller
                 control={form.control}
@@ -116,20 +125,8 @@ export default function AddListingPage() {
                   <FormItem>
                     <FormLabel>Ангилал</FormLabel>
                     <FormDescription>
-                      Тайлбараа оруулаад AI-аас санал болгох товчийг дарж ангилал сонгоорой, эсвэл өөрөө шивж нэмнэ үү.
+                       Өөрийн бизнест тохирох ангилалуудыг шивж оруулаад Enter товчийг дарна уу.
                     </FormDescription>
-                    <FormField
-                      control={form.control}
-                      name="description"
-                      render={({ field: descField }) => (
-                        <AiCategorySuggester 
-                          description={descField.value}
-                          onDescriptionChange={descField.onChange}
-                          selectedCategories={field.value}
-                          onCategoryToggle={handleCategoryToggle}
-                        />
-                      )}
-                    />
                      <div className="flex items-center gap-2 pt-2">
                       <Input 
                         placeholder="Шинэ ангилал нэмээд Enter дарна уу"
