@@ -1,0 +1,88 @@
+{
+  "placeholderImages": [
+    {
+      "id": "restaurant-1",
+      "description": "A cozy restaurant interior",
+      "imageUrl": "https://picsum.photos/seed/restaurant1/800/600",
+      "imageHint": "restaurant interior"
+    },
+    {
+      "id": "restaurant-2",
+      "description": "A plate of delicious food",
+      "imageUrl": "https://picsum.photos/seed/food1/800/600",
+      "imageHint": "delicious food"
+    },
+    {
+      "id": "cafe-1",
+      "description": "A modern cafe with people",
+      "imageUrl": "https://picsum.photos/seed/cafe1/800/600",
+      "imageHint": "modern cafe"
+    },
+    {
+      "id": "cafe-2",
+      "description": "A cup of coffee on a table",
+      "imageUrl": "https://picsum.photos/seed/coffee1/800/600",
+      "imageHint": "cup coffee"
+    },
+    {
+      "id": "shop-1",
+      "description": "A clothing store interior",
+      "imageUrl": "https://picsum.photos/seed/shop1/800/600",
+      "imageHint": "clothing store"
+    },
+    {
+      "id": "plumber-1",
+      "description": "A plumber fixing a sink",
+      "imageUrl": "https://picsum.photos/seed/plumber1/800/600",
+      "imageHint": "plumber working"
+    },
+    {
+      "id": "logo-1",
+      "description": "Modern Bull logo",
+      "imageUrl": "https://picsum.photos/seed/logo1/200/200",
+      "imageHint": "modern logo"
+    },
+    {
+      "id": "logo-2",
+      "description": "Cafe cup logo",
+      "imageUrl": "https://picsum.photos/seed/logo2/200/200",
+      "imageHint": "cafe logo"
+    },
+    {
+      "id": "logo-3",
+      "description": "Fashion brand logo",
+      "imageUrl": "https://picsum.photos/seed/logo3/200/200",
+      "imageHint": "fashion logo"
+    },
+    {
+      "id": "logo-4",
+      "description": "Plumbing service logo",
+      "imageUrl": "https://picsum.photos/seed/logo4/200/200",
+      "imageHint": "service logo"
+    },
+    {
+      "id": "avatar-1",
+      "description": "Avatar of a person",
+      "imageUrl": "https://picsum.photos/seed/avatar1/100/100",
+      "imageHint": "person avatar"
+    },
+    {
+      "id": "avatar-2",
+      "description": "Avatar of another person",
+      "imageUrl": "https://picsum.photos/seed/avatar2/100/100",
+      "imageHint": "person avatar"
+    },
+     {
+      "id": "avatar-3",
+      "description": "Avatar of a third person",
+      "imageUrl": "https://picsum.photos/seed/avatar3/100/100",
+      "imageHint": "person avatar"
+    },
+    {
+      "id": "hero-bg",
+      "description": "Ulaanbaatar city view",
+      "imageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRkklxrz7rKS2lSsr2KKqM0YJY7GrpcB2mHfA&s",
+      "imageHint": "ulaanbaatar city"
+    }
+  ]
+}
