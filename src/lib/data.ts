@@ -1,5 +1,8 @@
 import type { Business, Review, Category } from '@/types';
-import { Utensils, Coffee, ShoppingCart, Wrench, Car, Building, HeartPulse, Palette, MoreHorizontal } from 'lucide-react';
+import { Utensils, Coffee, ShoppingCart, Wrench, Car, HeartPulse, Palette, MoreHorizontal } from 'lucide-react';
+import { PlaceHolderImages } from './placeholder-images';
+
+const findImage = (id: string) => PlaceHolderImages.find(img => img.id === id)?.imageUrl || `https://picsum.photos/seed/${id}/800/600`;
 
 export const mockBusinesses: Business[] = [
   {
@@ -26,10 +29,10 @@ export const mockBusinesses: Business[] = [
     rating: 4.5,
     reviewCount: 125,
     images: [
-      'https://picsum.photos/seed/restaurant1/800/600',
-      'https://picsum.photos/seed/food1/800/600'
+      findImage('restaurant-1'),
+      findImage('restaurant-2')
     ],
-    logo: 'https://picsum.photos/seed/logo1/200/200',
+    logo: findImage('logo-1'),
   },
   {
     id: '2',
@@ -54,10 +57,10 @@ export const mockBusinesses: Business[] = [
     rating: 4.8,
     reviewCount: 88,
     images: [
-      'https://picsum.photos/seed/cafe1/800/600',
-      'https://picsum.photos/seed/coffee1/800/600'
+      findImage('cafe-1'),
+      findImage('cafe-2')
     ],
-    logo: 'https://picsum.photos/seed/logo2/200/200',
+    logo: findImage('logo-2'),
   },
   {
     id: '3',
@@ -82,9 +85,9 @@ export const mockBusinesses: Business[] = [
     rating: 4.2,
     reviewCount: 210,
     images: [
-      'https://picsum.photos/seed/shop1/800/600',
+      findImage('shop-1'),
     ],
-    logo: 'https://picsum.photos/seed/logo3/200/200',
+    logo: findImage('logo-3'),
   },
     {
     id: '4',
@@ -109,9 +112,9 @@ export const mockBusinesses: Business[] = [
     rating: 5.0,
     reviewCount: 45,
     images: [
-      'https://picsum.photos/seed/plumber1/800/600',
+      findImage('plumber-1'),
     ],
-    logo: 'https://picsum.photos/seed/logo4/200/200',
+    logo: findImage('logo-4'),
   },
 ];
 
@@ -120,7 +123,7 @@ export const mockReviews: Review[] = [
     id: '1',
     businessId: '1',
     author: 'Болд',
-    avatar: 'https://picsum.photos/seed/avatar1/100/100',
+    avatar: findImage('avatar-1'),
     rating: 5,
     comment: 'Хоол маш амттай, үйлчилгээ сайн. Орчин үеийн болон уламжлалт хэв маягийг хослуулсан сайхан газар.',
     date: '2024-05-10',
@@ -129,7 +132,7 @@ export const mockReviews: Review[] = [
     id: '2',
     businessId: '1',
     author: 'Сараа',
-    avatar: 'https://picsum.photos/seed/avatar2/100/100',
+    avatar: findImage('avatar-2'),
     rating: 4,
     comment: 'Найзуудтайгаа суухад тохиромжтой юм байна. Жоохон үнэтэй санагдсан.',
     date: '2024-05-08',
@@ -138,7 +141,7 @@ export const mockReviews: Review[] = [
     id: '3',
     businessId: '2',
     author: 'Тэмүүлэн',
-    avatar: 'https://picsum.photos/seed/avatar3/100/100',
+    avatar: findImage('avatar-3'),
     rating: 5,
     comment: 'Миний дуртай кофе шоп. Ялангуяа латте нь үнэхээр гоё.',
     date: '2024-05-12',
