@@ -12,6 +12,11 @@ export function Header() {
             Шар ном
           </span>
         </Link>
+        <nav className="flex items-center gap-2 sm:gap-4">
+          <Button asChild>
+            <Link href="/add-listing">Бизнес нэмэх</Link>
+          </Button>
+        </nav>
       </div>
     </header>
   );
