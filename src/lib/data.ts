@@ -1,5 +1,5 @@
 import type { Business, Review, Category } from '@/types';
-import { Utensils, Coffee, ShoppingCart, Wrench, Car, Building, HeartPulse, Palette } from 'lucide-react';
+import { Utensils, Coffee, ShoppingCart, Wrench, Car, Building, HeartPulse, Palette, MoreHorizontal } from 'lucide-react';
 
 export const mockBusinesses: Business[] = [
   {
@@ -151,7 +151,7 @@ export const mockCategories: Category[] = [
     { id: '3', name: 'Дэлгүүр', icon: ShoppingCart },
     { id: '4', name: 'Үйлчилгээ', icon: Wrench },
     { id: '5', name: 'Авто засвар', icon: Car },
-    { id: '6', name: 'Барилга', icon: Building },
     { id: '7', name: 'Эрүүл мэнд', icon: HeartPulse },
     { id: '8', name: 'Гоо сайхан', icon: Palette },
+    { id: '6', name: 'Бусад', icon: MoreHorizontal },
 ]
