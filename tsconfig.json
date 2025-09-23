@@ -1,0 +1,25 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compileOnSave": false,
+  "files": [],
+  "references": [
+    {
+      "path": "./apps/yellow-book-e2e"
+    },
+    {
+      "path": "./apps/api-e2e"
+    },
+    {
+      "path": "./apps/api"
+    },
+    {
+      "path": "./libs/contract"
+    },
+    {
+      "path": "./libs/config"
+    },
+    {
+      "path": "./apps/web"
+    }
+  ]
+}

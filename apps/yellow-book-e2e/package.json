@@ -1,0 +1,10 @@
+{
+  "name": "@yellow-book/yellow-book-e2e",
+  "version": "0.0.1",
+  "private": true,
+  "nx": {
+    "implicitDependencies": [
+      "@yellow-book/yellow-book"
+    ]
+  }
+}

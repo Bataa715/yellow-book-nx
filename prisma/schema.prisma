@@ -1,0 +1,62 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model YellowBookEntry {
+  id          String   @id @default(cuid())
+  name        String
+  description String
+  categories  String   // JSON string of categories array
+  addressCity     String
+  addressDistrict String
+  addressKhoroo   String
+  addressFull     String
+  locationLat     Float
+  locationLng     Float
+  contactPhone    String   // JSON string of phone numbers array
+  contactEmail    String
+  contactWebsite  String?
+  hours       String   // JSON string for business hours
+  rating      Float    @default(0)
+  reviewCount Int      @default(0)
+  images      String   // JSON string of image URLs array
+  logo        String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  reviews     Review[]
+
+  @@map("yellow_book_entries")
+}
+
+model Review {
+  id         String          @id @default(cuid())
+  businessId String
+  business   YellowBookEntry @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  author     String
+  avatar     String
+  rating     Int
+  comment    String
+  date       String
+  createdAt  DateTime        @default(now())
+
+  @@map("reviews")
+}
+
+model Category {
+  id   String @id @default(cuid())
+  name String @unique
+  icon String?
+
+  @@map("categories")
+}

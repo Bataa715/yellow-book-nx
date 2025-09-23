@@ -1,0 +1,11 @@
+{
+  "name": "@yellow-book/api",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "@prisma/client": "^6.16.2",
+    "next": "~15.2.4",
+    "react": "19.0.0",
+    "react-dom": "19.0.0"
+  }
+}

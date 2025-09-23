@@ -1,0 +1,28 @@
+# Build outputs
+.next/
+dist/
+build/
+
+# Generated files
+*.generated.*
+**/generated/**
+
+# Node modules
+node_modules/
+
+# Coverage
+coverage/
+
+# Environment files
+.env*
+
+# TypeScript build info
+*.tsbuildinfo
+
+# IDE files
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
