@@ -1,0 +1,32 @@
+
+Linting "api"...
+[0m[0m
+[0m[4mC:\Users\Dell\Documents\Yellowbook\Yellow-book\apps\api\prisma\seed.ts[24m[0m
+[0m  [2m227:3[22m   [33mwarning[39m  Unexpected console statement. Only these console methods are allowed: warn, error  [2mno-console[22m[0m
+[0m  [2m235:3[22m   [33mwarning[39m  Unexpected console statement. Only these console methods are allowed: warn, error  [2mno-console[22m[0m
+[0m  [2m243:3[22m   [33mwarning[39m  Unexpected console statement. Only these console methods are allowed: warn, error  [2mno-console[22m[0m
+[0m  [2m251:3[22m   [33mwarning[39m  Unexpected console statement. Only these console methods are allowed: warn, error  [2mno-console[22m[0m
+[0m  [2m259:3[22m   [33mwarning[39m  Unexpected console statement. Only these console methods are allowed: warn, error  [2mno-console[22m[0m
+[0m  [2m267:57[22m  [33mwarning[39m  Unexpected any. Specify a different type                                           [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m286:3[22m   [33mwarning[39m  Unexpected console statement. Only these console methods are allowed: warn, error  [2mno-console[22m[0m
+[0m[0m
+[0m[4mC:\Users\Dell\Documents\Yellowbook\Yellow-book\apps\api\src\controllers\reviews.controller.ts[24m[0m
+[0m  [2m55:42[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m[0m
+[0m[4mC:\Users\Dell\Documents\Yellowbook\Yellow-book\apps\api\src\controllers\yellow-books.controller.ts[24m[0m
+[0m   [2m7:32[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m50:18[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m[0m
+[0m[4mC:\Users\Dell\Documents\Yellowbook\Yellow-book\apps\api\src\main.ts[24m[0m
+[0m  [2m29:15[22m  [33mwarning[39m  Unexpected any. Specify a different type                                           [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m29:25[22m  [33mwarning[39m  Unexpected any. Specify a different type                                           [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m29:35[22m  [33mwarning[39m  Unexpected any. Specify a different type                                           [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m29:40[22m  [31merror[39m    'next' is defined but never used. Allowed unused args must match /^_/u             [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m  [2m29:46[22m  [33mwarning[39m  Unexpected any. Specify a different type                                           [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m39:3[22m   [33mwarning[39m  Unexpected console statement. Only these console methods are allowed: warn, error  [2mno-console[22m[0m
+[0m  [2m40:3[22m   [33mwarning[39m  Unexpected console statement. Only these console methods are allowed: warn, error  [2mno-console[22m[0m
+[0m[0m
+[0m[31m[1m✖ 17 problems (1 error, 16 warnings)[22m[39m[0m
+[0m[31m[1m[22m[39m[0m
+✖ 17 problems (1 error, 16 warnings)
+

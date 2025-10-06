@@ -1,8 +1,19 @@
 import type { Business, Review, Category } from '@/types';
-import { Utensils, Coffee, ShoppingCart, Wrench, Car, HeartPulse, Palette, MoreHorizontal } from 'lucide-react';
+import {
+  Utensils,
+  Coffee,
+  ShoppingCart,
+  Wrench,
+  Car,
+  HeartPulse,
+  Palette,
+  MoreHorizontal,
+} from 'lucide-react';
 import { PlaceHolderImages } from './placeholder-images';
 
-const findImage = (id: string) => PlaceHolderImages.find(img => img.id === id)?.imageUrl || `https://picsum.photos/seed/${id}/800/600`;
+const findImage = (id: string) =>
+  PlaceHolderImages.find((img) => img.id === id)?.imageUrl ||
+  `https://picsum.photos/seed/${id}/800/600`;
 
 export const mockBusinesses: Business[] = [
   {
@@ -28,10 +39,7 @@ export const mockBusinesses: Business[] = [
     },
     rating: 4.5,
     reviewCount: 125,
-    images: [
-      findImage('restaurant-1'),
-      findImage('restaurant-2')
-    ],
+    images: [findImage('restaurant-1'), findImage('restaurant-2')],
     logo: findImage('logo-1'),
   },
   {
@@ -56,10 +64,7 @@ export const mockBusinesses: Business[] = [
     },
     rating: 4.8,
     reviewCount: 88,
-    images: [
-      findImage('cafe-1'),
-      findImage('cafe-2')
-    ],
+    images: [findImage('cafe-1'), findImage('cafe-2')],
     logo: findImage('logo-2'),
   },
   {
@@ -84,12 +89,10 @@ export const mockBusinesses: Business[] = [
     },
     rating: 4.2,
     reviewCount: 210,
-    images: [
-      findImage('shop-1'),
-    ],
+    images: [findImage('shop-1')],
     logo: findImage('logo-3'),
   },
-    {
+  {
     id: '4',
     name: 'Хурд Сантехник',
     description: 'Сантехникийн бүх төрлийн засвар үйлчилгээг 24 цагаар дуудлагаар хийнэ.',
@@ -111,9 +114,7 @@ export const mockBusinesses: Business[] = [
     },
     rating: 5.0,
     reviewCount: 45,
-    images: [
-      findImage('plumber-1'),
-    ],
+    images: [findImage('plumber-1')],
     logo: findImage('logo-4'),
   },
 ];
@@ -125,7 +126,8 @@ export const mockReviews: Review[] = [
     author: 'Болд',
     avatar: findImage('avatar-1'),
     rating: 5,
-    comment: 'Хоол маш амттай, үйлчилгээ сайн. Орчин үеийн болон уламжлалт хэв маягийг хослуулсан сайхан газар.',
+    comment:
+      'Хоол маш амттай, үйлчилгээ сайн. Орчин үеийн болон уламжлалт хэв маягийг хослуулсан сайхан газар.',
     date: '2024-05-10',
   },
   {
@@ -137,7 +139,7 @@ export const mockReviews: Review[] = [
     comment: 'Найзуудтайгаа суухад тохиромжтой юм байна. Жоохон үнэтэй санагдсан.',
     date: '2024-05-08',
   },
-    {
+  {
     id: '3',
     businessId: '2',
     author: 'Тэмүүлэн',
@@ -149,12 +151,12 @@ export const mockReviews: Review[] = [
 ];
 
 export const mockCategories: Category[] = [
-    { id: '1', name: 'Ресторан', icon: Utensils },
-    { id: '2', name: 'Кафе', icon: Coffee },
-    { id: '3', name: 'Дэлгүүр', icon: ShoppingCart },
-    { id: '4', name: 'Үйлчилгээ', icon: Wrench },
-    { id: '5', name: 'Авто засвар', icon: Car },
-    { id: '7', name: 'Эрүүл мэнд', icon: HeartPulse },
-    { id: '8', name: 'Гоо сайхан', icon: Palette },
-    { id: '6', name: 'Бусад', icon: MoreHorizontal },
-]
+  { id: '1', name: 'Ресторан', icon: Utensils },
+  { id: '2', name: 'Кафе', icon: Coffee },
+  { id: '3', name: 'Дэлгүүр', icon: ShoppingCart },
+  { id: '4', name: 'Үйлчилгээ', icon: Wrench },
+  { id: '5', name: 'Авто засвар', icon: Car },
+  { id: '7', name: 'Эрүүл мэнд', icon: HeartPulse },
+  { id: '8', name: 'Гоо сайхан', icon: Palette },
+  { id: '6', name: 'Бусад', icon: MoreHorizontal },
+];

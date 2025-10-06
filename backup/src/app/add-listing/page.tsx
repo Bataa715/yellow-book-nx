@@ -55,7 +55,9 @@ export default function AddListingPage() {
       e.preventDefault();
       const currentCategories = form.getValues('categories');
       if (!currentCategories.includes(newCategory.trim())) {
-        form.setValue('categories', [...currentCategories, newCategory.trim()], { shouldValidate: true });
+        form.setValue('categories', [...currentCategories, newCategory.trim()], {
+          shouldValidate: true,
+        });
       }
       setNewCategory('');
     }
@@ -63,7 +65,11 @@ export default function AddListingPage() {
 
   const removeCategory = (category: string) => {
     const currentCategories = form.getValues('categories');
-    form.setValue('categories', currentCategories.filter(c => c !== category), { shouldValidate: true });
+    form.setValue(
+      'categories',
+      currentCategories.filter((c) => c !== category),
+      { shouldValidate: true }
+    );
   };
 
   function onSubmit(data: AddListingFormValues) {
@@ -80,9 +86,7 @@ export default function AddListingPage() {
       <Card className="shadow-xl">
         <CardHeader>
           <CardTitle className="text-3xl font-headline">Шинэ бизнес бүртгүүлэх</CardTitle>
-          <CardDescription>
-            Танай бизнесийн мэдээллийг үнэн зөв оруулна уу.
-          </CardDescription>
+          <CardDescription>Танай бизнесийн мэдээллийг үнэн зөв оруулна уу.</CardDescription>
         </CardHeader>
         <CardContent>
           <Form {...form}>
@@ -100,7 +104,7 @@ export default function AddListingPage() {
                   </FormItem>
                 )}
               />
-              
+
               <FormField
                 control={form.control}
                 name="description"
@@ -108,10 +112,11 @@ export default function AddListingPage() {
                   <FormItem>
                     <FormLabel>Дэлгэрэнгүй тайлбар</FormLabel>
                     <FormControl>
-                      <Textarea 
+                      <Textarea
                         placeholder="Танай бизнесийн талаар дэлгэрэнгүй тайлбар. Жишээ нь: 'Бид Улаанбаатар хотод байрлах итали ресторанаар пицца, паста зэрэг хоолоор үйлчилдэг...'"
                         rows={6}
-                        {...field} />
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -125,25 +130,33 @@ export default function AddListingPage() {
                   <FormItem>
                     <FormLabel>Ангилал</FormLabel>
                     <FormDescription>
-                       Өөрийн бизнест тохирох ангилалуудыг шивж оруулаад Enter товчийг дарна уу.
+                      Өөрийн бизнест тохирох ангилалуудыг шивж оруулаад Enter товчийг дарна уу.
                     </FormDescription>
-                     <div className="flex items-center gap-2 pt-2">
-                      <Input 
+                    <div className="flex items-center gap-2 pt-2">
+                      <Input
                         placeholder="Шинэ ангилал нэмээд Enter дарна уу"
                         value={newCategory}
-                        onChange={e => setNewCategory(e.target.value)}
+                        onChange={(e) => setNewCategory(e.target.value)}
                         onKeyDown={handleAddNewCategory}
                       />
                     </div>
                     <div className="flex flex-wrap gap-2 pt-2 min-h-[2.5rem]">
-                        {field.value.map(category => (
-                            <Badge key={category} variant="secondary" className="pl-3 pr-1 py-1 text-sm">
-                                {category}
-                                <button type="button" onClick={() => removeCategory(category)} className="ml-2 rounded-full p-0.5 hover:bg-destructive/80 hover:text-destructive-foreground transition-colors">
-                                    <X className="h-3 w-3" />
-                                </button>
-                            </Badge>
-                        ))}
+                      {field.value.map((category) => (
+                        <Badge
+                          key={category}
+                          variant="secondary"
+                          className="pl-3 pr-1 py-1 text-sm"
+                        >
+                          {category}
+                          <button
+                            type="button"
+                            onClick={() => removeCategory(category)}
+                            className="ml-2 rounded-full p-0.5 hover:bg-destructive/80 hover:text-destructive-foreground transition-colors"
+                          >
+                            <X className="h-3 w-3" />
+                          </button>
+                        </Badge>
+                      ))}
                     </div>
                     <FormMessage />
                   </FormItem>
@@ -206,7 +219,9 @@ export default function AddListingPage() {
                 )}
               />
 
-              <Button type="submit" size="lg" className="w-full">Бүртгүүлэх</Button>
+              <Button type="submit" size="lg" className="w-full">
+                Бүртгүүлэх
+              </Button>
             </form>
           </Form>
         </CardContent>

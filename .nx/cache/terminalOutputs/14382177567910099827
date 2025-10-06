@@ -1,0 +1,40 @@
+
+Linting "web"...
+[0m[0m
+[0m[4mC:\Users\Dell\Documents\Yellowbook\Yellow-book\apps\web\src\app\add-listing\page.tsx[24m[0m
+[0m   [2m3:19[22m  [31merror[39m    'Controller' is defined but never used                                             [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m  [2m66:7[22m   [33mwarning[39m  Unexpected console statement. Only these console methods are allowed: warn, error  [2mno-console[22m[0m
+[0m[0m
+[0m[4mC:\Users\Dell\Documents\Yellowbook\Yellow-book\apps\web\src\app\admin\businesses\[id]\edit\page.tsx[24m[0m
+[0m  [2m115:13[22m  [31merror[39m    'result' is assigned a value but never used  [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m  [2m134:30[22m  [33mwarning[39m  Unexpected any. Specify a different type     [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m[0m
+[0m[4mC:\Users\Dell\Documents\Yellowbook\Yellow-book\apps\web\src\app\admin\categories\page.tsx[24m[0m
+[0m  [2m16:3[22m   [31merror[39m  'Dialog' is defined but never used             [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m  [2m17:3[22m   [31merror[39m  'DialogContent' is defined but never used      [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m  [2m18:3[22m   [31merror[39m  'DialogHeader' is defined but never used       [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m  [2m19:3[22m   [31merror[39m  'DialogTitle' is defined but never used        [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m  [2m20:3[22m   [31merror[39m  'DialogDescription' is defined but never used  [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m  [2m21:3[22m   [31merror[39m  'DialogFooter' is defined but never used       [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m  [2m23:10[22m  [31merror[39m  'Input' is defined but never used              [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m  [2m24:10[22m  [31merror[39m  'Label' is defined but never used              [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m  [2m25:10[22m  [31merror[39m  'Plus' is defined but never used               [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m  [2m25:16[22m  [31merror[39m  'Edit' is defined but never used               [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m  [2m25:22[22m  [31merror[39m  'Trash2' is defined but never used             [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m[0m
+[0m[4mC:\Users\Dell\Documents\Yellowbook\Yellow-book\apps\web\src\app\admin\page.tsx[24m[0m
+[0m  [2m39:5[22m  [33mwarning[39m  Unexpected console statement. Only these console methods are allowed: warn, error  [2mno-console[22m[0m
+[0m[0m
+[0m[4mC:\Users\Dell\Documents\Yellowbook\Yellow-book\apps\web\src\components\category-grid.tsx[24m[0m
+[0m  [2m7:10[22m  [31merror[39m  'Button' is defined but never used  [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m[0m
+[0m[4mC:\Users\Dell\Documents\Yellowbook\Yellow-book\apps\web\src\components\layout\footer.tsx[24m[0m
+[0m  [2m1:8[22m  [31merror[39m  'Link' is defined but never used  [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m[0m
+[0m[4mC:\Users\Dell\Documents\Yellowbook\Yellow-book\apps\web\src\hooks\use-toast.ts[24m[0m
+[0m  [2m18:7[22m  [31merror[39m  'actionTypes' is assigned a value but only used as a type  [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m[0m
+[0m[31m[1m✖ 19 problems (16 errors, 3 warnings)[22m[39m[0m
+[0m[31m[1m[22m[39m[0m
+✖ 19 problems (16 errors, 3 warnings)
+

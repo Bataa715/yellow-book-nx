@@ -1,0 +1,60 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../../../node_modules/.prisma/client"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model YellowBookEntry {
+  id              String   @id @default(cuid())
+  name            String
+  description     String
+  categories      String   // JSON array of category names
+  addressCity     String
+  addressDistrict String
+  addressKhoroo   String
+  addressFull     String
+  locationLat     Float
+  locationLng     Float
+  contactPhone    String   // JSON array of phone numbers
+  contactEmail    String?
+  contactWebsite  String?
+  hours           String?  // JSON object of hours
+  rating          Float?
+  reviewCount     Int?
+  images          String?  // JSON array of image URLs
+  logo            String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  reviews         Review[]
+
+  @@map("yellow_book_entries")
+}
+
+model Review {
+  id         String          @id @default(cuid())
+  businessId String
+  business   YellowBookEntry @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  author     String
+  avatar     String?
+  rating     Int
+  comment    String
+  date       String
+  createdAt  DateTime        @default(now())
+
+  @@map("reviews")
+}
+
+model Category {
+  id   String @id @default(cuid())
+  name String @unique
+  icon String
+
+  @@map("categories")
+}

@@ -13,7 +13,9 @@ export function CategoryGrid() {
               <div className="p-3 rounded-full bg-accent group-hover:bg-primary/20 transition-colors">
                 <category.icon className="h-8 w-8 text-primary transition-transform group-hover:scale-110" />
               </div>
-              <span className="text-sm font-semibold text-center text-foreground group-hover:text-primary">{category.name}</span>
+              <span className="text-sm font-semibold text-center text-foreground group-hover:text-primary">
+                {category.name}
+              </span>
             </CardContent>
           </Card>
         </Link>

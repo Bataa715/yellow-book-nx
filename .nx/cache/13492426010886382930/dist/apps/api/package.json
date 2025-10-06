@@ -1,0 +1,8 @@
+{
+  "name": "@yellow-book/api",
+  "version": "0.0.1",
+  "private": true,
+  "main": "./src/main.ts",
+  "types": "./../apps/api/src/main.d.ts",
+  "type": "commonjs"
+}

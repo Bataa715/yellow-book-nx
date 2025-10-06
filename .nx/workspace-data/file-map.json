@@ -1,0 +1,759 @@
+{
+  "version": "6.0",
+  "nxVersion": "21.6.3",
+  "pathMappings": {
+    "@yellow-book/contract": [
+      "libs/contract/src/index.ts"
+    ],
+    "@yellow-book/config": [
+      "libs/config/src/index.ts"
+    ]
+  },
+  "nxJsonPlugins": [
+    {
+      "name": "@nx/next/plugin",
+      "options": {
+        "buildTargetName": "build",
+        "devTargetName": "dev",
+        "startTargetName": "start"
+      }
+    }
+  ],
+  "fileMap": {
+    "nonProjectFiles": [
+      {
+        "file": ".npmrc",
+        "hash": "10160565566637743515"
+      },
+      {
+        "file": ".gitignore",
+        "hash": "1890464277196810283"
+      },
+      {
+        "file": "README.md",
+        "hash": "4555553447201148016"
+      },
+      {
+        "file": "start-dev.bat",
+        "hash": "12675875311737577673"
+      },
+      {
+        "file": "apphosting.yaml",
+        "hash": "4805824565859267563"
+      },
+      {
+        "file": "PROJECT_SUMMARY.md",
+        "hash": "5632418222872374738"
+      },
+      {
+        "file": ".prettierignore",
+        "hash": "171994327953932553"
+      },
+      {
+        "file": "TODO.md",
+        "hash": "9560440217448127202"
+      },
+      {
+        "file": ".idx/dev.nix",
+        "hash": "10982897475105252575"
+      },
+      {
+        "file": "package.json",
+        "hash": "2152508256078280504"
+      },
+      {
+        "file": ".prettierrc",
+        "hash": "2225212795057950361"
+      },
+      {
+        "file": "QUICKSTART.md",
+        "hash": "14253941209805149137"
+      },
+      {
+        "file": ".idx/icon.png",
+        "hash": "911194865459576112"
+      },
+      {
+        "file": ".eslintrc.json",
+        "hash": "4889046675662886146"
+      },
+      {
+        "file": ".github/workflows/ci.yml",
+        "hash": "17347091650559889712"
+      },
+      {
+        "file": ".modified",
+        "hash": "3244421341483603138"
+      },
+      {
+        "file": "components.json",
+        "hash": "3653499708531943439"
+      },
+      {
+        "file": "nx.json",
+        "hash": "868123736857139263"
+      },
+      {
+        "file": ".nxignore",
+        "hash": "9838361248798242602"
+      },
+      {
+        "file": "package-lock.json",
+        "hash": "9842905685446429801"
+      },
+      {
+        "file": "tsconfig.json",
+        "hash": "11291743540696222615"
+      },
+      {
+        "file": "start-dev.sh",
+        "hash": "6508549523477178439"
+      }
+    ],
+    "projectFileMap": {
+      "web": [
+        {
+          "file": "apps/web/next.config.ts",
+          "hash": "623298721860475335",
+          "deps": [
+            "npm:next"
+          ]
+        },
+        {
+          "file": "apps/web/package.json",
+          "hash": "15341638032982236388"
+        },
+        {
+          "file": "apps/web/postcss.config.mjs",
+          "hash": "17882505348629598648"
+        },
+        {
+          "file": "apps/web/project.json",
+          "hash": "8604929003637321236"
+        },
+        {
+          "file": "apps/web/src/app/add-listing/page.tsx",
+          "hash": "6685406238539486408",
+          "deps": [
+            "npm:react-hook-form",
+            "npm:@hookform/resolvers",
+            "npm:zod"
+          ]
+        },
+        {
+          "file": "apps/web/src/app/admin/businesses/[id]/edit/page.tsx",
+          "hash": "15394545946496321809",
+          "deps": [
+            "npm:react",
+            "npm:next",
+            "npm:react-hook-form",
+            "npm:@hookform/resolvers",
+            "npm:zod",
+            "npm:lucide-react"
+          ]
+        },
+        {
+          "file": "apps/web/src/app/admin/businesses/page.tsx",
+          "hash": "10762338271448921559",
+          "deps": [
+            "npm:react",
+            "npm:lucide-react",
+            "npm:next"
+          ]
+        },
+        {
+          "file": "apps/web/src/app/admin/categories/page.tsx",
+          "hash": "5005248523555843763",
+          "deps": [
+            "npm:react",
+            "npm:lucide-react",
+            "npm:next"
+          ]
+        },
+        {
+          "file": "apps/web/src/app/admin/page.tsx",
+          "hash": "8973803845971399733",
+          "deps": [
+            "npm:next",
+            "npm:lucide-react",
+            "npm:react"
+          ]
+        },
+        {
+          "file": "apps/web/src/app/business/[id]/page.tsx",
+          "hash": "17703597289983776583",
+          "deps": [
+            "npm:react",
+            "npm:next",
+            "npm:lucide-react"
+          ]
+        },
+        {
+          "file": "apps/web/src/app/favicon.ico",
+          "hash": "7425710272746114310"
+        },
+        {
+          "file": "apps/web/src/app/globals.css",
+          "hash": "12372999171995143449"
+        },
+        {
+          "file": "apps/web/src/app/layout.tsx",
+          "hash": "16682236604734522858",
+          "deps": [
+            "npm:next"
+          ]
+        },
+        {
+          "file": "apps/web/src/app/page.tsx",
+          "hash": "13816539884235708354",
+          "deps": [
+            "npm:next"
+          ]
+        },
+        {
+          "file": "apps/web/src/app/search/page.tsx",
+          "hash": "16315749091296187775",
+          "deps": [
+            "npm:react",
+            "npm:next",
+            "npm:lucide-react"
+          ]
+        },
+        {
+          "file": "apps/web/src/app/yellow-books/page.tsx",
+          "hash": "8809511490585171862",
+          "deps": [
+            "npm:react",
+            "npm:lucide-react",
+            "npm:next"
+          ]
+        },
+        {
+          "file": "apps/web/src/components/category-grid.tsx",
+          "hash": "10426510625664188682",
+          "deps": [
+            "npm:next",
+            "npm:lucide-react",
+            "npm:react"
+          ]
+        },
+        {
+          "file": "apps/web/src/components/layout/footer.tsx",
+          "hash": "1602970189407857010"
+        },
+        {
+          "file": "apps/web/src/components/layout/header.tsx",
+          "hash": "6637065876880636608",
+          "deps": [
+            "npm:next",
+            "npm:react",
+            "npm:lucide-react"
+          ]
+        },
+        {
+          "file": "apps/web/src/components/review-form.tsx",
+          "hash": "8878562096938960931",
+          "deps": [
+            "npm:react",
+            "npm:lucide-react"
+          ]
+        },
+        {
+          "file": "apps/web/src/components/review-list.tsx",
+          "hash": "5569571824356705744",
+          "deps": [
+            "npm:react",
+            "npm:lucide-react"
+          ]
+        },
+        {
+          "file": "apps/web/src/components/search-form.tsx",
+          "hash": "1937058816288435398",
+          "deps": [
+            "npm:next",
+            "npm:lucide-react",
+            "npm:react-hook-form"
+          ]
+        },
+        {
+          "file": "apps/web/src/components/ui/accordion.tsx",
+          "hash": "10922313623768306699",
+          "deps": [
+            "npm:react",
+            "npm:@radix-ui/react-accordion",
+            "npm:lucide-react"
+          ]
+        },
+        {
+          "file": "apps/web/src/components/ui/alert-dialog.tsx",
+          "hash": "2856983878952698917",
+          "deps": [
+            "npm:react",
+            "npm:@radix-ui/react-alert-dialog"
+          ]
+        },
+        {
+          "file": "apps/web/src/components/ui/alert.tsx",
+          "hash": "4284782637201364517",
+          "deps": [
+            "npm:react",
+            "npm:class-variance-authority"
+          ]
+        },
+        {
+          "file": "apps/web/src/components/ui/avatar.tsx",
+          "hash": "6454187135385967915",
+          "deps": [
+            "npm:react",
+            "npm:@radix-ui/react-avatar"
+          ]
+        },
+        {
+          "file": "apps/web/src/components/ui/badge.tsx",
+          "hash": "3350175599763855746",
+          "deps": [
+            "npm:react",
+            "npm:class-variance-authority"
+          ]
+        },
+        {
+          "file": "apps/web/src/components/ui/button.tsx",
+          "hash": "12113978233209342524",
+          "deps": [
+            "npm:react",
+            "npm:@radix-ui/react-slot",
+            "npm:class-variance-authority"
+          ]
+        },
+        {
+          "file": "apps/web/src/components/ui/calendar.tsx",
+          "hash": "16248347206377681291",
+          "deps": [
+            "npm:react",
+            "npm:lucide-react",
+            "npm:react-day-picker"
+          ]
+        },
+        {
+          "file": "apps/web/src/components/ui/card.tsx",
+          "hash": "14522902199198055681",
+          "deps": [
+            "npm:react"
+          ]
+        },
+        {
+          "file": "apps/web/src/components/ui/carousel.tsx",
+          "hash": "5459274289258245634",
+          "deps": [
+            "npm:react",
+            "npm:embla-carousel-react",
+            "npm:lucide-react"
+          ]
+        },
+        {
+          "file": "apps/web/src/components/ui/chart.tsx",
+          "hash": "13383078780883403086",
+          "deps": [
+            "npm:react",
+            "npm:recharts"
+          ]
+        },
+        {
+          "file": "apps/web/src/components/ui/checkbox.tsx",
+          "hash": "2340516761621356213",
+          "deps": [
+            "npm:react",
+            "npm:@radix-ui/react-checkbox",
+            "npm:lucide-react"
+          ]
+        },
+        {
+          "file": "apps/web/src/components/ui/collapsible.tsx",
+          "hash": "13851337390492044859",
+          "deps": [
+            "npm:@radix-ui/react-collapsible"
+          ]
+        },
+        {
+          "file": "apps/web/src/components/ui/dialog.tsx",
+          "hash": "9131049432260880897",
+          "deps": [
+            "npm:react",
+            "npm:@radix-ui/react-dialog",
+            "npm:lucide-react"
+          ]
+        },
+        {
+          "file": "apps/web/src/components/ui/dropdown-menu.tsx",
+          "hash": "5129473395115280957",
+          "deps": [
+            "npm:react",
+            "npm:@radix-ui/react-dropdown-menu",
+            "npm:lucide-react"
+          ]
+        },
+        {
+          "file": "apps/web/src/components/ui/form.tsx",
+          "hash": "14708064934668072328",
+          "deps": [
+            "npm:react",
+            "npm:@radix-ui/react-label",
+            "npm:@radix-ui/react-slot",
+            "npm:react-hook-form"
+          ]
+        },
+        {
+          "file": "apps/web/src/components/ui/input.tsx",
+          "hash": "7099001962299067423",
+          "deps": [
+            "npm:react"
+          ]
+        },
+        {
+          "file": "apps/web/src/components/ui/label.tsx",
+          "hash": "7126602616366240527",
+          "deps": [
+            "npm:react",
+            "npm:@radix-ui/react-label",
+            "npm:class-variance-authority"
+          ]
+        },
+        {
+          "file": "apps/web/src/components/ui/menubar.tsx",
+          "hash": "5093732842020340268",
+          "deps": [
+            "npm:react",
+            "npm:@radix-ui/react-menubar",
+            "npm:lucide-react"
+          ]
+        },
+        {
+          "file": "apps/web/src/components/ui/popover.tsx",
+          "hash": "7923776507992317962",
+          "deps": [
+            "npm:react",
+            "npm:@radix-ui/react-popover"
+          ]
+        },
+        {
+          "file": "apps/web/src/components/ui/progress.tsx",
+          "hash": "13282514912302578590",
+          "deps": [
+            "npm:react",
+            "npm:@radix-ui/react-progress"
+          ]
+        },
+        {
+          "file": "apps/web/src/components/ui/radio-group.tsx",
+          "hash": "8781228984904831689",
+          "deps": [
+            "npm:react",
+            "npm:@radix-ui/react-radio-group",
+            "npm:lucide-react"
+          ]
+        },
+        {
+          "file": "apps/web/src/components/ui/scroll-area.tsx",
+          "hash": "16230817899346924126",
+          "deps": [
+            "npm:react",
+            "npm:@radix-ui/react-scroll-area"
+          ]
+        },
+        {
+          "file": "apps/web/src/components/ui/select.tsx",
+          "hash": "15537381314422763535",
+          "deps": [
+            "npm:react",
+            "npm:@radix-ui/react-select",
+            "npm:lucide-react"
+          ]
+        },
+        {
+          "file": "apps/web/src/components/ui/separator.tsx",
+          "hash": "7557673109724091466",
+          "deps": [
+            "npm:react",
+            "npm:@radix-ui/react-separator"
+          ]
+        },
+        {
+          "file": "apps/web/src/components/ui/sheet.tsx",
+          "hash": "8004805648310265014",
+          "deps": [
+            "npm:react",
+            "npm:@radix-ui/react-dialog",
+            "npm:class-variance-authority",
+            "npm:lucide-react"
+          ]
+        },
+        {
+          "file": "apps/web/src/components/ui/sidebar.tsx",
+          "hash": "15803345277054824249",
+          "deps": [
+            "npm:react",
+            "npm:@radix-ui/react-slot",
+            "npm:class-variance-authority",
+            "npm:lucide-react"
+          ]
+        },
+        {
+          "file": "apps/web/src/components/ui/skeleton.tsx",
+          "hash": "16330048352306854817"
+        },
+        {
+          "file": "apps/web/src/components/ui/slider.tsx",
+          "hash": "1319183100952321997",
+          "deps": [
+            "npm:react",
+            "npm:@radix-ui/react-slider"
+          ]
+        },
+        {
+          "file": "apps/web/src/components/ui/switch.tsx",
+          "hash": "1949008161699426126",
+          "deps": [
+            "npm:react",
+            "npm:@radix-ui/react-switch"
+          ]
+        },
+        {
+          "file": "apps/web/src/components/ui/table.tsx",
+          "hash": "8806132287366381196",
+          "deps": [
+            "npm:react"
+          ]
+        },
+        {
+          "file": "apps/web/src/components/ui/tabs.tsx",
+          "hash": "16592754495803211243",
+          "deps": [
+            "npm:react",
+            "npm:@radix-ui/react-tabs"
+          ]
+        },
+        {
+          "file": "apps/web/src/components/ui/textarea.tsx",
+          "hash": "5626508249462001093",
+          "deps": [
+            "npm:react"
+          ]
+        },
+        {
+          "file": "apps/web/src/components/ui/toast.tsx",
+          "hash": "4989985780366573325",
+          "deps": [
+            "npm:react",
+            "npm:@radix-ui/react-toast",
+            "npm:class-variance-authority",
+            "npm:lucide-react"
+          ]
+        },
+        {
+          "file": "apps/web/src/components/ui/toaster.tsx",
+          "hash": "12916915888628506096"
+        },
+        {
+          "file": "apps/web/src/components/ui/tooltip.tsx",
+          "hash": "17514235454195351654",
+          "deps": [
+            "npm:react",
+            "npm:@radix-ui/react-tooltip"
+          ]
+        },
+        {
+          "file": "apps/web/src/hooks/use-mobile.tsx",
+          "hash": "12775553857374972840",
+          "deps": [
+            "npm:react"
+          ]
+        },
+        {
+          "file": "apps/web/src/hooks/use-toast.ts",
+          "hash": "13553815616335798235",
+          "deps": [
+            "npm:react"
+          ]
+        },
+        {
+          "file": "apps/web/src/lib/api-client.ts",
+          "hash": "718068322622088524"
+        },
+        {
+          "file": "apps/web/src/lib/data.ts",
+          "hash": "13431605794354288659",
+          "deps": [
+            "npm:lucide-react"
+          ]
+        },
+        {
+          "file": "apps/web/src/lib/placeholder-images.json",
+          "hash": "15823156403862770067"
+        },
+        {
+          "file": "apps/web/src/lib/placeholder-images.ts",
+          "hash": "2934728900921402455"
+        },
+        {
+          "file": "apps/web/src/lib/utils.ts",
+          "hash": "11932429050483444162",
+          "deps": [
+            "npm:clsx",
+            "npm:tailwind-merge"
+          ]
+        },
+        {
+          "file": "apps/web/src/types/index.ts",
+          "hash": "14960439365797263635"
+        },
+        {
+          "file": "apps/web/tailwind.config.ts",
+          "hash": "16762996448589504814",
+          "deps": [
+            "npm:tailwindcss",
+            [
+              "npm:tailwindcss-animate",
+              "dynamic"
+            ]
+          ]
+        },
+        {
+          "file": "apps/web/tsconfig.json",
+          "hash": "9803666508699082432"
+        }
+      ],
+      "api": [
+        {
+          "file": "apps/api/package.json",
+          "hash": "10381290701464008285"
+        },
+        {
+          "file": "apps/api/prisma/apps/api/prisma/dev.db",
+          "hash": "8882735149173647738"
+        },
+        {
+          "file": "apps/api/prisma/dev.db",
+          "hash": "12057602025590800304"
+        },
+        {
+          "file": "apps/api/prisma/migrations/20251006133924_init/migration.sql",
+          "hash": "16857814120952243906"
+        },
+        {
+          "file": "apps/api/prisma/migrations/migration_lock.toml",
+          "hash": "17507861707484682820"
+        },
+        {
+          "file": "apps/api/prisma/schema.prisma",
+          "hash": "3084194211004560383"
+        },
+        {
+          "file": "apps/api/prisma/seed.ts",
+          "hash": "11296647408720271402",
+          "deps": [
+            "npm:@prisma/client"
+          ]
+        },
+        {
+          "file": "apps/api/project.json",
+          "hash": "1465700008566872355"
+        },
+        {
+          "file": "apps/api/src/controllers/categories.controller.ts",
+          "hash": "17079099636140038057",
+          "deps": [
+            "npm:express"
+          ]
+        },
+        {
+          "file": "apps/api/src/controllers/reviews.controller.ts",
+          "hash": "16572860475582641091",
+          "deps": [
+            "npm:express"
+          ]
+        },
+        {
+          "file": "apps/api/src/controllers/yellow-books.controller.ts",
+          "hash": "7516466118210383515",
+          "deps": [
+            "npm:express"
+          ]
+        },
+        {
+          "file": "apps/api/src/lib/prisma.ts",
+          "hash": "3259154928099307219",
+          "deps": [
+            "npm:@prisma/client"
+          ]
+        },
+        {
+          "file": "apps/api/src/main.ts",
+          "hash": "11048893783967652394",
+          "deps": [
+            "npm:express",
+            "npm:cors"
+          ]
+        },
+        {
+          "file": "apps/api/src/routes/index.ts",
+          "hash": "12177916494766590214",
+          "deps": [
+            "npm:express"
+          ]
+        },
+        {
+          "file": "apps/api/tsconfig.json",
+          "hash": "14804282245335930567"
+        }
+      ],
+      "config": [
+        {
+          "file": "libs/config/package.json",
+          "hash": "3633691900232488789"
+        },
+        {
+          "file": "libs/config/project.json",
+          "hash": "9446810093363407484"
+        },
+        {
+          "file": "libs/config/src/config.ts",
+          "hash": "14619303119244875571"
+        },
+        {
+          "file": "libs/config/src/index.ts",
+          "hash": "9014725886797422671"
+        },
+        {
+          "file": "libs/config/tsconfig.json",
+          "hash": "1830287873729109036"
+        }
+      ],
+      "contract": [
+        {
+          "file": "libs/contract/package.json",
+          "hash": "5911269064814430170"
+        },
+        {
+          "file": "libs/contract/project.json",
+          "hash": "12404679250275361643"
+        },
+        {
+          "file": "libs/contract/src/index.ts",
+          "hash": "8944631368940143699"
+        },
+        {
+          "file": "libs/contract/src/schemas.ts",
+          "hash": "5821156128531979772",
+          "deps": [
+            "npm:zod"
+          ]
+        },
+        {
+          "file": "libs/contract/tsconfig.json",
+          "hash": "1830287873729109036"
+        }
+      ]
+    }
+  },
+  "externalNodesHash": "10483993755501178327"
+}

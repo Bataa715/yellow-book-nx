@@ -2,10 +2,7 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import { mockBusinesses } from '@/lib/data';
 import { Business } from '@/types';
 
-export default function handler(
-  req: NextApiRequest,
-  res: NextApiResponse<Business[]>
-) {
+export default function handler(req: NextApiRequest, res: NextApiResponse<Business[]>) {
   const { q, loc, category } = req.query;
 
   let filteredBusinesses = [...mockBusinesses];
@@ -16,7 +13,7 @@ export default function handler(
       (business) =>
         business.name.toLowerCase().includes(searchTerm) ||
         business.description.toLowerCase().includes(searchTerm) ||
-        business.categories.some(c => c.toLowerCase().includes(searchTerm))
+        business.categories.some((c) => c.toLowerCase().includes(searchTerm))
     );
   }
 
