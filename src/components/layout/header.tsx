@@ -14,7 +14,7 @@ export function Header() {
         </Link>
         <nav className="flex items-center gap-2 sm:gap-4">
           <Button asChild>
-            <Link href="/add-listing">Бизнес нэмэх</Link>
+            <Link href="/admin">Админ самбар</Link>
           </Button>
         </nav>
       </div>
