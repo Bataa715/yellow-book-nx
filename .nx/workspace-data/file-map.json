@@ -22,52 +22,12 @@
   "fileMap": {
     "nonProjectFiles": [
       {
-        "file": ".prettierrc",
-        "hash": "2225212795057950361"
-      },
-      {
         "file": ".modified",
         "hash": "3244421341483603138"
       },
       {
-        "file": "nx.json",
-        "hash": "868123736857139263"
-      },
-      {
-        "file": ".prettierignore",
-        "hash": "171994327953932553"
-      },
-      {
-        "file": "package.json",
-        "hash": "16453235881718792254"
-      },
-      {
-        "file": "package-lock.json",
-        "hash": "278120300574143712"
-      },
-      {
-        "file": "start-dev.bat",
-        "hash": "12675875311737577673"
-      },
-      {
-        "file": ".gitignore",
-        "hash": "1890464277196810283"
-      },
-      {
         "file": ".nxignore",
         "hash": "9838361248798242602"
-      },
-      {
-        "file": ".idx/icon.png",
-        "hash": "911194865459576112"
-      },
-      {
-        "file": "tsconfig.json",
-        "hash": "11291743540696222615"
-      },
-      {
-        "file": "components.json",
-        "hash": "3653499708531943439"
       },
       {
         "file": ".idx/dev.nix",
@@ -78,24 +38,64 @@
         "hash": "4889046675662886146"
       },
       {
-        "file": "start-dev.sh",
-        "hash": "6508549523477178439"
+        "file": ".idx/icon.png",
+        "hash": "911194865459576112"
+      },
+      {
+        "file": "components.json",
+        "hash": "3653499708531943439"
       },
       {
         "file": "README.md",
-        "hash": "14347555562242300704"
+        "hash": "274063438737973897"
       },
       {
-        "file": ".npmrc",
-        "hash": "10160565566637743515"
+        "file": "apphosting.yaml",
+        "hash": "4805824565859267563"
+      },
+      {
+        "file": "start-dev.bat",
+        "hash": "12675875311737577673"
+      },
+      {
+        "file": "tsconfig.json",
+        "hash": "11291743540696222615"
+      },
+      {
+        "file": ".prettierignore",
+        "hash": "171994327953932553"
+      },
+      {
+        "file": ".gitignore",
+        "hash": "1890464277196810283"
+      },
+      {
+        "file": "nx.json",
+        "hash": "868123736857139263"
+      },
+      {
+        "file": ".prettierrc",
+        "hash": "2225212795057950361"
+      },
+      {
+        "file": "start-dev.sh",
+        "hash": "6508549523477178439"
       },
       {
         "file": ".github/workflows/ci.yml",
         "hash": "17347091650559889712"
       },
       {
-        "file": "apphosting.yaml",
-        "hash": "4805824565859267563"
+        "file": "package.json",
+        "hash": "16453235881718792254"
+      },
+      {
+        "file": "package-lock.json",
+        "hash": "278120300574143712"
+      },
+      {
+        "file": ".npmrc",
+        "hash": "10160565566637743515"
       }
     ],
     "projectFileMap": {

@@ -1,31 +1,53 @@
 {
   "run": {
-    "command": "nx run-many -t build",
-    "startTime": "2025-10-06T15:40:28.096Z",
-    "endTime": "2025-10-06T15:40:43.580Z",
+    "command": "nx affected -t typecheck --base=HEAD~1",
+    "startTime": "2025-10-06T15:46:00.601Z",
+    "endTime": "2025-10-06T15:46:00.635Z",
     "inner": false
   },
   "tasks": [
     {
-      "taskId": "api:build",
-      "target": "build",
-      "projectName": "api",
-      "hash": "11283044545626275121",
-      "startTime": "2025-10-06T15:40:28.111Z",
-      "endTime": "2025-10-06T15:40:29.650Z",
+      "taskId": "web:typecheck",
+      "target": "typecheck",
+      "projectName": "web",
+      "hash": "13907650198333319877",
+      "startTime": "2025-10-06T15:46:00.616Z",
+      "endTime": "2025-10-06T15:46:00.621Z",
       "params": "",
-      "cacheStatus": "cache-miss",
+      "cacheStatus": "local-cache-hit",
       "status": 0
     },
     {
-      "taskId": "web:build",
-      "target": "build",
-      "projectName": "web",
-      "hash": "5666593120754740182",
-      "startTime": "2025-10-06T15:40:28.111Z",
-      "endTime": "2025-10-06T15:40:43.560Z",
+      "taskId": "api:typecheck",
+      "target": "typecheck",
+      "projectName": "api",
+      "hash": "13030000748653396296",
+      "startTime": "2025-10-06T15:46:00.616Z",
+      "endTime": "2025-10-06T15:46:00.621Z",
       "params": "",
-      "cacheStatus": "cache-miss",
+      "cacheStatus": "local-cache-hit",
+      "status": 0
+    },
+    {
+      "taskId": "contract:typecheck",
+      "target": "typecheck",
+      "projectName": "contract",
+      "hash": "10217066009316079034",
+      "startTime": "2025-10-06T15:46:00.616Z",
+      "endTime": "2025-10-06T15:46:00.621Z",
+      "params": "",
+      "cacheStatus": "local-cache-hit",
+      "status": 0
+    },
+    {
+      "taskId": "config:typecheck",
+      "target": "typecheck",
+      "projectName": "config",
+      "hash": "4490661243505306783",
+      "startTime": "2025-10-06T15:46:00.625Z",
+      "endTime": "2025-10-06T15:46:00.627Z",
+      "params": "",
+      "cacheStatus": "local-cache-hit",
       "status": 0
     }
   ]

@@ -60,10 +60,20 @@ npm install --save-dev @swc-node/register @swc/core
 npm run prisma:generate
 ```
 
+**Nx Affected Build Issues:**
+```bash
+# If affected build fails with environment variables, use explicit base
+npx nx affected -t build --base=HEAD~1 --parallel=3
+
+# For local development, use regular build
+npm run build
+```
+
 **Status Check:**
 - npm run lint ✅
 - npm run typecheck ✅  
 - npm run build ✅
+- nx affected build ✅
 
 ## Author
 
