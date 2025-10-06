@@ -2,13 +2,13 @@
 
 import { Suspense, useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { Business, Category } from '@/types';
+import { Business } from '@/types';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, Loader2, MapPin, Phone, Globe, Star, MessageSquare } from 'lucide-react';
+import { ArrowRight, Loader2, MapPin, Phone, Globe, Star } from 'lucide-react';
 import { SearchForm } from '@/components/search-form';
 import { mockCategories } from '@/lib/data';
 

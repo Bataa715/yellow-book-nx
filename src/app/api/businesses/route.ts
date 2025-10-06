@@ -1,12 +1,11 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
+import { NextRequest, NextResponse } from 'next/server';
 import { mockBusinesses } from '@/lib/data';
-import { Business } from '@/types';
 
-export default function handler(
-  req: NextApiRequest,
-  res: NextApiResponse<Business[]>
-) {
-  const { q, loc, category } = req.query;
+export async function GET(req: NextRequest) {
+  const { searchParams } = new URL(req.url);
+  const q = searchParams.get('q');
+  const loc = searchParams.get('loc');
+  const category = searchParams.get('category');
 
   let filteredBusinesses = [...mockBusinesses];
 
@@ -37,5 +36,5 @@ export default function handler(
     );
   }
 
-  res.status(200).json(filteredBusinesses);
+  return NextResponse.json(filteredBusinesses);
 }

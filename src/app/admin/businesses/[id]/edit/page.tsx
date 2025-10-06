@@ -22,7 +22,7 @@ import { useToast } from '@/hooks/use-toast';
 import { Textarea } from '@/components/ui/textarea';
 import { mockCategories } from '@/lib/data';
 import { Checkbox } from '@/components/ui/checkbox';
-import { ArrowLeft, Loader2, Plus, Trash2, Image as ImageIcon } from 'lucide-react';
+import { ArrowLeft, Loader2, Plus, Trash2 } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 
