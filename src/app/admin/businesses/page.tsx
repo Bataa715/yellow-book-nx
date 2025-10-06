@@ -83,9 +83,11 @@ export default function ManageBusinessesPage() {
                         </div>
                     </TableCell>
                     <TableCell className="text-right space-x-2">
-                        <Button variant="outline" size="icon">
+                        <Button asChild variant="outline" size="icon">
+                          <Link href={`/admin/businesses/${business.id}/edit`}>
                             <Edit className="h-4 w-4" />
                             <span className="sr-only">Засах</span>
+                          </Link>
                         </Button>
                         <Button variant="destructive" size="icon" onClick={() => handleDelete(business.id)}>
                             <Trash2 className="h-4 w-4" />
