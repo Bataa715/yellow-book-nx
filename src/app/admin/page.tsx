@@ -71,24 +71,6 @@ export default function AdminPage() {
           </CardContent>
         </Card>
       </div>
-      
-      <div className="mt-12">
-        <h2 className="text-2xl font-bold mb-4">Хурдан холбоосууд</h2>
-        <Card className="shadow-md">
-            <CardContent className="p-4 grid grid-cols-1 sm:grid-cols-3 gap-4">
-                <Button asChild variant="ghost" className="justify-start gap-2">
-                    <Link href="/add-listing"><PlusSquare className="h-4 w-4 text-muted-foreground"/> Бизнес нэмэх (хуучин)</Link>
-                </Button>
-                <Button asChild variant="ghost" className="justify-start gap-2">
-                    <Link href="/"><Home className="h-4 w-4 text-muted-foreground"/> Үндсэн хуудас</Link>
-                </Button>
-                 <Button asChild variant="ghost" className="justify-start gap-2">
-                    <Link href="/search"><Search className="h-4 w-4 text-muted-foreground"/> Хайлт</Link>
-                </Button>
-            </CardContent>
-        </Card>
-      </div>
-
     </div>
   );
 }
