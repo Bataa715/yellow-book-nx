@@ -63,7 +63,8 @@ jobs:
 
       - name: Check for uncommitted changes
         run: |
-          git diff --exit-code || (echo "There are uncommitted changes after build!" && exit 1)
+          # Exclude cache and build artifacts from git diff check
+          git diff --exit-code -- ':!.nx/' ':!dist/' ':!apps/web/.next/' || (echo "There are uncommitted changes after build!" && exit 1)
 
   lint-all:
     runs-on: ubuntu-latest
