@@ -22,102 +22,193 @@
   "fileMap": {
     "nonProjectFiles": [
       {
-        "file": ".npmrc",
-        "hash": "10160565566637743515"
-      },
-      {
-        "file": ".gitignore",
-        "hash": "1890464277196810283"
-      },
-      {
-        "file": "README.md",
-        "hash": "4555553447201148016"
-      },
-      {
-        "file": "start-dev.bat",
-        "hash": "12675875311737577673"
-      },
-      {
-        "file": "apphosting.yaml",
-        "hash": "4805824565859267563"
-      },
-      {
-        "file": "PROJECT_SUMMARY.md",
-        "hash": "5632418222872374738"
-      },
-      {
-        "file": ".prettierignore",
-        "hash": "171994327953932553"
-      },
-      {
-        "file": "TODO.md",
-        "hash": "9560440217448127202"
-      },
-      {
-        "file": ".idx/dev.nix",
-        "hash": "10982897475105252575"
-      },
-      {
-        "file": "package.json",
-        "hash": "2152508256078280504"
-      },
-      {
         "file": ".prettierrc",
         "hash": "2225212795057950361"
-      },
-      {
-        "file": "QUICKSTART.md",
-        "hash": "14253941209805149137"
-      },
-      {
-        "file": ".idx/icon.png",
-        "hash": "911194865459576112"
-      },
-      {
-        "file": ".eslintrc.json",
-        "hash": "4889046675662886146"
-      },
-      {
-        "file": ".github/workflows/ci.yml",
-        "hash": "17347091650559889712"
       },
       {
         "file": ".modified",
         "hash": "3244421341483603138"
       },
       {
-        "file": "components.json",
-        "hash": "3653499708531943439"
-      },
-      {
         "file": "nx.json",
         "hash": "868123736857139263"
+      },
+      {
+        "file": ".prettierignore",
+        "hash": "171994327953932553"
+      },
+      {
+        "file": "package.json",
+        "hash": "16453235881718792254"
+      },
+      {
+        "file": "package-lock.json",
+        "hash": "278120300574143712"
+      },
+      {
+        "file": "start-dev.bat",
+        "hash": "12675875311737577673"
+      },
+      {
+        "file": ".gitignore",
+        "hash": "1890464277196810283"
       },
       {
         "file": ".nxignore",
         "hash": "9838361248798242602"
       },
       {
-        "file": "package-lock.json",
-        "hash": "9842905685446429801"
+        "file": ".idx/icon.png",
+        "hash": "911194865459576112"
       },
       {
         "file": "tsconfig.json",
         "hash": "11291743540696222615"
       },
       {
+        "file": "components.json",
+        "hash": "3653499708531943439"
+      },
+      {
+        "file": ".idx/dev.nix",
+        "hash": "10982897475105252575"
+      },
+      {
+        "file": ".eslintrc.json",
+        "hash": "4889046675662886146"
+      },
+      {
         "file": "start-dev.sh",
         "hash": "6508549523477178439"
+      },
+      {
+        "file": "README.md",
+        "hash": "14347555562242300704"
+      },
+      {
+        "file": ".npmrc",
+        "hash": "10160565566637743515"
+      },
+      {
+        "file": ".github/workflows/ci.yml",
+        "hash": "17347091650559889712"
+      },
+      {
+        "file": "apphosting.yaml",
+        "hash": "4805824565859267563"
       }
     ],
     "projectFileMap": {
+      "config": [
+        {
+          "file": "libs/config/package.json",
+          "hash": "3633691900232488789"
+        },
+        {
+          "file": "libs/config/project.json",
+          "hash": "9446810093363407484"
+        },
+        {
+          "file": "libs/config/src/config.ts",
+          "hash": "14619303119244875571"
+        },
+        {
+          "file": "libs/config/src/index.ts",
+          "hash": "9014725886797422671"
+        },
+        {
+          "file": "libs/config/tsconfig.json",
+          "hash": "1830287873729109036"
+        }
+      ],
+      "api": [
+        {
+          "file": "apps/api/package.json",
+          "hash": "10381290701464008285"
+        },
+        {
+          "file": "apps/api/prisma/apps/api/prisma/dev.db",
+          "hash": "8882735149173647738"
+        },
+        {
+          "file": "apps/api/prisma/dev.db",
+          "hash": "12057602025590800304"
+        },
+        {
+          "file": "apps/api/prisma/migrations/20251006133924_init/migration.sql",
+          "hash": "16857814120952243906"
+        },
+        {
+          "file": "apps/api/prisma/migrations/migration_lock.toml",
+          "hash": "17507861707484682820"
+        },
+        {
+          "file": "apps/api/prisma/schema.prisma",
+          "hash": "3084194211004560383"
+        },
+        {
+          "file": "apps/api/prisma/seed.ts",
+          "hash": "11296647408720271402",
+          "deps": [
+            "npm:@prisma/client"
+          ]
+        },
+        {
+          "file": "apps/api/project.json",
+          "hash": "1465700008566872355"
+        },
+        {
+          "file": "apps/api/src/controllers/categories.controller.ts",
+          "hash": "17079099636140038057",
+          "deps": [
+            "npm:express"
+          ]
+        },
+        {
+          "file": "apps/api/src/controllers/reviews.controller.ts",
+          "hash": "16572860475582641091",
+          "deps": [
+            "npm:express"
+          ]
+        },
+        {
+          "file": "apps/api/src/controllers/yellow-books.controller.ts",
+          "hash": "7516466118210383515",
+          "deps": [
+            "npm:express"
+          ]
+        },
+        {
+          "file": "apps/api/src/lib/prisma.ts",
+          "hash": "3259154928099307219",
+          "deps": [
+            "npm:@prisma/client"
+          ]
+        },
+        {
+          "file": "apps/api/src/main.ts",
+          "hash": "11048893783967652394",
+          "deps": [
+            "npm:express",
+            "npm:cors"
+          ]
+        },
+        {
+          "file": "apps/api/src/routes/index.ts",
+          "hash": "12177916494766590214",
+          "deps": [
+            "npm:express"
+          ]
+        },
+        {
+          "file": "apps/api/tsconfig.json",
+          "hash": "14804282245335930567"
+        }
+      ],
       "web": [
         {
-          "file": "apps/web/next.config.ts",
-          "hash": "623298721860475335",
-          "deps": [
-            "npm:next"
-          ]
+          "file": "apps/web/next.config.js",
+          "hash": "8154608641515559006"
         },
         {
           "file": "apps/web/package.json",
@@ -622,112 +713,6 @@
           "hash": "9803666508699082432"
         }
       ],
-      "api": [
-        {
-          "file": "apps/api/package.json",
-          "hash": "10381290701464008285"
-        },
-        {
-          "file": "apps/api/prisma/apps/api/prisma/dev.db",
-          "hash": "8882735149173647738"
-        },
-        {
-          "file": "apps/api/prisma/dev.db",
-          "hash": "12057602025590800304"
-        },
-        {
-          "file": "apps/api/prisma/migrations/20251006133924_init/migration.sql",
-          "hash": "16857814120952243906"
-        },
-        {
-          "file": "apps/api/prisma/migrations/migration_lock.toml",
-          "hash": "17507861707484682820"
-        },
-        {
-          "file": "apps/api/prisma/schema.prisma",
-          "hash": "3084194211004560383"
-        },
-        {
-          "file": "apps/api/prisma/seed.ts",
-          "hash": "11296647408720271402",
-          "deps": [
-            "npm:@prisma/client"
-          ]
-        },
-        {
-          "file": "apps/api/project.json",
-          "hash": "1465700008566872355"
-        },
-        {
-          "file": "apps/api/src/controllers/categories.controller.ts",
-          "hash": "17079099636140038057",
-          "deps": [
-            "npm:express"
-          ]
-        },
-        {
-          "file": "apps/api/src/controllers/reviews.controller.ts",
-          "hash": "16572860475582641091",
-          "deps": [
-            "npm:express"
-          ]
-        },
-        {
-          "file": "apps/api/src/controllers/yellow-books.controller.ts",
-          "hash": "7516466118210383515",
-          "deps": [
-            "npm:express"
-          ]
-        },
-        {
-          "file": "apps/api/src/lib/prisma.ts",
-          "hash": "3259154928099307219",
-          "deps": [
-            "npm:@prisma/client"
-          ]
-        },
-        {
-          "file": "apps/api/src/main.ts",
-          "hash": "11048893783967652394",
-          "deps": [
-            "npm:express",
-            "npm:cors"
-          ]
-        },
-        {
-          "file": "apps/api/src/routes/index.ts",
-          "hash": "12177916494766590214",
-          "deps": [
-            "npm:express"
-          ]
-        },
-        {
-          "file": "apps/api/tsconfig.json",
-          "hash": "14804282245335930567"
-        }
-      ],
-      "config": [
-        {
-          "file": "libs/config/package.json",
-          "hash": "3633691900232488789"
-        },
-        {
-          "file": "libs/config/project.json",
-          "hash": "9446810093363407484"
-        },
-        {
-          "file": "libs/config/src/config.ts",
-          "hash": "14619303119244875571"
-        },
-        {
-          "file": "libs/config/src/index.ts",
-          "hash": "9014725886797422671"
-        },
-        {
-          "file": "libs/config/tsconfig.json",
-          "hash": "1830287873729109036"
-        }
-      ],
       "contract": [
         {
           "file": "libs/contract/package.json",
@@ -755,5 +740,5 @@
       ]
     }
   },
-  "externalNodesHash": "10483993755501178327"
+  "externalNodesHash": "3319457645649078337"
 }
