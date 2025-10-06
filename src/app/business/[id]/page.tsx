@@ -6,9 +6,85 @@ import { Business, Review } from '@/types';
 import Image from 'next/image';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Star, MapPin, Phone, Globe, Clock, Loader2, User, MessageSquare } from 'lucide-react';
+import { Star, MapPin, Phone, Globe, Clock, Loader2, MessageSquare, Send } from 'lucide-react';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel"
 import { mockCategories } from '@/lib/data';
+import { Textarea } from '@/components/ui/textarea';
+import { Button } from '@/components/ui/button';
+import { useToast } from '@/hooks/use-toast';
+import { cn } from '@/lib/utils';
+
+function WriteReview({ businessName }: { businessName: string }) {
+    const [rating, setRating] = useState(0);
+    const [hoverRating, setHoverRating] = useState(0);
+    const [comment, setComment] = useState("");
+    const { toast } = useToast();
+
+    const handleSubmit = () => {
+        if (rating === 0) {
+            toast({
+                variant: "destructive",
+                title: "Алдаа",
+                description: "Үнэлгээг сонгоно уу.",
+            });
+            return;
+        }
+        if (comment.trim() === "") {
+             toast({
+                variant: "destructive",
+                title: "Алдаа",
+                description: "Сэтгэгдлээ бичнэ үү.",
+            });
+            return;
+        }
+
+        console.log({ rating, comment });
+        toast({
+            title: "Амжилттай!",
+            description: `Таны сэтгэгдэл "${businessName}"-д амжилттай илгээгдлээ.`,
+        });
+        setRating(0);
+        setComment("");
+    };
+
+    return (
+        <Card className="mt-8">
+            <CardHeader>
+                <CardTitle>Сэтгэгдэл үлдээх</CardTitle>
+                <CardDescription>Энэ бизнесийн талаарх өөрийн туршлагаасаа хуваалцана уу.</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+                <div className="flex items-center gap-2">
+                    <span className="text-sm font-medium">Таны үнэлгээ:</span>
+                    <div className="flex items-center">
+                        {[1, 2, 3, 4, 5].map((star) => (
+                            <Star
+                                key={star}
+                                className={cn(
+                                    "h-6 w-6 cursor-pointer",
+                                    (hoverRating >= star || rating >= star) ? "text-yellow-400 fill-yellow-400" : "text-gray-300"
+                                )}
+                                onMouseEnter={() => setHoverRating(star)}
+                                onMouseLeave={() => setHoverRating(0)}
+                                onClick={() => setRating(star)}
+                            />
+                        ))}
+                    </div>
+                </div>
+                <Textarea
+                    placeholder="Сэтгэгдлээ энд бичнэ үү..."
+                    rows={4}
+                    value={comment}
+                    onChange={(e) => setComment(e.target.value)}
+                />
+                <Button onClick={handleSubmit}>
+                    <Send className="mr-2 h-4 w-4" />
+                    Илгээх
+                </Button>
+            </CardContent>
+        </Card>
+    );
+}
 
 function BusinessDetails() {
     const params = useParams();
@@ -143,6 +219,7 @@ function BusinessDetails() {
                                  </Card>
                                )) : <p className="text-muted-foreground">Сэтгэгдэл одоогоор байхгүй байна.</p>}
                             </div>
+                            <WriteReview businessName={business.name} />
                         </div>
 
                     </div>
@@ -224,3 +301,5 @@ export default function BusinessPage() {
         </Suspense>
     );
 }
+
+    

@@ -1,6 +1,6 @@
 'use client';
 
-import { useForm } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { Button } from '@/components/ui/button';
@@ -19,6 +19,8 @@ import { useToast } from '@/hooks/use-toast';
 import { Textarea } from '@/components/ui/textarea';
 import { mockCategories } from '@/lib/data';
 import { Checkbox } from '@/components/ui/checkbox';
+import { BrainCircuit } from 'lucide-react';
+import { useState } from 'react';
 
 const formSchema = z.object({
   businessName: z.string().min(2, 'Нэр дор хаяж 2 үсэгтэй байх ёстой.'),
@@ -34,6 +36,7 @@ type AddListingFormValues = z.infer<typeof formSchema>;
 
 export default function AddListingPage() {
   const { toast } = useToast();
+  const [isSuggesting, setIsSuggesting] = useState(false);
 
   const form = useForm<AddListingFormValues>({
     resolver: zodResolver(formSchema),
@@ -56,6 +59,33 @@ export default function AddListingPage() {
     });
     form.reset();
   }
+
+  const handleSuggestCategories = async () => {
+    const description = form.getValues('description');
+    if (!description || description.length < 20) {
+      toast({
+        variant: 'destructive',
+        title: 'Тайлбар хангалтгүй',
+        description: 'Ангилал санал болгохын тулд дор хаяж 20 тэмдэгттэй тайлбар оруулна уу.',
+      });
+      return;
+    }
+    
+    setIsSuggesting(true);
+    // In a real app, this would be an API call to a GenAI model.
+    // We will simulate it with a timeout.
+    setTimeout(() => {
+      // Example suggested categories. This would come from the AI.
+      const suggested = ['Ресторан', 'Кафе']; 
+      form.setValue('categories', suggested, { shouldValidate: true });
+      setIsSuggesting(false);
+       toast({
+        title: 'Ангилал санал болголоо',
+        description: 'Таны оруулсан тайлбарт тохирох ангиллыг сонголоо.',
+      });
+    }, 1500);
+  };
+
 
   return (
     <div className="container mx-auto max-w-4xl py-12 px-4 md:px-6">
@@ -105,10 +135,18 @@ export default function AddListingPage() {
                 name="categories"
                 render={() => (
                   <FormItem>
-                    <FormLabel>Ангилал</FormLabel>
-                    <FormDescription>
-                       Өөрийн бизнест тохирох ангилалуудыг сонгоно уу.
-                    </FormDescription>
+                    <div className="flex items-center justify-between">
+                        <div>
+                            <FormLabel>Ангилал</FormLabel>
+                            <FormDescription>
+                               Өөрийн бизнест тохирох ангилалуудыг сонгоно уу.
+                            </FormDescription>
+                        </div>
+                         <Button type="button" onClick={handleSuggestCategories} disabled={isSuggesting}>
+                           <BrainCircuit className="mr-2" />
+                           {isSuggesting ? 'Түр хүлээнэ үү...' : 'AI санал болгох'}
+                        </Button>
+                    </div>
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-2">
                       {mockCategories.map((item) => (
                         <FormField
@@ -213,3 +251,5 @@ export default function AddListingPage() {
     </div>
   );
 }
+
+    
