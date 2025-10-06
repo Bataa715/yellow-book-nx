@@ -72,8 +72,8 @@ function SearchResults() {
               </div>
               <div className="md:w-2/3">
                 <CardHeader>
-                  <CardTitle className="text-2xl font-headline">
-                     {business.name}
+                  <CardTitle className="text-2xl font-headline hover:text-primary">
+                     <Link href={`/business/${business.id}`}>{business.name}</Link>
                   </CardTitle>
                    <div className="flex items-center pt-2 text-yellow-500">
                       {[...Array(Math.floor(business.rating))].map((_, i) => (
