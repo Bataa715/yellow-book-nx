@@ -2,10 +2,9 @@
 
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
-import { Building, Tag, Plus, LogOut, Link as LinkIcon, Search, Home, PlusSquare } from "lucide-react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
+import Link from 'next/link';
+import { Building, Tag, Plus, LogOut } from "lucide-react";
 
 export default function AdminPage() {
   const router = useRouter();
@@ -44,10 +43,14 @@ export default function AdminPage() {
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
-            <Button size="lg" className="w-full">Бизнес удирдах</Button>
-            <Button size="lg" variant="outline" className="w-full">
-              <Plus className="mr-2 h-4 w-4" />
-              Шинэ бизнес нэмэх
+            <Button size="lg" className="w-full" asChild>
+              <Link href="/admin/businesses">Бизнес удирдах</Link>
+            </Button>
+            <Button size="lg" variant="outline" className="w-full" asChild>
+              <Link href="/add-listing">
+                <Plus className="mr-2 h-4 w-4" />
+                Шинэ бизнес нэмэх
+              </Link>
             </Button>
           </CardContent>
         </Card>
