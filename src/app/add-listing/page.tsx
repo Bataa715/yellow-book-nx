@@ -1,6 +1,6 @@
 'use client';
 
-import { useForm, Controller } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { Button } from '@/components/ui/button';
@@ -15,11 +15,10 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { X } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
-import { useState } from 'react';
 import { Textarea } from '@/components/ui/textarea';
+import { mockCategories } from '@/lib/data';
+import { Checkbox } from '@/components/ui/checkbox';
 
 const formSchema = z.object({
   businessName: z.string().min(2, 'Нэр дор хаяж 2 үсэгтэй байх ёстой.'),
@@ -35,7 +34,6 @@ type AddListingFormValues = z.infer<typeof formSchema>;
 
 export default function AddListingPage() {
   const { toast } = useToast();
-  const [newCategory, setNewCategory] = useState('');
 
   const form = useForm<AddListingFormValues>({
     resolver: zodResolver(formSchema),
@@ -49,22 +47,6 @@ export default function AddListingPage() {
       address: '',
     },
   });
-
-  const handleAddNewCategory = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter' && newCategory.trim() !== '') {
-      e.preventDefault();
-      const currentCategories = form.getValues('categories');
-      if (!currentCategories.includes(newCategory.trim())) {
-        form.setValue('categories', [...currentCategories, newCategory.trim()], { shouldValidate: true });
-      }
-      setNewCategory('');
-    }
-  };
-
-  const removeCategory = (category: string) => {
-    const currentCategories = form.getValues('categories');
-    form.setValue('categories', currentCategories.filter(c => c !== category), { shouldValidate: true });
-  };
 
   function onSubmit(data: AddListingFormValues) {
     console.log(data);
@@ -118,32 +100,49 @@ export default function AddListingPage() {
                 )}
               />
 
-              <Controller
+              <FormField
                 control={form.control}
                 name="categories"
-                render={({ field }) => (
+                render={() => (
                   <FormItem>
                     <FormLabel>Ангилал</FormLabel>
                     <FormDescription>
-                       Өөрийн бизнест тохирох ангилалуудыг шивж оруулаад Enter товчийг дарна уу.
+                       Өөрийн бизнест тохирох ангилалуудыг сонгоно уу.
                     </FormDescription>
-                     <div className="flex items-center gap-2 pt-2">
-                      <Input 
-                        placeholder="Шинэ ангилал нэмээд Enter дарна уу"
-                        value={newCategory}
-                        onChange={e => setNewCategory(e.target.value)}
-                        onKeyDown={handleAddNewCategory}
-                      />
-                    </div>
-                    <div className="flex flex-wrap gap-2 pt-2 min-h-[2.5rem]">
-                        {field.value.map(category => (
-                            <Badge key={category} variant="secondary" className="pl-3 pr-1 py-1 text-sm">
-                                {category}
-                                <button type="button" onClick={() => removeCategory(category)} className="ml-2 rounded-full p-0.5 hover:bg-destructive/80 hover:text-destructive-foreground transition-colors">
-                                    <X className="h-3 w-3" />
-                                </button>
-                            </Badge>
-                        ))}
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-2">
+                      {mockCategories.map((item) => (
+                        <FormField
+                          key={item.id}
+                          control={form.control}
+                          name="categories"
+                          render={({ field }) => {
+                            return (
+                              <FormItem
+                                key={item.id}
+                                className="flex flex-row items-start space-x-3 space-y-0"
+                              >
+                                <FormControl>
+                                  <Checkbox
+                                    checked={field.value?.includes(item.name)}
+                                    onCheckedChange={(checked) => {
+                                      return checked
+                                        ? field.onChange([...field.value, item.name])
+                                        : field.onChange(
+                                            field.value?.filter(
+                                              (value) => value !== item.name
+                                            )
+                                          )
+                                    }}
+                                  />
+                                </FormControl>
+                                <FormLabel className="font-normal">
+                                  {item.name}
+                                </FormLabel>
+                              </FormItem>
+                            )
+                          }}
+                        />
+                      ))}
                     </div>
                     <FormMessage />
                   </FormItem>
