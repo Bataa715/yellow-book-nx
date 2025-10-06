@@ -10,7 +10,8 @@ export default function AdminPage() {
   const router = useRouter();
 
   // In a real app, this would come from an API
-  const businessCount = 6; 
+  const businessCount = 4;
+  const categoryCount = 8; 
 
   const handleLogout = () => {
     // In a real app, you would handle logout logic here
@@ -62,14 +63,18 @@ export default function AdminPage() {
               Категориуд
             </CardTitle>
             <CardDescription>
-              Бизнесийн ангилал удирдах
+              Нийт {categoryCount} категори бүртгэлтэй
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
-            <Button size="lg" className="w-full">Категори удирдах</Button>
-            <Button size="lg" variant="outline" className="w-full">
-              <Plus className="mr-2 h-4 w-4" />
-              Шинэ категори нэмэх
+            <Button size="lg" className="w-full" asChild>
+                <Link href="/admin/categories">Категори удирдах</Link>
+            </Button>
+            <Button size="lg" variant="outline" className="w-full" asChild>
+                <Link href="/admin/categories">
+                    <Plus className="mr-2 h-4 w-4" />
+                    Шинэ категори нэмэх
+                </Link>
             </Button>
           </CardContent>
         </Card>
