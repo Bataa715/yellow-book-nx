@@ -1,5 +1,9 @@
 import type { Business, Review, Category } from '@/types';
-import { Utensils, Coffee, ShoppingCart, Wrench, Car, HeartPulse, Palette, MoreHorizontal } from 'lucide-react';
+import { 
+    Utensils, Coffee, ShoppingCart, Wrench, Car, HeartPulse, Palette, MoreHorizontal,
+    Briefcase, Building, Bus, Camera, Dumbbell, Feather, Film, Gamepad, Hotel, Laptop, Library,
+    Music, Plane, School, Shirt, Speaker, Train
+} from 'lucide-react';
 import { PlaceHolderImages } from './placeholder-images';
 
 const findImage = (id: string) => PlaceHolderImages.find(img => img.id === id)?.imageUrl || `https://picsum.photos/seed/${id}/800/600`;
@@ -157,4 +161,32 @@ export const mockCategories: Category[] = [
     { id: '7', name: 'Эрүүл мэнд', icon: HeartPulse },
     { id: '8', name: 'Гоо сайхан', icon: Palette },
     { id: '6', name: 'Бусад', icon: MoreHorizontal },
+]
+
+export const mockIcons = [
+    { name: 'Utensils', component: Utensils },
+    { name: 'Coffee', component: Coffee },
+    { name: 'ShoppingCart', component: ShoppingCart },
+    { name: 'Wrench', component: Wrench },
+    { name: 'Car', component: Car },
+    { name: 'HeartPulse', component: HeartPulse },
+    { name: 'Palette', component: Palette },
+    { name: 'Briefcase', component: Briefcase },
+    { name: 'Building', component: Building },
+    { name: 'Bus', component: Bus },
+    { name: 'Camera', component: Camera },
+    { name: 'Dumbbell', component: Dumbbell },
+    { name: 'Feather', component: Feather },
+    { name: 'Film', component: Film },
+    { name: 'Gamepad', component: Gamepad },
+    { name: 'Hotel', component: Hotel },
+    { name: 'Laptop', component: Laptop },
+    { name: 'Library', component: Library },
+    { name: 'Music', component: Music },
+    { name: 'Plane', component: Plane },
+    { name: 'School', component: School },
+    { name: 'Shirt', component: Shirt },
+    { name: 'Speaker', component: Speaker },
+    { name: 'Train', component: Train },
+    { name: 'MoreHorizontal', component: MoreHorizontal },
 ]
