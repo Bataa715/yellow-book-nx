@@ -9,6 +9,8 @@ import {
 } from '../controllers/yellow-books.controller';
 import { createReview, getReviewsByBusinessId } from '../controllers/reviews.controller';
 import {
+  getCategories as getCategoriesController,
+  getPrimaryCategories,
   createCategory,
   getCategory,
   updateCategory,
@@ -22,7 +24,8 @@ router.post('/yellow-books', createYellowBook);
 router.get('/yellow-books/:id', getYellowBookById);
 router.put('/yellow-books/:id', updateYellowBook);
 router.delete('/yellow-books/:id', deleteYellowBook);
-router.get('/categories', getCategories);
+router.get('/categories', getCategoriesController);
+router.get('/categories/primary', getPrimaryCategories);
 router.post('/categories', createCategory);
 router.get('/categories/:id', getCategory);
 router.put('/categories/:id', updateCategory);

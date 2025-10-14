@@ -18,6 +18,7 @@ interface ReviewSectionProps {
 }
 
 export function ReviewSection({ businessId, businessName, initialReviews }: ReviewSectionProps) {
+  console.log('ReviewSection rendered with:', { businessId, businessName, initialReviews });
   const [reviews, setReviews] = useState<Review[]>(initialReviews);
   const [rating, setRating] = useState(0);
   const [hoverRating, setHoverRating] = useState(0);
@@ -55,7 +56,8 @@ export function ReviewSection({ businessId, businessName, initialReviews }: Revi
         date: new Date().toLocaleDateString('mn-MN'),
       };
 
-      const response = await fetch('/api/reviews', {
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+      const response = await fetch(`${apiUrl}/api/reviews`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -74,10 +76,10 @@ export function ReviewSection({ businessId, businessName, initialReviews }: Revi
       setAuthor('');
 
       // Refresh reviews
-      const reviewsResponse = await fetch(`/api/reviews/${businessId}`);
+      const reviewsResponse = await fetch(`${apiUrl}/api/reviews/${businessId}`);
       if (reviewsResponse.ok) {
-        const updatedReviews = await reviewsResponse.json();
-        setReviews(updatedReviews);
+        const updatedReviewsData = await reviewsResponse.json();
+        setReviews(updatedReviewsData.data || updatedReviewsData);
       }
 
       toast({

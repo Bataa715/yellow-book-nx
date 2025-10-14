@@ -1,6 +1,9 @@
 import { Suspense } from 'react';
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
+
+// Force dynamic rendering
+export const dynamicParams = true;
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Star, MapPin, Phone, Globe, Clock, MessageSquare } from 'lucide-react';
@@ -14,21 +17,6 @@ import {
 import { ReviewForm } from '@/components/review-form';
 import { ReviewList } from '@/components/review-list';
 import { Skeleton } from '@/components/ui/skeleton';
-
-// SSG: Generate static params for business IDs
-export async function generateStaticParams() {
-  try {
-    const response = await fetch('http://localhost:3001/api/yellow-books?limit=100');
-    const data = await response.json();
-    
-    return data.data.map((business: any) => ({
-      id: business.id,
-    }));
-  } catch (error) {
-    console.error('Error generating static params:', error);
-    return [];
-  }
-}
 
 async function fetchBusiness(id: string) {
   try {

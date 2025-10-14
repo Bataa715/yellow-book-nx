@@ -2,6 +2,54 @@ import { Request, Response } from 'express';
 import prisma from '../lib/prisma';
 
 /**
+ * GET /api/categories
+ * Retrieves all categories
+ */
+export async function getCategories(req: Request, res: Response) {
+  try {
+    const categories = await (prisma.category as any).findMany({
+      orderBy: [
+        { isPrimary: 'desc' }, // Primary categories first
+        { order: 'asc' },      // Then by order
+        { name: 'asc' }        // Finally by name
+      ]
+    });
+
+    res.json(categories);
+  } catch (error) {
+    console.error('Error fetching categories:', error);
+    res.status(500).json({
+      error: 'Failed to fetch categories',
+      message: error instanceof Error ? error.message : 'Unknown error',
+    });
+  }
+}
+
+/**
+ * GET /api/categories/primary
+ * Retrieves only primary categories for home page
+ */
+export async function getPrimaryCategories(req: Request, res: Response) {
+  try {
+    const primaryCategories = await (prisma.category as any).findMany({
+      where: { isPrimary: true },
+      orderBy: [
+        { order: 'asc' },
+        { name: 'asc' }
+      ]
+    });
+
+    res.json(primaryCategories);
+  } catch (error) {
+    console.error('Error fetching primary categories:', error);
+    res.status(500).json({
+      error: 'Failed to fetch primary categories',
+      message: error instanceof Error ? error.message : 'Unknown error',
+    });
+  }
+}
+
+/**
  * POST /api/categories
  * Creates a new category
  */
@@ -30,10 +78,12 @@ export async function createCategory(req: Request, res: Response) {
     }
 
     // Create the new category
-    const newCategory = await prisma.category.create({
+    const newCategory = await (prisma.category as any).create({
       data: {
         name,
         icon: icon || 'more-horizontal', // Default icon
+        isPrimary: req.body.isPrimary || false,
+        order: req.body.order || null,
       },
     });
 
@@ -97,11 +147,13 @@ export async function updateCategory(req: Request, res: Response) {
     }
 
     // Update the category
-    const updatedCategory = await prisma.category.update({
+    const updatedCategory = await (prisma.category as any).update({
       where: { id },
       data: {
         name,
         icon: icon || existingCategory.icon,
+        ...(req.body.isPrimary !== undefined && { isPrimary: req.body.isPrimary }),
+        ...(req.body.order !== undefined && { order: req.body.order }),
       },
     });
 

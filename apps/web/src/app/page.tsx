@@ -1,17 +1,18 @@
+'use client';
+
 import { Suspense } from 'react';
 import Image from 'next/image';
 import { SearchForm } from '@/components/search-form';
 import { CategoryGrid } from '@/components/category-grid';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
-import { Skeleton } from '@/components/ui/skeleton';
 
 function CategoryGridSkeleton() {
   return (
     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
       {Array.from({ length: 8 }).map((_, i) => (
         <div key={i} className="flex flex-col items-center p-4 space-y-2">
-          <Skeleton className="h-12 w-12 rounded-full" />
-          <Skeleton className="h-4 w-20" />
+          <div className="h-12 w-12 rounded-full bg-gray-200 animate-pulse" />
+          <div className="h-4 w-20 bg-gray-200 animate-pulse rounded" />
         </div>
       ))}
     </div>
@@ -23,18 +24,15 @@ export default function Home() {
 
   return (
     <div className="flex flex-col items-center">
-      <section className="relative w-full py-20 md:py-32 flex items-center justify-center bg-secondary/50">
+      <section className="relative w-full py-20 md:py-32 flex items-center justify-center bg-gray-100">
         {heroImage && (
-          <Image
+          <img
             src={heroImage.imageUrl}
             alt={heroImage.description}
-            fill
-            className="object-cover z-0 opacity-20"
-            data-ai-hint={heroImage.imageHint}
-            priority
+            className="absolute inset-0 w-full h-full object-cover z-0 opacity-20"
           />
         )}
-        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-transparent"></div>
+        <div className="absolute inset-0 bg-gradient-to-t from-white via-white/50 to-transparent"></div>
         <div className="container px-4 md:px-6 z-10 flex flex-col items-center gap-6 text-center">
           <h1 className="text-4xl md:text-5xl font-bold tracking-tighter text-foreground">
             Хайсан бизнесээ <span className="text-primary">хялбархан</span> олоорой
