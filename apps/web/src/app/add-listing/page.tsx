@@ -17,8 +17,10 @@ import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
 import { Textarea } from '@/components/ui/textarea';
-import { mockCategories } from '@/lib/data';
 import { Checkbox } from '@/components/ui/checkbox';
+import { Category } from '@/types';
+import { useState, useEffect } from 'react';
+import { Loader2 } from 'lucide-react';
 
 const formSchema = z.object({
   businessName: z.string().min(2, 'Нэр дор хаяж 2 үсэгтэй байх ёстой.'),
@@ -34,6 +36,8 @@ type AddListingFormValues = z.infer<typeof formSchema>;
 
 export default function AddListingPage() {
   const { toast } = useToast();
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [loadingCategories, setLoadingCategories] = useState(true);
 
   const form = useForm<AddListingFormValues>({
     resolver: zodResolver(formSchema),
@@ -47,6 +51,28 @@ export default function AddListingPage() {
       address: '',
     },
   });
+
+  useEffect(() => {
+    fetchCategories();
+  }, []);
+
+  const fetchCategories = async () => {
+    setLoadingCategories(true);
+    try {
+      const res = await fetch('http://localhost:3001/api/categories');
+      const data = await res.json();
+      setCategories(data.data || []);
+    } catch (error) {
+      console.error('Failed to fetch categories', error);
+      toast({
+        variant: 'destructive',
+        title: 'Алдаа',
+        description: 'Ангиллуудыг татахад алдаа гарлаа.',
+      });
+    } finally {
+      setLoadingCategories(false);
+    }
+  };
 
   async function onSubmit(data: AddListingFormValues) {
     try {
@@ -134,35 +160,41 @@ export default function AddListingPage() {
                       </FormDescription>
                     </div>
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-2">
-                      {mockCategories.map((item) => (
-                        <FormField
-                          key={item.id}
-                          control={form.control}
-                          name="categories"
-                          render={({ field }) => {
-                            return (
-                              <FormItem
-                                key={item.id}
-                                className="flex flex-row items-start space-x-3 space-y-0"
-                              >
-                                <FormControl>
-                                  <Checkbox
-                                    checked={field.value?.includes(item.name)}
-                                    onCheckedChange={(checked) => {
-                                      return checked
-                                        ? field.onChange([...field.value, item.name])
-                                        : field.onChange(
-                                            field.value?.filter((value) => value !== item.name)
-                                          );
-                                    }}
-                                  />
-                                </FormControl>
-                                <FormLabel className="font-normal">{item.name}</FormLabel>
-                              </FormItem>
-                            );
-                          }}
-                        />
-                      ))}
+                      {loadingCategories ? (
+                        <div className="col-span-full flex justify-center">
+                          <Loader2 className="h-6 w-6 animate-spin text-primary" />
+                        </div>
+                      ) : (
+                        categories.map((item) => (
+                          <FormField
+                            key={item.id}
+                            control={form.control}
+                            name="categories"
+                            render={({ field }) => {
+                              return (
+                                <FormItem
+                                  key={item.id}
+                                  className="flex flex-row items-start space-x-3 space-y-0"
+                                >
+                                  <FormControl>
+                                    <Checkbox
+                                      checked={field.value?.includes(item.name)}
+                                      onCheckedChange={(checked) => {
+                                        return checked
+                                          ? field.onChange([...field.value, item.name])
+                                          : field.onChange(
+                                              field.value?.filter((value) => value !== item.name)
+                                            );
+                                      }}
+                                    />
+                                  </FormControl>
+                                  <FormLabel className="font-normal">{item.name}</FormLabel>
+                                </FormItem>
+                              );
+                            }}
+                          />
+                        ))
+                      )}
                     </div>
                     <FormMessage />
                   </FormItem>

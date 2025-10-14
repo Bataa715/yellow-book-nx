@@ -1,7 +1,22 @@
+import { Suspense } from 'react';
 import Image from 'next/image';
 import { SearchForm } from '@/components/search-form';
 import { CategoryGrid } from '@/components/category-grid';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
+import { Skeleton } from '@/components/ui/skeleton';
+
+function CategoryGridSkeleton() {
+  return (
+    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+      {Array.from({ length: 8 }).map((_, i) => (
+        <div key={i} className="flex flex-col items-center p-4 space-y-2">
+          <Skeleton className="h-12 w-12 rounded-full" />
+          <Skeleton className="h-4 w-20" />
+        </div>
+      ))}
+    </div>
+  );
+}
 
 export default function Home() {
   const heroImage = PlaceHolderImages.find((p) => p.id === 'hero-bg');
@@ -40,7 +55,9 @@ export default function Home() {
               Өөрт хэрэгтэй үйлчилгээгээ сонгон хайлтаа эхлүүлээрэй.
             </p>
           </div>
-          <CategoryGrid />
+          <Suspense fallback={<CategoryGridSkeleton />}>
+            <CategoryGrid />
+          </Suspense>
         </div>
       </section>
     </div>

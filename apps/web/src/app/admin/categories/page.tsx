@@ -12,13 +12,50 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { ArrowLeft, Loader2 } from 'lucide-react';
+import { ArrowLeft, Loader2, Edit, Trash2 } from 'lucide-react';
 import Link from 'next/link';
 import { useToast } from '@/hooks/use-toast';
+import { mockIcons } from '@/lib/data';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
+
+// Type for API response category with string icon
+type ApiCategory = {
+  id: string;
+  name: string;
+  icon: string;
+};
+
+// Helper function to get icon component from string name
+const getIconComponent = (iconName: string) => {
+  // Convert kebab-case to PascalCase (e.g., 'heart-pulse' -> 'HeartPulse')
+  const pascalCaseName = iconName
+    .split('-')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .join('');
+  
+  const iconData = mockIcons.find((icon) => 
+    icon.name === pascalCaseName ||
+    icon.name.toLowerCase() === iconName.toLowerCase() ||
+    icon.name === iconName
+  );
+  
+  return iconData?.component || mockIcons.find(icon => icon.name === 'MoreHorizontal')?.component;
+};
 
 export default function ManageCategoriesPage() {
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -30,7 +67,15 @@ export default function ManageCategoriesPage() {
     try {
       const res = await fetch('http://localhost:3001/api/categories');
       const data = await res.json();
-      setCategories(data.data || []);
+      
+      // Transform API categories with string icons to Category type with React components
+      const transformedCategories: Category[] = (data.data || []).map((apiCategory: ApiCategory) => ({
+        id: apiCategory.id,
+        name: apiCategory.name,
+        icon: getIconComponent(apiCategory.icon) || mockIcons[0].component,
+      }));
+      
+      setCategories(transformedCategories);
     } catch (error) {
       console.error('Failed to fetch categories', error);
       toast({
@@ -40,6 +85,36 @@ export default function ManageCategoriesPage() {
       });
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleDelete = async (categoryId: string, categoryName: string) => {
+    setDeletingId(categoryId);
+    try {
+      const res = await fetch(`http://localhost:3001/api/categories/${categoryId}`, {
+        method: 'DELETE',
+      });
+
+      if (!res.ok) {
+        throw new Error('Failed to delete category');
+      }
+
+      toast({
+        title: 'Амжилттай',
+        description: `"${categoryName}" категори устгагдлаа.`,
+      });
+
+      // Refresh the categories list
+      fetchCategories();
+    } catch (error) {
+      console.error('Failed to delete category', error);
+      toast({
+        variant: 'destructive',
+        title: 'Алдаа',
+        description: 'Категори устгахад алдаа гарлаа.',
+      });
+    } finally {
+      setDeletingId(null);
     }
   };
 
@@ -55,9 +130,16 @@ export default function ManageCategoriesPage() {
       </div>
 
       <Card>
-        <CardHeader>
-          <CardTitle>Ангилал удирдлага</CardTitle>
-          <CardDescription>Ангиллуудыг засах, устгах, шинээр нэмэх.</CardDescription>
+        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+          <div>
+            <CardTitle>Ангилал удирдлага</CardTitle>
+            <CardDescription>Ангиллуудыг засах, устгах, шинээр нэмэх.</CardDescription>
+          </div>
+          <Button asChild>
+            <Link href="/admin/categories/new">
+              Шинэ категори нэмэх
+            </Link>
+          </Button>
         </CardHeader>
         <CardContent>
           {loading ? (
@@ -70,6 +152,7 @@ export default function ManageCategoriesPage() {
                 <TableRow>
                   <TableHead>Нэр</TableHead>
                   <TableHead>Айкон</TableHead>
+                  <TableHead className="text-right">Үйлдлүүд</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -80,6 +163,52 @@ export default function ManageCategoriesPage() {
                       <span className="px-2 py-1 bg-gray-100 rounded text-sm">
                         <category.icon className="w-4 h-4" />
                       </span>
+                    </TableCell>
+                    <TableCell className="text-right">
+                      <div className="flex items-center justify-end gap-2">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          asChild
+                        >
+                          <Link href={`/admin/categories/${category.id}/edit`}>
+                            <Edit className="h-4 w-4" />
+                          </Link>
+                        </Button>
+                        <AlertDialog>
+                          <AlertDialogTrigger asChild>
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              disabled={deletingId === category.id}
+                            >
+                              {deletingId === category.id ? (
+                                <Loader2 className="h-4 w-4 animate-spin" />
+                              ) : (
+                                <Trash2 className="h-4 w-4" />
+                              )}
+                            </Button>
+                          </AlertDialogTrigger>
+                          <AlertDialogContent>
+                            <AlertDialogHeader>
+                              <AlertDialogTitle>Категори устгах</AlertDialogTitle>
+                              <AlertDialogDescription>
+                                Та "{category.name}" категорийг устгахдаа итгэлтэй байна уу? 
+                                Энэ үйлдлийг буцаах боломжгүй.
+                              </AlertDialogDescription>
+                            </AlertDialogHeader>
+                            <AlertDialogFooter>
+                              <AlertDialogCancel>Цуцлах</AlertDialogCancel>
+                              <AlertDialogAction
+                                onClick={() => handleDelete(category.id, category.name)}
+                                className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                              >
+                                Устгах
+                              </AlertDialogAction>
+                            </AlertDialogFooter>
+                          </AlertDialogContent>
+                        </AlertDialog>
+                      </div>
                     </TableCell>
                   </TableRow>
                 ))}

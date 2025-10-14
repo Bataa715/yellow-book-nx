@@ -1,5 +1,11 @@
 {
   "name": "@yellow-book/web",
   "version": "0.0.1",
-  "private": true
+  "private": true,
+  "dependencies": {
+    "@googlemaps/js-api-loader": "^2.0.1",
+    "@types/leaflet": "^1.9.21",
+    "leaflet": "^1.9.4",
+    "react-leaflet": "^5.0.0"
+  }
 }

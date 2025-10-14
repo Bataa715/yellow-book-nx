@@ -41,7 +41,7 @@ function transformEntry(entry: any) {
  */
 export async function getYellowBooks(req: Request, res: Response) {
   try {
-    const { limit = '20', offset = '0', category, search } = req.query;
+    const { limit = '20', offset = '0', category, search, loc } = req.query;
 
     const limitNum = parseInt(limit as string, 10);
     const offsetNum = parseInt(offset as string, 10);
@@ -60,6 +60,28 @@ export async function getYellowBooks(req: Request, res: Response) {
         { name: { contains: search as string } },
         { description: { contains: search as string } },
       ];
+    }
+
+    // Add location search functionality
+    if (loc) {
+      const locationConditions = [
+        { addressCity: { contains: loc as string } },
+        { addressDistrict: { contains: loc as string } },
+        { addressKhoroo: { contains: loc as string } },
+        { addressFull: { contains: loc as string } },
+      ];
+
+      if (where.OR) {
+        // If there's already an OR clause (from search), combine them
+        where.AND = [
+          { OR: where.OR },
+          { OR: locationConditions }
+        ];
+        delete where.OR;
+      } else {
+        // If no search query, just add location conditions
+        where.OR = locationConditions;
+      }
     }
 
     const [entries, total] = await Promise.all([

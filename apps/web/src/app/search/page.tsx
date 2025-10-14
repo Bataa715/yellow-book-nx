@@ -1,184 +1,288 @@
-'use client';
-
-import { Suspense, useEffect, useState } from 'react';
-import { useSearchParams } from 'next/navigation';
-import { Business } from '@/types';
+import { Suspense } from 'react';
+import { Business, Category } from '@/types';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Star, MapPin, Phone, Globe, ArrowRight, Mail, Loader2 } from 'lucide-react';
+import { Star, MapPin, Phone, Globe, ArrowRight, Mail } from 'lucide-react';
 import { SearchForm } from '@/components/search-form';
-import { mockCategories } from '@/lib/data';
+import { Skeleton } from '@/components/ui/skeleton';
+import dynamic from 'next/dynamic';
+import { mockIcons } from '@/lib/data';
 
-function SearchResults() {
-  const searchParams = useSearchParams();
-  const [results, setResults] = useState<Business[]>([]);
-  const [loading, setLoading] = useState(true);
+// Dynamic import for SimpleMap to avoid SSR issues with Leaflet
+const SimpleMap = dynamic(() => import('./simple-map').then(mod => ({ default: mod.SimpleMap })), {
+  loading: () => <div className="h-64 bg-muted rounded-lg animate-pulse flex items-center justify-center"><p>Loading map...</p></div>
+});
 
-  const q = searchParams.get('q');
-  const loc = searchParams.get('loc');
-  const category = searchParams.get('category');
+// Type for API response category with string icon
+type ApiCategory = {
+  id: string;
+  name: string;
+  icon: string;
+};
 
-  useEffect(() => {
-    const fetchResults = async () => {
-      setLoading(true);
-      const params = new URLSearchParams();
-      if (q) params.append('q', q);
-      if (loc) params.append('loc', loc);
-      if (category) params.append('category', category);
+type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>;
 
-      const res = await fetch(`http://localhost:3001/api/yellow-books?${params.toString()}`);
-      const data = await res.json();
-      setResults(data.data || []);
-      setLoading(false);
-    };
+async function fetchSearchResults(searchParams: SearchParams) {
+  const resolvedParams = await searchParams;
+  const q = Array.isArray(resolvedParams.q) ? resolvedParams.q[0] : resolvedParams.q;
+  const loc = Array.isArray(resolvedParams.loc) ? resolvedParams.loc[0] : resolvedParams.loc;
+  const category = Array.isArray(resolvedParams.category) ? resolvedParams.category[0] : resolvedParams.category;
 
-    fetchResults();
-  }, [q, loc, category]);
+  const urlParams = new URLSearchParams();
+  if (q) urlParams.append('search', q);
+  if (loc) urlParams.append('loc', loc);
+  if (category) urlParams.append('category', category);
 
-  const getCategoryIcon = (categoryName: string) => {
-    const categoryData = mockCategories.find((c) => c.name === categoryName);
-    return categoryData ? <categoryData.icon className="mr-2 h-4 w-4" /> : null;
-  };
+  try {
+    const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+    const response = await fetch(`${API_BASE_URL}/api/yellow-books?${urlParams.toString()}`, {
+      cache: 'no-store' // SSR: Always fresh data
+    });
+    
+    if (!response.ok) {
+      throw new Error('Failed to fetch search results');
+    }
+    
+    const data = await response.json();
+    return data.data || [];
+  } catch (error) {
+    console.error('Error fetching search results:', error);
+    return [];
+  }
+}
 
+async function fetchCategories() {
+  try {
+    const response = await fetch('http://localhost:3001/api/categories', {
+      next: { revalidate: 3600 } // Cache categories for 1 hour
+    });
+    
+    if (!response.ok) {
+      throw new Error('Failed to fetch categories');
+    }
+    
+    return await response.json();
+  } catch (error) {
+    console.error('Error fetching categories:', error);
+    return [];
+  }
+}
+
+function getIconComponent(iconName: string) {
+  const pascalCaseName = iconName
+    .split('-')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .join('');
+  
+  const iconData = mockIcons.find((icon) => 
+    icon.name === pascalCaseName ||
+    icon.name.toLowerCase() === iconName.toLowerCase() ||
+    icon.name === iconName
+  );
+  
+  return iconData?.component || mockIcons.find(icon => icon.name === 'MoreHorizontal')?.component;
+}
+
+function BusinessResultCard({ business }: { business: Business }) {
   return (
-    <div className="container mx-auto max-w-7xl py-12 px-4 md:px-6">
-      <div className="mb-8">
-        <SearchForm />
-      </div>
-
-      <div className="mb-8">
-        <h2 className="text-2xl font-bold tracking-tight mb-4">Хайлтын үр дүн</h2>
-        {category && (
-          <Badge variant="secondary" className="text-lg py-1 px-4">
-            {category}
-          </Badge>
+    <Card className="hover:shadow-lg transition-shadow">
+      <div className="flex">
+        {business.logo && (
+          <div className="relative w-20 h-20 flex-shrink-0">
+            <Image
+              src={business.logo}
+              alt={business.name}
+              fill
+              className="object-cover rounded-l-lg"
+            />
+          </div>
         )}
-      </div>
+        <div className="flex-1 p-3">
+          <CardHeader className="p-0 mb-2">
+            <div className="flex items-start justify-between gap-2">
+              <CardTitle className="text-base font-semibold">{business.name}</CardTitle>
+              {business.rating && (
+                <div className="flex items-center gap-1 bg-primary/10 px-2 py-1 rounded-full">
+                  <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                  <span className="font-medium text-sm">{business.rating}</span>
+                </div>
+              )}
+            </div>
+          </CardHeader>
 
-      {loading ? (
-        <div className="flex justify-center items-center py-20">
-          <Loader2 className="h-12 w-12 animate-spin text-primary" />
-        </div>
-      ) : results.length > 0 ? (
-        <div className="grid gap-8">
-          {results.map((business) => (
-            <Card
-              key={business.id}
-              className="flex flex-col md:flex-row overflow-hidden hover:shadow-xl transition-shadow duration-300"
-            >
-              <div className="md:w-1/3 relative h-64 md:h-auto">
-                <Image
-                  src={
-                    business.images?.[0] ||
-                    business.logo ||
-                    'https://picsum.photos/800/600?grayscale'
-                  }
-                  alt={business.name}
-                  fill
-                  className="object-cover"
-                />
+          <CardContent className="p-0 space-y-2">
+            <p className="text-muted-foreground line-clamp-1 text-sm">{business.description}</p>
+
+            <div className="flex flex-wrap gap-2">
+              {business.categories.map((cat: string, idx: number) => {
+                const IconComponent = getIconComponent(cat.toLowerCase());
+                return (
+                  <Badge key={idx} variant="outline" className="gap-1">
+                    {IconComponent && <IconComponent className="h-3 w-3" />}
+                    {cat}
+                  </Badge>
+                );
+              })}
+            </div>
+
+            <div className="grid gap-1 text-sm text-muted-foreground">
+              <div className="flex items-start gap-2">
+                <MapPin className="h-3 w-3 mt-0.5 flex-shrink-0" />
+                <span className="line-clamp-1 text-xs">{business.address.full}</span>
               </div>
-              <div className="md:w-2/3">
-                <CardHeader>
-                  <CardTitle className="text-2xl font-headline hover:text-primary">
-                    <Link href={`/business/${business.id}`}>{business.name}</Link>
-                  </CardTitle>
-                  <div className="flex items-center pt-2 text-yellow-500">
-                    {[...Array(Math.floor(business.rating))].map((_, i) => (
-                      <Star key={i} className="w-5 h-5 fill-current" />
-                    ))}
-                    {business.rating % 1 !== 0 && (
-                      <Star
-                        className="w-5 h-5 fill-current"
-                        style={{ clipPath: 'inset(0 50% 0 0)' }}
-                      />
-                    )}
-                    {[...Array(5 - Math.ceil(business.rating))].map((_, i) => (
-                      <Star key={i} className="w-5 h-5 text-gray-300" />
-                    ))}
-                    <span className="ml-2 text-sm text-muted-foreground">
-                      ({business.reviewCount} сэтгэгдэл)
-                    </span>
-                  </div>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <p className="text-muted-foreground">{business.description}</p>
-                  <div className="flex flex-wrap gap-2">
-                    {business.categories.map((cat) => (
-                      <Badge key={cat} variant="secondary">
-                        {getCategoryIcon(cat)}
-                        {cat}
-                      </Badge>
-                    ))}
-                  </div>
-                  <div className="space-y-2 text-sm text-foreground">
-                    <div className="flex items-start">
-                      <MapPin className="mt-1 mr-2 h-4 w-4 flex-shrink-0" />
-                      <span>{business.address.full}</span>
-                    </div>
-                    <div className="flex items-center">
-                      <Phone className="mr-2 h-4 w-4" />
-                      <span>
-                        {Array.isArray(business.contact.phone)
-                          ? business.contact.phone.join(', ')
-                          : business.contact.phone}
-                      </span>
-                    </div>
-                    {business.contact.email && (
-                      <div className="flex items-center">
-                        <Mail className="mr-2 h-4 w-4" />
-                        <span>{business.contact.email}</span>
-                      </div>
-                    )}
-                    {business.contact.website && (
-                      <div className="flex items-center">
-                        <Globe className="mr-2 h-4 w-4" />
-                        <a
-                          href={business.contact.website}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-primary hover:underline"
-                        >
-                          Вэб хуудас
-                        </a>
-                      </div>
-                    )}
-                  </div>
-                  <Button asChild className="mt-4">
-                    <Link href={`/business/${business.id}`}>
-                      Дэлгэрэнгүй <ArrowRight className="ml-2 h-4 w-4" />
-                    </Link>
-                  </Button>
-                </CardContent>
+
+              {business.contact.phone.length > 0 && (
+                <div className="flex items-center gap-2">
+                  <Phone className="h-3 w-3 flex-shrink-0" />
+                  <span className="text-xs">{business.contact.phone[0]}</span>
+                </div>
+              )}
+            </div>
+
+            <div className="flex gap-2 pt-1">
+              <Link href={`/business/${business.id}`} className="flex-1">
+                <Button variant="outline" size="sm" className="w-full text-xs">
+                  Дэлгэрэнгүй
+                  <ArrowRight className="h-3 w-3 ml-2" />
+                </Button>
+              </Link>
+            </div>
+          </CardContent>
+        </div>
+      </div>
+    </Card>
+  );
+}
+
+function SearchResultsSkeleton() {
+  return (
+    <div className="space-y-4">
+      {Array.from({ length: 3 }).map((_, i) => (
+        <Card key={i}>
+          <div className="flex">
+            <Skeleton className="w-20 h-20" />
+            <div className="flex-1 p-4 space-y-2">
+              <Skeleton className="h-5 w-3/4" />
+              <Skeleton className="h-3 w-full" />
+              <Skeleton className="h-3 w-2/3" />
+              <div className="flex gap-2">
+                <Skeleton className="h-4 w-12" />
+                <Skeleton className="h-4 w-16" />
               </div>
-            </Card>
-          ))}
-        </div>
-      ) : (
-        <div className="text-center py-20">
-          <h3 className="text-2xl font-bold">Илэрц олдсонгүй</h3>
-          <p className="text-muted-foreground mt-2">
-            Хайлтын шалгуураа өөрчлөөд дахин оролдоно уу.
-          </p>
-        </div>
-      )}
+            </div>
+          </div>
+        </Card>
+      ))}
     </div>
   );
 }
 
-export default function SearchPage() {
+async function SearchResults({ searchParams }: { searchParams: SearchParams }) {
+  const results = await fetchSearchResults(searchParams);
+  const categories = await fetchCategories();
+
+  const resolvedParams = await searchParams;
+  const q = Array.isArray(resolvedParams.q) ? resolvedParams.q[0] : resolvedParams.q;
+  const loc = Array.isArray(resolvedParams.loc) ? resolvedParams.loc[0] : resolvedParams.loc;
+  const category = Array.isArray(resolvedParams.category) ? resolvedParams.category[0] : resolvedParams.category;
+
+  // Get locations for map
+  const businessLocations = results
+    .filter((business: Business) => business.location)
+    .map((business: Business) => ({
+      id: business.id,
+      name: business.name,
+      lat: business.location.lat,
+      lng: business.location.lng,
+      address: business.address.full
+    }));
+
   return (
-    <Suspense
-      fallback={
-        <div className="flex justify-center items-center h-screen">
-          <Loader2 className="h-12 w-12 animate-spin text-primary" />
+    <div className="space-y-4">
+      <div className="mb-4">
+        <h2 className="text-xl font-bold tracking-tight mb-2">
+          Хайлтын үр дүн
+          {(q || loc || category) && (
+            <span className="text-lg font-normal text-muted-foreground ml-2">
+              •{' '}
+              {[q, loc, category].filter(Boolean).join(' • ')}
+            </span>
+          )}
+        </h2>
+        <div className="flex gap-2 flex-wrap">
+          {q && (
+            <Badge variant="secondary" className="text-sm py-1 px-3">
+              Нэр: {q}
+            </Badge>
+          )}
+          {loc && (
+            <Badge variant="secondary" className="text-sm py-1 px-3">
+              Байршил: {loc}
+            </Badge>
+          )}
+          {category && (
+            <Badge variant="secondary" className="text-sm py-1 px-3">
+              Ангилал: {category}
+            </Badge>
+          )}
         </div>
-      }
-    >
-      <SearchResults />
-    </Suspense>
+      </div>
+
+      <div className="grid gap-4 lg:grid-cols-3">
+        <div className="lg:col-span-2 space-y-4">
+          {results.length === 0 ? (
+            <Card>
+              <CardContent className="p-8 text-center">
+                <p className="text-muted-foreground">Таны хайлтад тохирох үр дүн олдсонгүй.</p>
+                <p className="text-muted-foreground mt-1 text-sm">Өөр түлхүүр үг ашиглан дахин хайж үзнэ үү.</p>
+              </CardContent>
+            </Card>
+          ) : (
+            <>
+              <p className="text-muted-foreground">
+                {results.length} үр дүн олдлоо
+              </p>
+              <div className="space-y-4">
+                {results.map((business: Business) => (
+                  <BusinessResultCard key={business.id} business={business} />
+                ))}
+              </div>
+            </>
+          )}
+        </div>
+
+        {/* Client-side Map Island */}
+        <div className="lg:col-span-1">
+          <div className="sticky top-4">
+            <Card>
+              <CardHeader className="pb-2">
+                <CardTitle className="text-lg">Газрын зураг</CardTitle>
+              </CardHeader>
+              <CardContent className="pt-2">
+                <SimpleMap locations={businessLocations} />
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// SSR: This page will be server-rendered on each request
+export default function SearchPage({ searchParams }: { searchParams: SearchParams }) {
+  return (
+    <div className="container py-4">
+      <div className="mb-4">
+        <SearchForm />
+      </div>
+
+      <Suspense fallback={<SearchResultsSkeleton />}>
+        <SearchResults searchParams={searchParams} />
+      </Suspense>
+    </div>
   );
 }

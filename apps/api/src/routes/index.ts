@@ -10,6 +10,7 @@ import {
 import { createReview, getReviewsByBusinessId } from '../controllers/reviews.controller';
 import {
   createCategory,
+  getCategory,
   updateCategory,
   deleteCategory,
 } from '../controllers/categories.controller';
@@ -23,6 +24,7 @@ router.put('/yellow-books/:id', updateYellowBook);
 router.delete('/yellow-books/:id', deleteYellowBook);
 router.get('/categories', getCategories);
 router.post('/categories', createCategory);
+router.get('/categories/:id', getCategory);
 router.put('/categories/:id', updateCategory);
 router.delete('/categories/:id', deleteCategory);
 

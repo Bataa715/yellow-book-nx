@@ -119,6 +119,38 @@ export async function updateCategory(req: Request, res: Response) {
 }
 
 /**
+ * GET /api/categories/:id
+ * Fetches a single category by ID
+ */
+export async function getCategory(req: Request, res: Response) {
+  try {
+    const { id } = req.params;
+
+    const category = await prisma.category.findUnique({
+      where: { id },
+    });
+
+    if (!category) {
+      return res.status(404).json({
+        error: 'Category not found',
+        message: `Category with ID ${id} does not exist`,
+      });
+    }
+
+    res.json({
+      data: category,
+      message: 'Category retrieved successfully',
+    });
+  } catch (error) {
+    console.error('Error fetching category:', error);
+    res.status(500).json({
+      error: 'Failed to fetch category',
+      message: error instanceof Error ? error.message : 'Unknown error',
+    });
+  }
+}
+
+/**
  * DELETE /api/categories/:id
  * Deletes a category by ID
  */

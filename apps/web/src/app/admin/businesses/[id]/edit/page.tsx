@@ -20,11 +20,11 @@ import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
 import { Textarea } from '@/components/ui/textarea';
-import { mockCategories } from '@/lib/data';
 import { Checkbox } from '@/components/ui/checkbox';
 import { ArrowLeft, Loader2, Plus, Trash2 } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { Category } from '@/types';
 
 const formSchema = z.object({
   businessName: z.string().min(2, 'Нэр дор хаяж 2 үсэгтэй байх ёстой.'),
@@ -46,6 +46,8 @@ export default function EditBusinessPage() {
   const { toast } = useToast();
   const [business, setBusiness] = useState<Business | null>(null);
   const [loading, setLoading] = useState(true);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [loadingCategories, setLoadingCategories] = useState(true);
 
   const form = useForm<EditBusinessFormValues>({
     resolver: zodResolver(formSchema),
@@ -63,6 +65,7 @@ export default function EditBusinessPage() {
   });
 
   useEffect(() => {
+    fetchCategories();
     if (id) {
       const fetchBusiness = async () => {
         setLoading(true);
@@ -97,6 +100,24 @@ export default function EditBusinessPage() {
       fetchBusiness();
     }
   }, [id, form, toast]);
+
+  const fetchCategories = async () => {
+    setLoadingCategories(true);
+    try {
+      const res = await fetch('http://localhost:3001/api/categories');
+      const data = await res.json();
+      setCategories(data.data || []);
+    } catch (error) {
+      console.error('Failed to fetch categories', error);
+      toast({
+        variant: 'destructive',
+        title: 'Алдаа',
+        description: 'Ангиллуудыг татахад алдаа гарлаа.',
+      });
+    } finally {
+      setLoadingCategories(false);
+    }
+  };
 
   async function onSubmit(data: EditBusinessFormValues) {
     try {
@@ -205,41 +226,43 @@ export default function EditBusinessPage() {
                 name="categories"
                 render={() => (
                   <FormItem>
-                    {' '}
-                    <FormLabel>Ангилал</FormLabel>{' '}
+                    <FormLabel>Ангилал</FormLabel>
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-2">
-                      {' '}
-                      {mockCategories.map((item) => (
-                        <FormField
-                          key={item.id}
-                          control={form.control}
-                          name="categories"
-                          render={({ field }) => (
-                            <FormItem
-                              key={item.id}
-                              className="flex flex-row items-start space-x-3 space-y-0"
-                            >
-                              {' '}
-                              <FormControl>
-                                {' '}
-                                <Checkbox
-                                  checked={field.value?.includes(item.name)}
-                                  onCheckedChange={(checked) => {
-                                    return checked
-                                      ? field.onChange([...field.value, item.name])
-                                      : field.onChange(
-                                          field.value?.filter((value) => value !== item.name)
-                                        );
-                                  }}
-                                />{' '}
-                              </FormControl>{' '}
-                              <FormLabel className="font-normal">{item.name}</FormLabel>{' '}
-                            </FormItem>
-                          )}
-                        />
-                      ))}{' '}
-                    </div>{' '}
-                    <FormMessage />{' '}
+                      {loadingCategories ? (
+                        <div className="col-span-full flex justify-center">
+                          <Loader2 className="h-6 w-6 animate-spin text-primary" />
+                        </div>
+                      ) : (
+                        categories.map((item) => (
+                          <FormField
+                            key={item.id}
+                            control={form.control}
+                            name="categories"
+                            render={({ field }) => (
+                              <FormItem
+                                key={item.id}
+                                className="flex flex-row items-start space-x-3 space-y-0"
+                              >
+                                <FormControl>
+                                  <Checkbox
+                                    checked={field.value?.includes(item.name)}
+                                    onCheckedChange={(checked) => {
+                                      return checked
+                                        ? field.onChange([...field.value, item.name])
+                                        : field.onChange(
+                                            field.value?.filter((value) => value !== item.name)
+                                          );
+                                    }}
+                                  />
+                                </FormControl>
+                                <FormLabel className="font-normal">{item.name}</FormLabel>
+                              </FormItem>
+                            )}
+                          />
+                        ))
+                      )}
+                    </div>
+                    <FormMessage />
                   </FormItem>
                 )}
               />
