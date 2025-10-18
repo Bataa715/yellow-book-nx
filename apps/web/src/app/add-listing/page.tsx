@@ -70,15 +70,12 @@ export default function AddListingPage() {
   const fetchCategories = async () => {
     setLoadingCategories(true);
     try {
-      console.log('Fetching categories from API...');
       const res = await fetch('http://localhost:3001/api/categories');
       const data = await res.json();
-      console.log('Categories response:', data);
-      
+
       // Check if data is an array or has a data property
-      const categoriesArray = Array.isArray(data) ? data : (data.data || []);
+      const categoriesArray = Array.isArray(data) ? data : data.data || [];
       setCategories(categoriesArray);
-      console.log('Categories set:', categoriesArray);
     } catch (error) {
       console.error('Failed to fetch categories', error);
       toast({
@@ -109,15 +106,16 @@ export default function AddListingPage() {
           lng: 106.917782,
         },
         contact: {
-          phone: data.phone.split(',').map(p => p.trim()).filter(p => p.length > 0),
+          phone: data.phone
+            .split(',')
+            .map((p) => p.trim())
+            .filter((p) => p.length > 0),
           email: data.email || undefined,
           website: data.website || undefined,
         },
         logo: data.logo || undefined,
-        images: data.images.filter(img => img.trim().length > 0),
+        images: data.images.filter((img) => img.trim().length > 0),
       };
-
-      console.log('Sending data to API:', transformedData);
 
       const response = await fetch('http://localhost:3001/api/yellow-books', {
         method: 'POST',
@@ -352,10 +350,7 @@ export default function AddListingPage() {
                             render={({ field }) => (
                               <FormItem className="flex-grow">
                                 <FormControl>
-                                  <Input
-                                    {...field}
-                                    placeholder="https://example.com/image.jpg"
-                                  />
+                                  <Input {...field} placeholder="https://example.com/image.jpg" />
                                 </FormControl>
                               </FormItem>
                             )}
