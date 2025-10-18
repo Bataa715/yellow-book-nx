@@ -2,10 +2,8 @@ import { Suspense } from 'react';
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
 
-// Enable static generation
 export const dynamicParams = true;
 
-// Generate static params for SSG
 export async function generateStaticParams() {
   try {
     const response = await fetch('http://localhost:3001/api/yellow-books?limit=100');
