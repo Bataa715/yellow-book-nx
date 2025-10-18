@@ -1,59 +1,19 @@
+import { 
+  YellowBookEntry, 
+  YellowBookListResponse, 
+  Category, 
+  Review,
+  Pagination 
+} from '@yellow-book/contract';
+
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
 
-export interface YellowBookEntry {
-  id: string;
-  name: string;
-  description: string;
-  categories: string[];
-  address: {
-    city: string;
-    district: string;
-    khoroo: string;
-    full: string;
-  };
-  location: {
-    lat: number;
-    lng: number;
-  };
-  contact: {
-    phone: string[];
-    email?: string;
-    website?: string;
-  };
-  hours?: Record<string, string>;
-  rating?: number;
-  reviewCount?: number;
-  images?: string[];
-  logo?: string;
-  createdAt?: string;
-  updatedAt?: string;
-}
-
-export interface Review {
-  id: string;
-  businessId: string;
-  author: string;
-  avatar?: string;
-  rating: number;
-  comment: string;
-  date: string;
-  createdAt?: string;
-}
-
-export interface Category {
-  id: string;
-  name: string;
-  icon: string;
-}
+// Re-export types from contract
+export type { YellowBookEntry, Category, Review } from '@yellow-book/contract';
 
 export interface PaginatedResponse<T> {
   data: T[];
-  pagination: {
-    total: number;
-    limit: number;
-    offset: number;
-    hasMore: boolean;
-  };
+  pagination: Pagination;
 }
 
 /**

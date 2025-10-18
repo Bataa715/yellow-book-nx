@@ -1,5 +1,10 @@
 import { Request, Response } from 'express';
 import prisma from '../lib/prisma';
+import { 
+  SearchParamsSchema, 
+  CreateYellowBookEntrySchema, 
+  UpdateYellowBookEntrySchema 
+} from '@yellow-book/contract';
 
 /**
  * Transform database entry to API response format
@@ -41,10 +46,20 @@ function transformEntry(entry: any) {
  */
 export async function getYellowBooks(req: Request, res: Response) {
   try {
-    const { limit = '20', offset = '0', category, search, loc } = req.query;
+    // Validate query parameters with Zod
+    const validatedParams = SearchParamsSchema.safeParse(req.query);
+    
+    if (!validatedParams.success) {
+      return res.status(400).json({
+        error: 'Invalid query parameters',
+        details: validatedParams.error.errors,
+      });
+    }
+    
+    const { limit, offset, category, search, loc } = validatedParams.data;
 
-    const limitNum = parseInt(limit as string, 10);
-    const offsetNum = parseInt(offset as string, 10);
+    const limitNum = limit;
+    const offsetNum = offset;
 
     // Build where clause
     const where: any = {};
@@ -174,15 +189,17 @@ export async function getCategories(req: Request, res: Response) {
  */
 export async function createYellowBook(req: Request, res: Response) {
   try {
-    const { businessName, description, categories, phone, email, website, address } = req.body;
-
-    // Validate required fields
-    if (!businessName || !description || !categories || !phone || !address) {
+    // Validate request body with Zod
+    const validatedData = CreateYellowBookEntrySchema.safeParse(req.body);
+    
+    if (!validatedData.success) {
       return res.status(400).json({
-        error: 'Missing required fields',
-        message: 'businessName, description, categories, phone, and address are required',
+        error: 'Invalid request data',
+        details: validatedData.error.errors,
       });
     }
+    
+    const businessData = validatedData.data;
 
     // Generate a new ID (simple increment based on existing entries)
     const lastEntry = await prisma.yellowBookEntry.findFirst({
@@ -194,23 +211,23 @@ export async function createYellowBook(req: Request, res: Response) {
     const newBusiness = await prisma.yellowBookEntry.create({
       data: {
         id: newId,
-        name: businessName,
-        description,
-        categories: JSON.stringify(categories),
-        addressCity: 'Улаанбаатар', // Default city
-        addressDistrict: '', // Will be extracted from address later
-        addressKhoroo: '', // Will be extracted from address later
-        addressFull: address,
-        locationLat: 47.9184, // Default coordinates for UB
-        locationLng: 106.9177,
-        contactPhone: JSON.stringify([phone]),
-        contactEmail: email || '',
-        contactWebsite: website || '',
-        hours: JSON.stringify({}),
-        rating: 0,
-        reviewCount: 0,
-        images: JSON.stringify([]),
-        logo: '',
+        name: businessData.name,
+        description: businessData.description,
+        categories: JSON.stringify(businessData.categories),
+        addressCity: businessData.address.city,
+        addressDistrict: businessData.address.district,
+        addressKhoroo: businessData.address.khoroo,
+        addressFull: businessData.address.full,
+        locationLat: businessData.location.lat,
+        locationLng: businessData.location.lng,
+        contactPhone: JSON.stringify(businessData.contact.phone),
+        contactEmail: businessData.contact.email || '',
+        contactWebsite: businessData.contact.website || '',
+        hours: businessData.hours ? JSON.stringify(businessData.hours) : JSON.stringify({}),
+        rating: businessData.rating || 0,
+        reviewCount: businessData.reviewCount || 0,
+        images: businessData.images ? JSON.stringify(businessData.images) : JSON.stringify([]),
+        logo: businessData.logo || '',
       },
     });
 
@@ -235,8 +252,16 @@ export async function createYellowBook(req: Request, res: Response) {
 export async function updateYellowBook(req: Request, res: Response) {
   try {
     const { id } = req.params;
-    const { businessName, description, categories, phone, email, website, address, images } =
-      req.body;
+    
+    // Validate request body with Zod
+    const validatedData = UpdateYellowBookEntrySchema.safeParse(req.body);
+    
+    if (!validatedData.success) {
+      return res.status(400).json({
+        error: 'Invalid request data',
+        details: validatedData.error.errors,
+      });
+    }
 
     // Check if the business exists
     const existingBusiness = await prisma.yellowBookEntry.findUnique({
@@ -249,32 +274,40 @@ export async function updateYellowBook(req: Request, res: Response) {
         message: `Business with ID ${id} does not exist`,
       });
     }
+    
+    const businessData = validatedData.data;
 
-    // Validate required fields
-    if (!businessName || !description || !categories || !phone || !address) {
-      return res.status(400).json({
-        error: 'Missing required fields',
-        message: 'businessName, description, categories, phone, and address are required',
-      });
+    // Build update data object
+    const updateData: any = {
+      updatedAt: new Date(),
+    };
+    
+    if (businessData.name) updateData.name = businessData.name;
+    if (businessData.description) updateData.description = businessData.description;
+    if (businessData.categories) updateData.categories = JSON.stringify(businessData.categories);
+    if (businessData.address) {
+      updateData.addressCity = businessData.address.city;
+      updateData.addressDistrict = businessData.address.district;
+      updateData.addressKhoroo = businessData.address.khoroo;
+      updateData.addressFull = businessData.address.full;
     }
-
-    // Parse phone numbers if it's a string
-    const phoneArray = typeof phone === 'string' ? phone.split(',').map((p) => p.trim()) : phone;
+    if (businessData.location) {
+      updateData.locationLat = businessData.location.lat;
+      updateData.locationLng = businessData.location.lng;
+    }
+    if (businessData.contact) {
+      if (businessData.contact.phone) updateData.contactPhone = JSON.stringify(businessData.contact.phone);
+      if (businessData.contact.email !== undefined) updateData.contactEmail = businessData.contact.email;
+      if (businessData.contact.website !== undefined) updateData.contactWebsite = businessData.contact.website;
+    }
+    if (businessData.hours) updateData.hours = JSON.stringify(businessData.hours);
+    if (businessData.images) updateData.images = JSON.stringify(businessData.images);
+    if (businessData.logo !== undefined) updateData.logo = businessData.logo;
 
     // Update the business entry
     const updatedBusiness = await prisma.yellowBookEntry.update({
       where: { id },
-      data: {
-        name: businessName,
-        description,
-        categories: JSON.stringify(categories),
-        addressFull: address,
-        contactPhone: JSON.stringify(phoneArray),
-        contactEmail: email || '',
-        contactWebsite: website || '',
-        images: JSON.stringify(images || []),
-        updatedAt: new Date(),
-      },
+      data: updateData,
     });
 
     const transformedBusiness = transformEntry(updatedBusiness);

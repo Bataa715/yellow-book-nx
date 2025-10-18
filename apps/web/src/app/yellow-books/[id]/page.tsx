@@ -2,8 +2,29 @@ import { Suspense } from 'react';
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
 
-// Force dynamic rendering
+// Enable static generation
 export const dynamicParams = true;
+
+// Generate static params for SSG
+export async function generateStaticParams() {
+  try {
+    const response = await fetch('http://localhost:3001/api/yellow-books?limit=100');
+    
+    if (!response.ok) {
+      console.error('Failed to fetch businesses for static generation');
+      return [];
+    }
+    
+    const data = await response.json();
+    
+    return data.data.map((business: any) => ({
+      id: business.id,
+    }));
+  } catch (error) {
+    console.error('Error generating static params:', error);
+    return [];
+  }
+}
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Star, MapPin, Phone, Globe, Clock, MessageSquare } from 'lucide-react';
