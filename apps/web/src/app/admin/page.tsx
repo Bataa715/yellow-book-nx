@@ -24,8 +24,11 @@ export default function AdminPage() {
         const businessData = await businessRes.json();
         const categoryData = await categoryRes.json();
 
-        setBusinessCount(businessData.data?.length || 0);
-        setCategoryCount(categoryData.data?.length || 0);
+        // Handle different API response formats
+        setBusinessCount(businessData.data?.length || businessData.length || 0);
+        setCategoryCount(
+          Array.isArray(categoryData) ? categoryData.length : categoryData.data?.length || 0
+        );
       } catch (error) {
         console.error('Error fetching admin data:', error);
       }

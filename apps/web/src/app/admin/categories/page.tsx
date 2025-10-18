@@ -70,7 +70,8 @@ export default function ManageCategoriesPage() {
       const data = await res.json();
 
       // Transform API categories with string icons to Category type with React components
-      const transformedCategories: Category[] = (data.data || []).map(
+      // API returns categories directly as an array, not wrapped in data property
+      const transformedCategories: Category[] = (Array.isArray(data) ? data : data.data || []).map(
         (apiCategory: ApiCategory) => ({
           id: apiCategory.id,
           name: apiCategory.name,

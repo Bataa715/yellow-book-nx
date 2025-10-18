@@ -16,6 +16,6 @@
       "@yellow-book/config": ["../../libs/config/src/index.ts"]
     }
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "../../libs/**/*"],
   "exclude": ["node_modules", "dist"]
 }
