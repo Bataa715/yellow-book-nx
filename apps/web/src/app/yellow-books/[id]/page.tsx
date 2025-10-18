@@ -4,25 +4,29 @@ import Image from 'next/image';
 
 export const dynamicParams = true;
 
-export async function generateStaticParams() {
-  try {
-    const response = await fetch('http://localhost:3001/api/yellow-books?limit=100');
+// Disable static generation for now to avoid build-time API calls
+// export async function generateStaticParams() {
+//   try {
+//     // Use environment variable for API URL, fallback to localhost
+//     const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+//     const response = await fetch(`${apiUrl}/api/yellow-books?limit=100`);
 
-    if (!response.ok) {
-      console.error('Failed to fetch businesses for static generation');
-      return [];
-    }
+//     if (!response.ok) {
+//       console.error('Failed to fetch businesses for static generation');
+//       return [];
+//     }
 
-    const data = await response.json();
+//     const data = await response.json();
 
-    return data.data.map((business: any) => ({
-      id: business.id,
-    }));
-  } catch (error) {
-    console.error('Error generating static params:', error);
-    return [];
-  }
-}
+//     return data.data.map((business: any) => ({
+//       id: business.id,
+//     }));
+//   } catch (error) {
+//     console.error('Error generating static params:', error);
+//     // Return empty array so build can continue
+//     return [];
+//   }
+// }
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Star, MapPin, Phone, Globe, Clock, MessageSquare } from 'lucide-react';
