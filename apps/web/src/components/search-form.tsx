@@ -45,11 +45,11 @@ export function SearchForm() {
           className="pl-12 pr-4 h-14 text-base border-gray-200 focus:border-primary focus:ring-primary/20 rounded-xl bg-gray-50/50 hover:bg-white transition-all"
         />
       </div>
-      <Button 
-        type="submit" 
+      <Button
+        type="submit"
         className="w-full md:col-span-1 h-14 text-base bg-primary hover:bg-primary/90 shadow-lg hover:shadow-xl transition-all duration-200 rounded-xl font-semibold"
       >
-        <Search className="mr-2 h-5 w-5" /> 
+        <Search className="mr-2 h-5 w-5" />
         Хайх
       </Button>
     </form>

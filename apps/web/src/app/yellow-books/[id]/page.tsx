@@ -7,14 +7,14 @@ export const dynamicParams = true;
 export async function generateStaticParams() {
   try {
     const response = await fetch('http://localhost:3001/api/yellow-books?limit=100');
-    
+
     if (!response.ok) {
       console.error('Failed to fetch businesses for static generation');
       return [];
     }
-    
+
     const data = await response.json();
-    
+
     return data.data.map((business: any) => ({
       id: business.id,
     }));
@@ -23,16 +23,9 @@ export async function generateStaticParams() {
     return [];
   }
 }
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Star, MapPin, Phone, Globe, Clock, MessageSquare } from 'lucide-react';
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from '@/components/ui/carousel';
 import { ReviewForm } from '@/components/review-form';
 import { ReviewList } from '@/components/review-list';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -40,13 +33,13 @@ import { Skeleton } from '@/components/ui/skeleton';
 async function fetchBusiness(id: string) {
   try {
     const response = await fetch(`http://localhost:3001/api/yellow-books/${id}`, {
-      next: { revalidate: 3600 } // Revalidate every hour
+      next: { revalidate: 3600 }, // Revalidate every hour
     });
-    
+
     if (!response.ok) {
       return null;
     }
-    
+
     return await response.json();
   } catch (error) {
     console.error('Error fetching business:', error);
@@ -57,13 +50,13 @@ async function fetchBusiness(id: string) {
 async function fetchReviews(businessId: string) {
   try {
     const response = await fetch(`http://localhost:3001/api/yellow-books/${businessId}/reviews`, {
-      next: { revalidate: 300 } // Revalidate reviews every 5 minutes
+      next: { revalidate: 300 }, // Revalidate reviews every 5 minutes
     });
-    
+
     if (!response.ok) {
       return [];
     }
-    
+
     return await response.json();
   } catch (error) {
     console.error('Error fetching reviews:', error);
@@ -71,33 +64,9 @@ async function fetchReviews(businessId: string) {
   }
 }
 
-function BusinessSkeleton() {
-  return (
-    <div className="container py-12">
-      <div className="grid gap-8 lg:grid-cols-2">
-        <div>
-          <Skeleton className="h-96 w-full mb-4" />
-          <div className="grid grid-cols-4 gap-2">
-            {Array.from({ length: 4 }).map((_, i) => (
-              <Skeleton key={i} className="h-20 w-full" />
-            ))}
-          </div>
-        </div>
-        <div className="space-y-6">
-          <div>
-            <Skeleton className="h-8 w-3/4 mb-2" />
-            <Skeleton className="h-4 w-1/2 mb-4" />
-            <Skeleton className="h-16 w-full" />
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 async function BusinessImages({ business }: { business: any }) {
   const images = business.images || [business.logo].filter(Boolean);
-  
+
   if (images.length === 0) {
     return (
       <div className="aspect-square bg-muted rounded-lg flex items-center justify-center">
@@ -117,7 +86,7 @@ async function BusinessImages({ business }: { business: any }) {
           priority
         />
       </div>
-      
+
       {images.length > 1 && (
         <div className="grid grid-cols-4 gap-2">
           {images.slice(1, 5).map((image: string, index: number) => (
@@ -136,9 +105,15 @@ async function BusinessImages({ business }: { business: any }) {
   );
 }
 
-async function BusinessReviews({ businessId, businessName }: { businessId: string; businessName: string }) {
+async function BusinessReviews({
+  businessId,
+  businessName,
+}: {
+  businessId: string;
+  businessName: string;
+}) {
   const reviews = await fetchReviews(businessId);
-  
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
@@ -147,7 +122,7 @@ async function BusinessReviews({ businessId, businessName }: { businessId: strin
           Reviews ({reviews.length})
         </h3>
       </div>
-      
+
       <ReviewForm businessId={businessId} businessName={businessName} />
       <ReviewList businessId={businessId} />
     </div>
@@ -238,7 +213,9 @@ export default async function BusinessPage({ params }: { params: Promise<{ id: s
                     <p className="font-medium">Phone</p>
                     <div className="space-y-1">
                       {business.contact.phone.map((phone: string, index: number) => (
-                        <p key={index} className="text-muted-foreground">{phone}</p>
+                        <p key={index} className="text-muted-foreground">
+                          {phone}
+                        </p>
                       ))}
                     </div>
                   </div>

@@ -35,7 +35,7 @@ export function MapIsland({ locations }: MapIslandProps) {
     const loadGoogleMapsScript = () => {
       return new Promise<void>((resolve, reject) => {
         const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
-        
+
         if (!apiKey || apiKey === 'your_google_maps_api_key_here') {
           reject(new Error('Google Maps API key багаа тохируулна уу'));
           return;
@@ -52,10 +52,10 @@ export function MapIsland({ locations }: MapIslandProps) {
         script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=places`;
         script.async = true;
         script.defer = true;
-        
+
         script.onload = () => resolve();
         script.onerror = () => reject(new Error('Google Maps script ачаалагдсангүй'));
-        
+
         document.head.appendChild(script);
       });
     };
@@ -63,16 +63,15 @@ export function MapIsland({ locations }: MapIslandProps) {
     const initializeMap = async () => {
       try {
         await loadGoogleMapsScript();
-        
+
         if (!mapRef.current) return;
 
         // Default center (Ulaanbaatar coordinates)
         const defaultCenter = { lat: 47.8864, lng: 106.9057 };
-        
+
         // Use first location as center if available
-        const center = locations.length > 0 
-          ? { lat: locations[0].lat, lng: locations[0].lng }
-          : defaultCenter;
+        const center =
+          locations.length > 0 ? { lat: locations[0].lat, lng: locations[0].lng } : defaultCenter;
 
         const map = new google.maps.Map(mapRef.current, {
           zoom: locations.length > 1 ? 12 : 15,
@@ -82,35 +81,37 @@ export function MapIsland({ locations }: MapIslandProps) {
             {
               featureType: 'poi',
               elementType: 'labels',
-              stylers: [{ visibility: 'off' }]
-            }
-          ]
+              stylers: [{ visibility: 'off' }],
+            },
+          ],
         });
 
         mapInstanceRef.current = map;
 
         // Clear existing markers
-        markersRef.current.forEach(marker => marker.setMap(null));
+        markersRef.current.forEach((marker) => marker.setMap(null));
         markersRef.current = [];
 
         // Add markers for each location
         const bounds = new google.maps.LatLngBounds();
-        
+
         locations.forEach((location) => {
           const marker = new google.maps.Marker({
             position: { lat: location.lat, lng: location.lng },
             map: map,
             title: location.name,
             icon: {
-              url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(`
+              url:
+                'data:image/svg+xml;charset=UTF-8,' +
+                encodeURIComponent(`
                 <svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
                   <circle cx="16" cy="16" r="8" fill="#ef4444" stroke="white" stroke-width="2"/>
                   <circle cx="16" cy="16" r="4" fill="white"/>
                 </svg>
               `),
               scaledSize: new google.maps.Size(32, 32),
-              anchor: new google.maps.Point(16, 16)
-            }
+              anchor: new google.maps.Point(16, 16),
+            },
           });
 
           // Info window for each marker
@@ -120,7 +121,7 @@ export function MapIsland({ locations }: MapIslandProps) {
                 <h3 class="font-semibold text-sm">${location.name}</h3>
                 <p class="text-xs text-gray-600 mt-1">${location.address}</p>
               </div>
-            `
+            `,
           });
 
           marker.addListener('click', () => {
@@ -156,7 +157,7 @@ export function MapIsland({ locations }: MapIslandProps) {
 
     // Cleanup function
     return () => {
-      markersRef.current.forEach(marker => marker.setMap(null));
+      markersRef.current.forEach((marker) => marker.setMap(null));
       markersRef.current = [];
     };
   }, [locations]);
@@ -180,15 +181,12 @@ export function MapIsland({ locations }: MapIslandProps) {
             </p>
           </div>
         </div>
-        
+
         {/* Fallback location list */}
         <div className="space-y-2">
           <h4 className="font-medium text-sm">Олдсон байршлууд:</h4>
           {locations.map((location) => (
-            <div
-              key={location.id}
-              className="p-2 bg-muted/50 rounded text-xs"
-            >
+            <div key={location.id} className="p-2 bg-muted/50 rounded text-xs">
               <div className="font-medium truncate">{location.name}</div>
               <div className="text-muted-foreground truncate">{location.address}</div>
             </div>
@@ -210,10 +208,7 @@ export function MapIsland({ locations }: MapIslandProps) {
             </div>
           </div>
         )}
-        <div 
-          ref={mapRef}
-          className="h-64 rounded-lg overflow-hidden border"
-        />
+        <div ref={mapRef} className="h-64 rounded-lg overflow-hidden border" />
       </div>
 
       {/* Location list */}

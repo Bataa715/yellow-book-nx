@@ -11,26 +11,26 @@ app.use((req, res, next) => {
   const method = req.method;
   const url = req.url;
   const userAgent = req.get('User-Agent') || 'Unknown';
-  
+
   console.log(`\n🔵 [${timestamp}] ${method} ${url}`);
   console.log(`👤 User-Agent: ${userAgent.substring(0, 50)}...`);
-  
+
   if (req.body && Object.keys(req.body).length > 0) {
     console.log(`📦 Request Body:`, JSON.stringify(req.body, null, 2));
   }
-  
+
   if (req.query && Object.keys(req.query).length > 0) {
     console.log(`🔍 Query Params:`, req.query);
   }
 
   // Log response
   const originalSend = res.send;
-  res.send = function(body) {
+  res.send = function (body) {
     const statusCode = res.statusCode;
     const statusIcon = statusCode >= 400 ? '❌' : statusCode >= 300 ? '⚠️' : '✅';
-    
+
     console.log(`${statusIcon} [${timestamp}] Response ${statusCode} for ${method} ${url}`);
-    
+
     if (body && typeof body === 'string') {
       try {
         const parsed = JSON.parse(body);
@@ -39,16 +39,16 @@ app.use((req, res, next) => {
         } else if (parsed.error) {
           console.log(`💥 Error: ${parsed.error}`);
         }
-      } catch (e) {
+      } catch {
         console.log(`📄 Response length: ${body.length} characters`);
       }
     }
-    
+
     console.log(`⏱️  Request completed in ${Date.now() - new Date(timestamp).getTime()}ms\n`);
-    
+
     return originalSend.call(this, body);
   };
-  
+
   next();
 });
 
@@ -63,7 +63,7 @@ app.use(
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization', 'Accept'],
-    optionsSuccessStatus: 200 // Some legacy browsers choke on 204
+    optionsSuccessStatus: 200, // Some legacy browsers choke on 204
   })
 );
 
@@ -74,7 +74,7 @@ app.use((req, res, next) => {
     console.log(`👤 User-Agent: ${req.get('User-Agent')?.substring(0, 50) || 'Unknown'}...`);
     console.log(`✅ [${new Date().toISOString()}] Response 200 for OPTIONS ${req.url}`);
     console.log(`⏱️  Request completed in 0ms\n`);
-    
+
     res.status(200).end();
   } else {
     next();
@@ -95,10 +95,10 @@ app.get('/', (req, res) => {
       yellowBooks: '/api/yellow-books',
       categories: '/api/categories',
       search: '/api/yellow-books?search=keyword',
-      businessDetails: '/api/yellow-books/:id'
+      businessDetails: '/api/yellow-books/:id',
     },
     documentation: 'Yellow Book API - Монголын бизнесийн лавлагаа',
-    message: '🚀 API ажиллаж байна!'
+    message: '🚀 API ажиллаж байна!',
   });
 });
 

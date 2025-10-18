@@ -10,9 +10,9 @@ export async function getCategories(req: Request, res: Response) {
     const categories = await (prisma.category as any).findMany({
       orderBy: [
         { isPrimary: 'desc' }, // Primary categories first
-        { order: 'asc' },      // Then by order
-        { name: 'asc' }        // Finally by name
-      ]
+        { order: 'asc' }, // Then by order
+        { name: 'asc' }, // Finally by name
+      ],
     });
 
     res.json(categories);
@@ -33,10 +33,7 @@ export async function getPrimaryCategories(req: Request, res: Response) {
   try {
     const primaryCategories = await (prisma.category as any).findMany({
       where: { isPrimary: true },
-      orderBy: [
-        { order: 'asc' },
-        { name: 'asc' }
-      ]
+      orderBy: [{ order: 'asc' }, { name: 'asc' }],
     });
 
     res.json(primaryCategories);

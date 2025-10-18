@@ -40,16 +40,17 @@ const getIconComponent = (iconName: string) => {
   // Convert kebab-case to PascalCase (e.g., 'heart-pulse' -> 'HeartPulse')
   const pascalCaseName = iconName
     .split('-')
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
     .join('');
-  
-  const iconData = mockIcons.find((icon) => 
-    icon.name === pascalCaseName ||
-    icon.name.toLowerCase() === iconName.toLowerCase() ||
-    icon.name === iconName
+
+  const iconData = mockIcons.find(
+    (icon) =>
+      icon.name === pascalCaseName ||
+      icon.name.toLowerCase() === iconName.toLowerCase() ||
+      icon.name === iconName
   );
-  
-  return iconData?.component || mockIcons.find(icon => icon.name === 'MoreHorizontal')?.component;
+
+  return iconData?.component || mockIcons.find((icon) => icon.name === 'MoreHorizontal')?.component;
 };
 
 export default function ManageCategoriesPage() {
@@ -67,14 +68,16 @@ export default function ManageCategoriesPage() {
     try {
       const res = await fetch('http://localhost:3001/api/categories');
       const data = await res.json();
-      
+
       // Transform API categories with string icons to Category type with React components
-      const transformedCategories: Category[] = (data.data || []).map((apiCategory: ApiCategory) => ({
-        id: apiCategory.id,
-        name: apiCategory.name,
-        icon: getIconComponent(apiCategory.icon) || mockIcons[0].component,
-      }));
-      
+      const transformedCategories: Category[] = (data.data || []).map(
+        (apiCategory: ApiCategory) => ({
+          id: apiCategory.id,
+          name: apiCategory.name,
+          icon: getIconComponent(apiCategory.icon) || mockIcons[0].component,
+        })
+      );
+
       setCategories(transformedCategories);
     } catch (error) {
       console.error('Failed to fetch categories', error);
@@ -136,9 +139,7 @@ export default function ManageCategoriesPage() {
             <CardDescription>Ангиллуудыг засах, устгах, шинээр нэмэх.</CardDescription>
           </div>
           <Button asChild>
-            <Link href="/admin/categories/new">
-              Шинэ категори нэмэх
-            </Link>
+            <Link href="/admin/categories/new">Шинэ категори нэмэх</Link>
           </Button>
         </CardHeader>
         <CardContent>
@@ -166,11 +167,7 @@ export default function ManageCategoriesPage() {
                     </TableCell>
                     <TableCell className="text-right">
                       <div className="flex items-center justify-end gap-2">
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          asChild
-                        >
+                        <Button variant="outline" size="sm" asChild>
                           <Link href={`/admin/categories/${category.id}/edit`}>
                             <Edit className="h-4 w-4" />
                           </Link>
@@ -193,8 +190,8 @@ export default function ManageCategoriesPage() {
                             <AlertDialogHeader>
                               <AlertDialogTitle>Категори устгах</AlertDialogTitle>
                               <AlertDialogDescription>
-                                Та "{category.name}" категорийг устгахдаа итгэлтэй байна уу? 
-                                Энэ үйлдлийг буцаах боломжгүй.
+                                Та "{category.name}" категорийг устгахдаа итгэлтэй байна уу? Энэ
+                                үйлдлийг буцаах боломжгүй.
                               </AlertDialogDescription>
                             </AlertDialogHeader>
                             <AlertDialogFooter>

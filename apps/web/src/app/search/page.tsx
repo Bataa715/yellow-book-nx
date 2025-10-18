@@ -1,37 +1,31 @@
 import { Suspense } from 'react';
-import { Business, Category } from '@/types';
+import { Business } from '@/types';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Star, MapPin, Phone, Globe, ArrowRight, Mail, Search } from 'lucide-react';
+import { Star, MapPin, Phone, ArrowRight, Search } from 'lucide-react';
 import { SearchForm } from '@/components/search-form';
 import { Skeleton } from '@/components/ui/skeleton';
 import dynamic from 'next/dynamic';
 
 // Force this page to be dynamic - no static generation
 export const dynamicParams = true;
-import { mockIcons } from '@/lib/data';
 
 // Dynamic import for SimpleMap to avoid SSR issues with Leaflet
-const SimpleMap = dynamic(() => import('./simple-map').then(mod => ({ default: mod.SimpleMap })), {
-  loading: () => (
-    <div className="h-64 bg-muted rounded-lg animate-pulse flex items-center justify-center">
-      <div className="text-center">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-2"></div>
-        <p className="text-sm text-muted-foreground">Loading interactive map...</p>
+const SimpleMap = dynamic(
+  () => import('./simple-map').then((mod) => ({ default: mod.SimpleMap })),
+  {
+    loading: () => (
+      <div className="h-64 bg-muted rounded-lg animate-pulse flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-2"></div>
+          <p className="text-sm text-muted-foreground">Loading interactive map...</p>
+        </div>
       </div>
-    </div>
-  )
-});
-
-// Type for API response category with string icon
-type ApiCategory = {
-  id: string;
-  name: string;
-  icon: string;
-};
+    ),
+  }
+);
 
 type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>;
 
@@ -39,7 +33,9 @@ async function fetchSearchResults(searchParams: SearchParams) {
   const resolvedParams = await searchParams;
   const q = Array.isArray(resolvedParams.q) ? resolvedParams.q[0] : resolvedParams.q;
   const loc = Array.isArray(resolvedParams.loc) ? resolvedParams.loc[0] : resolvedParams.loc;
-  const category = Array.isArray(resolvedParams.category) ? resolvedParams.category[0] : resolvedParams.category;
+  const category = Array.isArray(resolvedParams.category)
+    ? resolvedParams.category[0]
+    : resolvedParams.category;
 
   const urlParams = new URLSearchParams();
   if (q) urlParams.append('search', q);
@@ -50,13 +46,13 @@ async function fetchSearchResults(searchParams: SearchParams) {
     const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
     const response = await fetch(`${API_BASE_URL}/api/yellow-books?${urlParams.toString()}`, {
       cache: 'no-store', // SSR: Always fresh data
-      next: { revalidate: 0 } // SSR: Disable caching for search
+      next: { revalidate: 0 }, // SSR: Disable caching for search
     });
-    
+
     if (!response.ok) {
       throw new Error('Failed to fetch search results');
     }
-    
+
     const data = await response.json();
     return data.data || [];
   } catch (error) {
@@ -65,36 +61,9 @@ async function fetchSearchResults(searchParams: SearchParams) {
   }
 }
 
-async function fetchCategories() {
-  try {
-    const response = await fetch('http://localhost:3001/api/categories', {
-      next: { revalidate: 3600 } // Cache categories for 1 hour
-    });
-    
-    if (!response.ok) {
-      throw new Error('Failed to fetch categories');
-    }
-    
-    return await response.json();
-  } catch (error) {
-    console.error('Error fetching categories:', error);
-    return [];
-  }
-}
-
-function getIconComponent(iconName: string) {
-  const pascalCaseName = iconName
-    .split('-')
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-    .join('');
-  
-  const iconData = mockIcons.find((icon) => 
-    icon.name === pascalCaseName ||
-    icon.name.toLowerCase() === iconName.toLowerCase() ||
-    icon.name === iconName
-  );
-  
-  return iconData?.component || mockIcons.find(icon => icon.name === 'MoreHorizontal')?.component;
+function getIconComponent(_iconName: string) {
+  // Simple fallback icon component
+  return Star;
 }
 
 function BusinessResultCard({ business }: { business: Business }) {
@@ -139,9 +108,9 @@ function BusinessResultCard({ business }: { business: Business }) {
                 {business.categories.slice(0, 2).map((cat: string, idx: number) => {
                   const IconComponent = getIconComponent(cat.toLowerCase());
                   return (
-                    <Badge 
-                      key={idx} 
-                      variant="secondary" 
+                    <Badge
+                      key={idx}
+                      variant="secondary"
                       className="text-xs font-medium bg-blue-50 text-blue-700 border-blue-200 hover:bg-blue-100 transition-colors flex-shrink-0"
                     >
                       {IconComponent && <IconComponent className="h-3 w-3 mr-1" />}
@@ -162,13 +131,17 @@ function BusinessResultCard({ business }: { business: Business }) {
               <div className="grid gap-1.5 text-sm">
                 <div className="flex items-start gap-2 text-gray-500 min-w-0">
                   <MapPin className="h-4 w-4 mt-0.5 flex-shrink-0 text-gray-400" />
-                  <span className="line-clamp-1 text-xs leading-relaxed truncate pr-2">{business.address.full}</span>
+                  <span className="line-clamp-1 text-xs leading-relaxed truncate pr-2">
+                    {business.address.full}
+                  </span>
                 </div>
 
                 {business.contact.phone.length > 0 && (
                   <div className="flex items-center gap-2 text-gray-500 min-w-0">
                     <Phone className="h-4 w-4 flex-shrink-0 text-gray-400" />
-                    <span className="text-xs font-medium truncate pr-2">{business.contact.phone[0]}</span>
+                    <span className="text-xs font-medium truncate pr-2">
+                      {business.contact.phone[0]}
+                    </span>
                   </div>
                 )}
               </div>
@@ -269,12 +242,13 @@ function SearchResultsSkeleton() {
 
 async function SearchResults({ searchParams }: { searchParams: SearchParams }) {
   const results = await fetchSearchResults(searchParams);
-  const categories = await fetchCategories();
 
   const resolvedParams = await searchParams;
   const q = Array.isArray(resolvedParams.q) ? resolvedParams.q[0] : resolvedParams.q;
   const loc = Array.isArray(resolvedParams.loc) ? resolvedParams.loc[0] : resolvedParams.loc;
-  const category = Array.isArray(resolvedParams.category) ? resolvedParams.category[0] : resolvedParams.category;
+  const category = Array.isArray(resolvedParams.category)
+    ? resolvedParams.category[0]
+    : resolvedParams.category;
 
   // Get locations for map
   const businessLocations = results
@@ -284,7 +258,7 @@ async function SearchResults({ searchParams }: { searchParams: SearchParams }) {
       name: business.name,
       lat: business.location.lat,
       lng: business.location.lng,
-      address: business.address.full
+      address: business.address.full,
     }));
 
   return (
@@ -295,9 +269,7 @@ async function SearchResults({ searchParams }: { searchParams: SearchParams }) {
           <div className="p-2 bg-primary/10 rounded-lg">
             <Star className="h-5 w-5 text-primary" />
           </div>
-          <h2 className="text-2xl font-bold text-gray-900">
-            Хайлтын үр дүн
-          </h2>
+          <h2 className="text-2xl font-bold text-gray-900">Хайлтын үр дүн</h2>
         </div>
 
         {(q || loc || category) && (
@@ -334,11 +306,10 @@ async function SearchResults({ searchParams }: { searchParams: SearchParams }) {
                 <div className="mx-auto w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mb-6">
                   <Search className="h-12 w-12 text-gray-400" />
                 </div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                  Үр дүн олдсонгүй
-                </h3>
+                <h3 className="text-xl font-semibold text-gray-900 mb-2">Үр дүн олдсонгүй</h3>
                 <p className="text-gray-600 mb-4 max-w-md mx-auto">
-                  Таны хайлтад тохирох байгууллага олдсонгүй. Өөр түлхүүр үг эсвэл байршил ашиглан дахин хайж үзээрэй.
+                  Таны хайлтад тохирох байгууллага олдсонгүй. Өөр түлхүүр үг эсвэл байршил ашиглан
+                  дахин хайж үзээрэй.
                 </p>
                 <div className="space-y-2 text-sm text-gray-500">
                   <p>💡 Зөвлөмжүүд:</p>
@@ -386,24 +357,24 @@ async function SearchResults({ searchParams }: { searchParams: SearchParams }) {
                   </div>
                   <div>
                     <CardTitle className="text-lg text-gray-900">Газрын зураг</CardTitle>
-                    <p className="text-sm text-gray-600 mt-1">
-                      {businessLocations.length} байршил
-                    </p>
+                    <p className="text-sm text-gray-600 mt-1">{businessLocations.length} байршил</p>
                   </div>
                 </div>
               </CardHeader>
               <CardContent className="p-0">
-                <Suspense fallback={
-                  <div className="h-64 sm:h-72 lg:h-80 bg-gradient-to-br from-primary/5 to-primary/10 flex items-center justify-center">
-                    <div className="text-center p-6">
-                      <div className="animate-spin rounded-full h-8 w-8 border-3 border-primary/20 border-t-primary mx-auto mb-3"></div>
-                      <h4 className="font-medium text-gray-900 mb-1 text-sm">Зураг ачаалж байна</h4>
-                      <p className="text-xs text-gray-600">
-                        {businessLocations.length} байршил
-                      </p>
+                <Suspense
+                  fallback={
+                    <div className="h-64 sm:h-72 lg:h-80 bg-gradient-to-br from-primary/5 to-primary/10 flex items-center justify-center">
+                      <div className="text-center p-6">
+                        <div className="animate-spin rounded-full h-8 w-8 border-3 border-primary/20 border-t-primary mx-auto mb-3"></div>
+                        <h4 className="font-medium text-gray-900 mb-1 text-sm">
+                          Зураг ачаалж байна
+                        </h4>
+                        <p className="text-xs text-gray-600">{businessLocations.length} байршил</p>
+                      </div>
                     </div>
-                  </div>
-                }>
+                  }
+                >
                   <div className="h-64 sm:h-72 lg:h-80">
                     <SimpleMap locations={businessLocations} />
                   </div>
@@ -447,9 +418,7 @@ export default function SearchPage({ searchParams }: { searchParams: SearchParam
       <div className="bg-white border-b border-gray-200 shadow-sm">
         <div className="container py-8">
           <div className="text-center mb-6">
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">
-              Хайх хэрэгтэй зүйлээ олоорой
-            </h1>
+            <h1 className="text-3xl font-bold text-gray-900 mb-2">Хайх хэрэгтэй зүйлээ олоорой</h1>
             <p className="text-gray-600 max-w-2xl mx-auto">
               Улаанбаатар хотын мянга мянган байгууллага, үйлчилгээний мэдээлэл нэг дор
             </p>

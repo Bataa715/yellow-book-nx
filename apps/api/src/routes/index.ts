@@ -2,7 +2,6 @@ import { Router } from 'express';
 import {
   getYellowBooks,
   getYellowBookById,
-  getCategories,
   createYellowBook,
   updateYellowBook,
   deleteYellowBook,

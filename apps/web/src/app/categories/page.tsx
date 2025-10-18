@@ -2,7 +2,24 @@ import { Suspense } from 'react';
 import Link from 'next/link';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, MoreHorizontal, Utensils, Coffee, ShoppingCart, Wrench, Car, Palette, Building2, GraduationCap, Hotel, Dumbbell, ShoppingBag, DollarSign, Map, Book } from 'lucide-react';
+import {
+  ArrowLeft,
+  MoreHorizontal,
+  Utensils,
+  Coffee,
+  ShoppingCart,
+  Wrench,
+  Car,
+  Palette,
+  Building2,
+  GraduationCap,
+  Hotel,
+  Dumbbell,
+  ShoppingBag,
+  DollarSign,
+  Map,
+  Book,
+} from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
 
 async function getAllCategories() {
@@ -15,29 +32,25 @@ async function getAllCategories() {
       },
       cache: 'no-cache', // Disable cache for debugging
     });
-    
-    console.log('Fetching categories from:', `${apiUrl}/api/categories`);
-    console.log('Response status:', response.status, response.statusText);
-    
+
     if (!response.ok) {
       throw new Error(`HTTP ${response.status}: ${response.statusText}`);
     }
-    
+
     const data = await response.json();
-    console.log('Raw API response:', data);
-    
+
     // API returns direct array, not wrapped in data object
     const categories = Array.isArray(data) ? data : [];
-    
+
     // Filter out test categories and invalid ones
-    const validCategories = categories.filter((cat: any) => 
-      cat.name && 
-      cat.name.trim() !== '' && 
-      cat.name !== 'Test' &&
-      !cat.name.toLowerCase().includes('test')
+    const validCategories = categories.filter(
+      (cat: { name?: string; id?: string }) =>
+        cat.name &&
+        cat.name.trim() !== '' &&
+        cat.name !== 'Test' &&
+        !cat.name.toLowerCase().includes('test')
     );
-    
-    console.log('Categories fetched:', validCategories.length, 'categories');
+
     return validCategories;
   } catch (error) {
     console.error('Error fetching categories:', error);
@@ -46,57 +59,57 @@ async function getAllCategories() {
   }
 }
 
-function getIconComponent(category: any) {
+function getIconComponent(category: { icon?: string; name?: string }) {
   // Map API icon strings to Lucide React components
-  const iconMap: { [key: string]: any } = {
-    'utensils': Utensils,
-    'coffee': Coffee,
+  const iconMap: Record<string, React.ComponentType> = {
+    utensils: Utensils,
+    coffee: Coffee,
     'shopping-cart': ShoppingCart,
-    'wrench': Wrench,
-    'car': Car,
-    'palette': Palette,
+    wrench: Wrench,
+    car: Car,
+    palette: Palette,
     'building-2': Building2,
     'graduation-cap': GraduationCap,
-    'hotel': Hotel,
-    'dumbbell': Dumbbell,
+    hotel: Hotel,
+    dumbbell: Dumbbell,
     'shopping-bag': ShoppingBag,
     'dollar-sign': DollarSign,
-    'map': Map,
-    'book': Book,
+    map: Map,
+    book: Book,
     'more-horizontal': MoreHorizontal,
   };
-  
+
   // If category has icon field from API, use it
   if (category.icon && iconMap[category.icon]) {
     return iconMap[category.icon];
   }
-  
+
   // Fallback based on category name
-  const nameMap: { [key: string]: any } = {
-    'Ресторан': Utensils,
-    'Кафе': Coffee,
-    'Дэлгүүр': ShoppingCart,
-    'Үйлчилгээ': Wrench,
+  const nameMap: Record<string, React.ComponentType> = {
+    Ресторан: Utensils,
+    Кафе: Coffee,
+    Дэлгүүр: ShoppingCart,
+    Үйлчилгээ: Wrench,
     'Авто засвар': Car,
     'Гоо сайхан': Palette,
-    'Банк': Building2,
-    'Боловсрол': GraduationCap,
+    Банк: Building2,
+    Боловсрол: GraduationCap,
     'Зочид буудал': Hotel,
-    'Спорт': Dumbbell,
+    Спорт: Dumbbell,
     'Монгол хоол': Utensils,
     'Кофе шоп': Coffee,
     'Хүнсний бүтээгдэхүүн': ShoppingBag,
-    'Засвар': Wrench,
-    'Санхүү': DollarSign,
-    'Фитнес': Dumbbell,
-    'Аялал': Map,
-    'Сургалт': Book,
+    Засвар: Wrench,
+    Санхүү: DollarSign,
+    Фитнес: Dumbbell,
+    Аялал: Map,
+    Сургалт: Book,
   };
-  
+
   if (category.name && nameMap[category.name]) {
     return nameMap[category.name];
   }
-  
+
   // Default fallback icon
   return MoreHorizontal;
 }
@@ -121,7 +134,7 @@ async function CategoriesList() {
 
   return (
     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-      {categories.map((category: any) => {
+      {categories.map((category: { id: string; name: string; icon?: string }) => {
         const IconComponent = getIconComponent(category);
         return (
           <Link
@@ -134,9 +147,7 @@ async function CategoriesList() {
                 <div className="p-3 rounded-full bg-primary/10 group-hover:bg-primary/20 transition-colors">
                   <IconComponent className="h-8 w-8 text-primary transition-transform group-hover:scale-110" />
                 </div>
-                <h3 className="font-medium text-sm text-center leading-tight">
-                  {category.name}
-                </h3>
+                <h3 className="font-medium text-sm text-center leading-tight">{category.name}</h3>
               </CardContent>
             </Card>
           </Link>
@@ -161,9 +172,7 @@ export default function CategoriesPage() {
             </Link>
           </div>
           <div className="text-center">
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">
-              Бүх ангилал
-            </h1>
+            <h1 className="text-3xl font-bold text-gray-900 mb-2">Бүх ангилал</h1>
             <p className="text-gray-600 max-w-2xl mx-auto">
               Таны хэрэгцээнд тохирсон байгууллагыг олохын тулд ангиллаас сонгоно уу
             </p>

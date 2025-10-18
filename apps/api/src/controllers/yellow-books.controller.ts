@@ -1,9 +1,9 @@
 import { Request, Response } from 'express';
 import prisma from '../lib/prisma';
-import { 
-  SearchParamsSchema, 
-  CreateYellowBookEntrySchema, 
-  UpdateYellowBookEntrySchema 
+import {
+  SearchParamsSchema,
+  CreateYellowBookEntrySchema,
+  UpdateYellowBookEntrySchema,
 } from '@yellow-book/contract';
 
 /**
@@ -48,14 +48,14 @@ export async function getYellowBooks(req: Request, res: Response) {
   try {
     // Validate query parameters with Zod
     const validatedParams = SearchParamsSchema.safeParse(req.query);
-    
+
     if (!validatedParams.success) {
       return res.status(400).json({
         error: 'Invalid query parameters',
         details: validatedParams.error.errors,
       });
     }
-    
+
     const { limit, offset, category, search, loc } = validatedParams.data;
 
     const limitNum = limit;
@@ -88,10 +88,7 @@ export async function getYellowBooks(req: Request, res: Response) {
 
       if (where.OR) {
         // If there's already an OR clause (from search), combine them
-        where.AND = [
-          { OR: where.OR },
-          { OR: locationConditions }
-        ];
+        where.AND = [{ OR: where.OR }, { OR: locationConditions }];
         delete where.OR;
       } else {
         // If no search query, just add location conditions
@@ -191,14 +188,14 @@ export async function createYellowBook(req: Request, res: Response) {
   try {
     // Validate request body with Zod
     const validatedData = CreateYellowBookEntrySchema.safeParse(req.body);
-    
+
     if (!validatedData.success) {
       return res.status(400).json({
         error: 'Invalid request data',
         details: validatedData.error.errors,
       });
     }
-    
+
     const businessData = validatedData.data;
 
     // Generate a new ID (simple increment based on existing entries)
@@ -252,10 +249,10 @@ export async function createYellowBook(req: Request, res: Response) {
 export async function updateYellowBook(req: Request, res: Response) {
   try {
     const { id } = req.params;
-    
+
     // Validate request body with Zod
     const validatedData = UpdateYellowBookEntrySchema.safeParse(req.body);
-    
+
     if (!validatedData.success) {
       return res.status(400).json({
         error: 'Invalid request data',
@@ -274,14 +271,14 @@ export async function updateYellowBook(req: Request, res: Response) {
         message: `Business with ID ${id} does not exist`,
       });
     }
-    
+
     const businessData = validatedData.data;
 
     // Build update data object
     const updateData: any = {
       updatedAt: new Date(),
     };
-    
+
     if (businessData.name) updateData.name = businessData.name;
     if (businessData.description) updateData.description = businessData.description;
     if (businessData.categories) updateData.categories = JSON.stringify(businessData.categories);
@@ -296,9 +293,12 @@ export async function updateYellowBook(req: Request, res: Response) {
       updateData.locationLng = businessData.location.lng;
     }
     if (businessData.contact) {
-      if (businessData.contact.phone) updateData.contactPhone = JSON.stringify(businessData.contact.phone);
-      if (businessData.contact.email !== undefined) updateData.contactEmail = businessData.contact.email;
-      if (businessData.contact.website !== undefined) updateData.contactWebsite = businessData.contact.website;
+      if (businessData.contact.phone)
+        updateData.contactPhone = JSON.stringify(businessData.contact.phone);
+      if (businessData.contact.email !== undefined)
+        updateData.contactEmail = businessData.contact.email;
+      if (businessData.contact.website !== undefined)
+        updateData.contactWebsite = businessData.contact.website;
     }
     if (businessData.hours) updateData.hours = JSON.stringify(businessData.hours);
     if (businessData.images) updateData.images = JSON.stringify(businessData.images);

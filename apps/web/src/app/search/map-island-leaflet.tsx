@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
-import dynamic from 'next/dynamic';
 
 // Dynamic import to avoid SSR issues
 let L: any = null;
@@ -47,8 +46,8 @@ export function MapIsland({ locations }: MapIslandProps) {
       if (!mapRef.current || !mounted) return;
 
       // Wait a bit to ensure DOM is ready
-      await new Promise(resolve => setTimeout(resolve, 100));
-      
+      await new Promise((resolve) => setTimeout(resolve, 100));
+
       if (!mounted || !mapRef.current) return;
 
       // Check if already initialized and prevent double initialization
@@ -67,26 +66,30 @@ export function MapIsland({ locations }: MapIslandProps) {
         // Fix for default markers in Leaflet
         delete (leaflet.Icon.Default.prototype as any)._getIconUrl;
         leaflet.Icon.Default.mergeOptions({
-          iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
+          iconRetinaUrl:
+            'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
           iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
-          shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
+          shadowUrl:
+            'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
         });
 
         // Default center (Ulaanbaatar coordinates)
         const defaultCenter: [number, number] = [47.8864, 106.9057];
-        
+
         // Use first location as center if available
-        const center: [number, number] = locations.length > 0 
-          ? [locations[0].lat, locations[0].lng]
-          : defaultCenter;
+        const center: [number, number] =
+          locations.length > 0 ? [locations[0].lat, locations[0].lng] : defaultCenter;
 
         // Initialize map
         const map = leaflet.map(mapRef.current).setView(center, locations.length > 1 ? 12 : 15);
 
         // Add OpenStreetMap tiles
-        leaflet.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        }).addTo(map);
+        leaflet
+          .tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution:
+              '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+          })
+          .addTo(map);
 
         mapInstanceRef.current = map;
 
@@ -96,16 +99,15 @@ export function MapIsland({ locations }: MapIslandProps) {
 
         // Add markers for each location
         const group = new leaflet.FeatureGroup();
-        
+
         locations.forEach((location: MapLocation) => {
-          const marker = leaflet.marker([location.lat, location.lng])
-            .bindPopup(`
+          const marker = leaflet.marker([location.lat, location.lng]).bindPopup(`
               <div style="min-width: 200px;">
                 <h3 style="margin: 0 0 8px 0; font-weight: 600; font-size: 14px;">${location.name}</h3>
                 <p style="margin: 0; font-size: 12px; color: #666;">${location.address}</p>
               </div>
             `);
-          
+
           marker.addTo(map);
           group.addLayer(marker);
           markersRef.current.push(marker);
@@ -115,7 +117,6 @@ export function MapIsland({ locations }: MapIslandProps) {
         if (locations.length > 1) {
           map.fitBounds(group.getBounds(), { padding: [20, 20] });
         }
-
       } catch (error) {
         console.error('Error initializing map:', error);
         isInitializedRef.current = false;
@@ -128,7 +129,7 @@ export function MapIsland({ locations }: MapIslandProps) {
     return () => {
       mounted = false;
       isInitializedRef.current = false;
-      
+
       if (mapInstanceRef.current) {
         try {
           mapInstanceRef.current.remove();
@@ -138,7 +139,7 @@ export function MapIsland({ locations }: MapIslandProps) {
         mapInstanceRef.current = null;
       }
       markersRef.current = [];
-      
+
       // Clear container and Leaflet references
       if (mapRef.current) {
         mapRef.current.innerHTML = '';
@@ -158,7 +159,7 @@ export function MapIsland({ locations }: MapIslandProps) {
   return (
     <div className="space-y-4">
       {/* OpenStreetMap with Leaflet */}
-      <div 
+      <div
         ref={mapRef}
         className="h-64 rounded-lg overflow-hidden border z-0"
         style={{ position: 'relative' }}
@@ -175,8 +176,8 @@ export function MapIsland({ locations }: MapIslandProps) {
               if (mapInstanceRef.current) {
                 mapInstanceRef.current.setView([location.lat, location.lng], 16);
                 // Find and open the popup for this location
-                const marker = markersRef.current.find(m => 
-                  m.getLatLng().lat === location.lat && m.getLatLng().lng === location.lng
+                const marker = markersRef.current.find(
+                  (m) => m.getLatLng().lat === location.lat && m.getLatLng().lng === location.lng
                 );
                 if (marker) {
                   marker.openPopup();

@@ -1,10 +1,4 @@
-import { 
-  YellowBookEntry, 
-  YellowBookListResponse, 
-  Category, 
-  Review,
-  Pagination 
-} from '@yellow-book/contract';
+import { YellowBookEntry, Category, Review, Pagination } from '@yellow-book/contract';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
 

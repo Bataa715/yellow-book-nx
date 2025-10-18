@@ -11,27 +11,27 @@ async function getPrimaryCategories() {
   if (process.env.NODE_ENV === 'production' && !process.env.API_URL) {
     return mockCategories.slice(0, 7);
   }
-  
+
   try {
     const apiUrl = process.env.API_URL || 'http://localhost:3001';
     const response = await fetch(`${apiUrl}/api/categories/primary`, {
-      next: { revalidate: 3600 } // Cache for 1 hour
+      next: { revalidate: 3600 }, // Cache for 1 hour
     });
-    
+
     if (!response.ok) {
       throw new Error('Failed to fetch primary categories');
     }
-    
+
     const data = await response.json();
-    
+
     // Ensure data is an array
     const categories = Array.isArray(data) ? data : [];
-    
+
     // If no primary categories in DB, return first 7 mock categories
     if (!categories || categories.length === 0) {
       return mockCategories.slice(0, 7);
     }
-    
+
     return categories;
   } catch (error) {
     console.error('Error fetching primary categories:', error);
@@ -41,16 +41,16 @@ async function getPrimaryCategories() {
 }
 
 function getIconComponent(iconName: string) {
-  const mockCategory = mockCategories.find(cat => 
-    cat.name.toLowerCase() === iconName.toLowerCase()
+  const mockCategory = mockCategories.find(
+    (cat) => cat.name.toLowerCase() === iconName.toLowerCase()
   );
-  
+
   if (mockCategory) {
     return mockCategory.icon;
   }
-  
+
   // Default fallback icon
-  return mockCategories.find(cat => cat.name === 'Бусад')?.icon || mockCategories[0].icon;
+  return mockCategories.find((cat) => cat.name === 'Бусад')?.icon || mockCategories[0].icon;
 }
 
 export function CategoryGrid() {
@@ -98,15 +98,13 @@ export function CategoryGrid() {
                 <div className="p-3 rounded-full bg-primary/10 group-hover:bg-primary/20 transition-colors">
                   <IconComponent className="h-8 w-8 text-primary transition-transform group-hover:scale-110" />
                 </div>
-                <h3 className="font-medium text-sm text-center leading-tight">
-                  {category.name}
-                </h3>
+                <h3 className="font-medium text-sm text-center leading-tight">{category.name}</h3>
               </CardContent>
             </Card>
           </Link>
         );
       })}
-      
+
       {/* "Бусад" - Show All Categories Button */}
       <Link href="/categories" className="group">
         <Card className="h-full hover:shadow-lg transition-shadow border-2 border-transparent hover:border-primary/20 bg-gradient-to-br from-primary/5 to-primary/10 hover:from-primary/10 hover:to-primary/15">

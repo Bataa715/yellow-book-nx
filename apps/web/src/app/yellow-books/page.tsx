@@ -1,28 +1,26 @@
 import { Suspense } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
-import { MapPin, Phone, Mail, Globe, Star } from 'lucide-react';
-import Link from 'next/link';
-import Image from 'next/image';
 import { YellowBookEntry } from '@/lib/api-client';
 import { LoadMoreButton } from './load-more-button';
 import { BusinessCard } from './business-card';
 
-// ISR: Revalidate every 60 seconds  
+// ISR: Revalidate every 60 seconds
 export const revalidate = 60;
 
 async function fetchYellowBooksServer(limit = 20, offset = 0) {
   try {
-    const response = await fetch(`http://localhost:3001/api/yellow-books?limit=${limit}&offset=${offset}`, {
-      next: { revalidate: 60 }
-    });
-    
+    const response = await fetch(
+      `http://localhost:3001/api/yellow-books?limit=${limit}&offset=${offset}`,
+      {
+        next: { revalidate: 60 },
+      }
+    );
+
     if (!response.ok) {
       throw new Error('Failed to fetch businesses');
     }
-    
+
     return await response.json();
   } catch (error) {
     console.error('Error fetching businesses:', error);
@@ -34,15 +32,17 @@ async function fetchYellowBooksServer(limit = 20, offset = 0) {
 async function StreamedStats() {
   try {
     const categoriesResponse = await fetch('http://localhost:3001/api/categories', {
-      next: { revalidate: 60 }
+      next: { revalidate: 60 },
     });
-    
+
     const categories = categoriesResponse.ok ? await categoriesResponse.json() : [];
     const businessResponse = await fetch('http://localhost:3001/api/yellow-books?limit=1', {
-      next: { revalidate: 60 }
+      next: { revalidate: 60 },
     });
-    const businessData = businessResponse.ok ? await businessResponse.json() : { pagination: { total: 0 } };
-    
+    const businessData = businessResponse.ok
+      ? await businessResponse.json()
+      : { pagination: { total: 0 } };
+
     return (
       <div className="grid grid-cols-2 gap-4 mb-8">
         <Card>
@@ -59,7 +59,7 @@ async function StreamedStats() {
         </Card>
       </div>
     );
-  } catch (error) {
+  } catch {
     return (
       <div className="grid grid-cols-2 gap-4 mb-8">
         <Card>
@@ -98,13 +98,10 @@ function StatsSkeleton() {
   );
 }
 
-
-
 export default async function YellowBooksPage() {
   // Static data fetched at build time and revalidated every 60s
   const initialData = await fetchYellowBooksServer(20, 0);
 
-  
   return (
     <div className="container py-12">
       <div className="mb-8">

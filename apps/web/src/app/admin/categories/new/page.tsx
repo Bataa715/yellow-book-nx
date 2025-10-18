@@ -27,7 +27,7 @@ export default function NewCategoryPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!name.trim()) {
       toast({
         variant: 'destructive',
@@ -148,8 +148,8 @@ export default function NewCategoryPage() {
                 <p className="text-sm text-gray-600 mb-2">Танилцуулга:</p>
                 <div className="flex items-center space-x-2">
                   {(() => {
-                    const selectedIcon = mockIcons.find(iconData => 
-                      convertToKebabCase(iconData.name) === icon
+                    const selectedIcon = mockIcons.find(
+                      (iconData) => convertToKebabCase(iconData.name) === icon
                     );
                     if (selectedIcon) {
                       const IconComponent = selectedIcon.component;

@@ -22,11 +22,11 @@ export function LoadMoreButton({ initialPagination }: LoadMoreButtonProps) {
   const handleLoadMore = async () => {
     try {
       setLoading(true);
-      const response = await fetchYellowBooks({ 
-        limit: pagination.limit, 
-        offset: pagination.offset + pagination.limit 
+      const response = await fetchYellowBooks({
+        limit: pagination.limit,
+        offset: pagination.offset + pagination.limit,
       });
-      
+
       setEntries([...entries, ...response.data]);
       setPagination(response.pagination);
     } catch (error) {
@@ -45,7 +45,7 @@ export function LoadMoreButton({ initialPagination }: LoadMoreButtonProps) {
           ))}
         </div>
       )}
-      
+
       {pagination.hasMore && (
         <div className="text-center">
           <Button onClick={handleLoadMore} disabled={loading} size="lg">

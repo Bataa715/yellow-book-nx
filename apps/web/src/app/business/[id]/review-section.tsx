@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Review } from '@/types';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -18,7 +18,6 @@ interface ReviewSectionProps {
 }
 
 export function ReviewSection({ businessId, businessName, initialReviews }: ReviewSectionProps) {
-  console.log('ReviewSection rendered with:', { businessId, businessName, initialReviews });
   const [reviews, setReviews] = useState<Review[]>(initialReviews);
   const [rating, setRating] = useState(0);
   const [hoverRating, setHoverRating] = useState(0);
@@ -154,8 +153,8 @@ export function ReviewSection({ businessId, businessName, initialReviews }: Revi
             />
           </div>
 
-          <Button 
-            onClick={handleSubmit} 
+          <Button
+            onClick={handleSubmit}
             disabled={isSubmitting || rating === 0 || !author.trim()}
             className="w-full"
           >
@@ -177,9 +176,7 @@ export function ReviewSection({ businessId, businessName, initialReviews }: Revi
       {/* Reviews List */}
       <Card>
         <CardHeader>
-          <CardTitle>
-            Үнэлгээнүүд ({reviews.length})
-          </CardTitle>
+          <CardTitle>Үнэлгээнүүд ({reviews.length})</CardTitle>
         </CardHeader>
         <CardContent>
           {reviews.length === 0 ? (
@@ -193,11 +190,9 @@ export function ReviewSection({ businessId, businessName, initialReviews }: Revi
                   <div className="flex items-start gap-3">
                     <Avatar className="h-10 w-10">
                       <AvatarImage src={review.avatar} alt={review.author} />
-                      <AvatarFallback>
-                        {review.author.charAt(0).toUpperCase()}
-                      </AvatarFallback>
+                      <AvatarFallback>{review.author.charAt(0).toUpperCase()}</AvatarFallback>
                     </Avatar>
-                    
+
                     <div className="flex-1">
                       <div className="flex items-center justify-between mb-2">
                         <div>
@@ -217,11 +212,9 @@ export function ReviewSection({ businessId, businessName, initialReviews }: Revi
                         </div>
                         <span className="text-xs text-gray-500">{review.date}</span>
                       </div>
-                      
+
                       {review.comment && (
-                        <p className="text-sm text-gray-700 leading-relaxed">
-                          {review.comment}
-                        </p>
+                        <p className="text-sm text-gray-700 leading-relaxed">{review.comment}</p>
                       )}
                     </div>
                   </div>

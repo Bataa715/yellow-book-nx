@@ -1,7 +1,6 @@
 'use client';
 
 import { Suspense } from 'react';
-import Image from 'next/image';
 import { SearchForm } from '@/components/search-form';
 import { CategoryGrid } from '@/components/category-grid';
 import { PlaceHolderImages } from '@/lib/placeholder-images';

@@ -74,7 +74,7 @@ export default function EditCategoryPage() {
       }
       const data = await res.json();
       const category: ApiCategory = data.data;
-      
+
       form.reset({
         name: category.name,
         icon: category.icon,
@@ -172,15 +172,9 @@ export default function EditCategoryPage() {
                   <FormItem>
                     <FormLabel htmlFor="name">Категорийн нэр</FormLabel>
                     <FormControl>
-                      <Input
-                        id="name"
-                        placeholder="Категорийн нэрийг оруулна уу"
-                        {...field}
-                      />
+                      <Input id="name" placeholder="Категорийн нэрийг оруулна уу" {...field} />
                     </FormControl>
-                    <FormDescription>
-                      Категорийн нэрийг оруулна уу.
-                    </FormDescription>
+                    <FormDescription>Категорийн нэрийг оруулна уу.</FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -202,10 +196,7 @@ export default function EditCategoryPage() {
                         {mockIcons.map((iconOption) => {
                           const Icon = iconOption.component;
                           return (
-                            <SelectItem
-                              key={iconOption.name}
-                              value={iconOption.name.toLowerCase()}
-                            >
+                            <SelectItem key={iconOption.name} value={iconOption.name.toLowerCase()}>
                               <div className="flex items-center gap-2">
                                 <Icon className="h-4 w-4" />
                                 <span>{iconOption.name}</span>
@@ -215,9 +206,7 @@ export default function EditCategoryPage() {
                         })}
                       </SelectContent>
                     </Select>
-                    <FormDescription>
-                      Категорид тохирох айкон сонгоно уу.
-                    </FormDescription>
+                    <FormDescription>Категорид тохирох айкон сонгоно уу.</FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}

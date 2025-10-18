@@ -11,12 +11,7 @@ export function BusinessCard({ entry }: { entry: YellowBookEntry }) {
     <Card className="flex flex-col hover:shadow-lg transition-shadow">
       {entry.logo && (
         <div className="relative h-48 w-full">
-          <Image
-            src={entry.logo}
-            alt={entry.name}
-            fill
-            className="object-cover rounded-t-lg"
-          />
+          <Image src={entry.logo} alt={entry.name} fill className="object-cover rounded-t-lg" />
         </div>
       )}
       <CardHeader>

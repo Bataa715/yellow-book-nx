@@ -22,16 +22,16 @@ export function SimpleMap({ locations }: SimpleMapProps) {
 
   useEffect(() => {
     let isMounted = true;
-    
+
     const initMap = async () => {
       if (!containerRef.current || mapInstance) return;
 
       try {
         setIsLoading(true);
-        
+
         // Dynamic import
         const L = (await import('leaflet')).default;
-        
+
         // Load CSS
         if (!document.querySelector('link[href*="leaflet.css"]')) {
           const link = document.createElement('link');
@@ -41,23 +41,24 @@ export function SimpleMap({ locations }: SimpleMapProps) {
         }
 
         // Wait for DOM and styles to be ready
-        await new Promise(resolve => setTimeout(resolve, 200));
-        
+        await new Promise((resolve) => setTimeout(resolve, 200));
+
         if (!isMounted || !containerRef.current) return;
 
         // Set up default markers
         delete (L.Icon.Default.prototype as any)._getIconUrl;
         L.Icon.Default.mergeOptions({
-          iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
+          iconRetinaUrl:
+            'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
           iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
-          shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
+          shadowUrl:
+            'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
         });
 
         // Default center (Ulaanbaatar)
         const defaultCenter: [number, number] = [47.8864, 106.9057];
-        const center: [number, number] = locations.length > 0 
-          ? [locations[0].lat, locations[0].lng] 
-          : defaultCenter;
+        const center: [number, number] =
+          locations.length > 0 ? [locations[0].lat, locations[0].lng] : defaultCenter;
 
         // Create map
         const map = L.map(containerRef.current, {
@@ -67,14 +68,14 @@ export function SimpleMap({ locations }: SimpleMapProps) {
 
         // Add tiles
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          attribution:
+            '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
         }).addTo(map);
 
         // Add markers
         const group = new L.FeatureGroup();
         locations.forEach((location) => {
-          const marker = L.marker([location.lat, location.lng])
-            .bindPopup(`
+          const marker = L.marker([location.lat, location.lng]).bindPopup(`
               <div style="min-width: 200px;">
                 <h3 style="margin: 0 0 8px 0; font-weight: 600; font-size: 14px;">${location.name}</h3>
                 <p style="margin: 0; font-size: 12px; color: #666;">${location.address}</p>
@@ -93,7 +94,6 @@ export function SimpleMap({ locations }: SimpleMapProps) {
           setMapInstance(map);
           setIsLoading(false);
         }
-
       } catch (error) {
         console.error('Map initialization failed:', error);
         setIsLoading(false);
@@ -130,14 +130,14 @@ export function SimpleMap({ locations }: SimpleMapProps) {
             <p className="text-muted-foreground">Loading map...</p>
           </div>
         )}
-        <div 
+        <div
           key={mapId.current}
           ref={containerRef}
           className="h-64 rounded-lg overflow-hidden border"
           style={{ minHeight: '256px' }}
         />
       </div>
-      
+
       <div className="text-sm text-muted-foreground">
         <p>📍 {locations.length} байршил харуулж байна</p>
       </div>

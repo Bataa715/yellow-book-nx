@@ -152,7 +152,8 @@ const seedData = [
   {
     id: '7',
     name: 'Фитнес клуб "Эрч хүч"',
-    description: 'Орчин үеийн тоног төхөөрөмжтэй фитнес клуб. Бие бялдрын дасгал, хувийн дасгалжуулагч.',
+    description:
+      'Орчин үеийн тоног төхөөрөмжтэй фитнес клуб. Бие бялдрын дасгал, хувийн дасгалжуулагч.',
     categories: JSON.stringify(['Спорт', 'Фитнес']),
     addressCity: 'Улаанбаатар',
     addressDistrict: 'Баянзүрх',
@@ -177,7 +178,8 @@ const seedData = [
   {
     id: '8',
     name: 'Улаанбаатар хотел',
-    description: '4 одтой зочид буудал. Олон улсын стандартын үйлчилгээ, ресторан, конференц танхим.',
+    description:
+      '4 одтой зочид буудал. Олон улсын стандартын үйлчилгээ, ресторан, конференц танхим.',
     categories: JSON.stringify(['Зочид буудал', 'Аялал']),
     addressCity: 'Улаанбаатар',
     addressDistrict: 'Хан-Уул',
@@ -203,7 +205,8 @@ const seedData = [
   {
     id: '9',
     name: 'Шинэ мэргэжлийн сургууль',
-    description: 'Техникийн болон мэргэжлийн боловсрол. Компьютерийн хичээл, англи хэл, нягтлан бодох.',
+    description:
+      'Техникийн болон мэргэжлийн боловсрол. Компьютерийн хичээл, англи хэл, нягтлан бодох.',
     categories: JSON.stringify(['Боловсрол', 'Сургалт']),
     addressCity: 'Улаанбаатар',
     addressDistrict: 'Чингэлтэй',
@@ -226,7 +229,8 @@ const seedData = [
   {
     id: '10',
     name: 'Авто центр "Хурд"',
-    description: 'Автомашины засвар үйлчилгээ, сэлбэг солих, диагностик шинжилгээ. Мэргэжлийн засварчин.',
+    description:
+      'Автомашины засвар үйлчилгээ, сэлбэг солих, диагностик шинжилгээ. Мэргэжлийн засварчин.',
     categories: JSON.stringify(['Авто засвар', 'Үйлчилгээ']),
     addressCity: 'Улаанбаатар',
     addressDistrict: 'Сонгинохайрхан',
@@ -420,8 +424,8 @@ const categories = [
   { name: 'Авто засвар', icon: 'car', isPrimary: true, order: 5 },
   { name: 'Гоо сайхан', icon: 'palette', isPrimary: true, order: 6 },
   { name: 'Банк', icon: 'building-2', isPrimary: true, order: 7 },
-  
-  // Secondary categories (not primary) 
+
+  // Secondary categories (not primary)
   { name: 'Боловсрол', icon: 'graduation-cap', isPrimary: false, order: null },
   { name: 'Зочид буудал', icon: 'hotel', isPrimary: false, order: null },
   { name: 'Спорт', icon: 'dumbbell', isPrimary: false, order: null },

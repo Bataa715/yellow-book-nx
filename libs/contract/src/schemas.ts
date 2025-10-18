@@ -74,8 +74,14 @@ export const UpdateYellowBookEntrySchema = CreateYellowBookEntrySchema.partial()
 
 // Search Params Schema - Хайлтын параметрүүд
 export const SearchParamsSchema = z.object({
-  limit: z.string().transform(val => parseInt(val, 10)).default('20'),
-  offset: z.string().transform(val => parseInt(val, 10)).default('0'),
+  limit: z
+    .string()
+    .transform((val) => parseInt(val, 10))
+    .default('20'),
+  offset: z
+    .string()
+    .transform((val) => parseInt(val, 10))
+    .default('0'),
   category: z.string().optional(),
   search: z.string().optional(),
   loc: z.string().optional(), // "lat,lng,radius" format
