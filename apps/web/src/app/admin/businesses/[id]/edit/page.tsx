@@ -34,6 +34,7 @@ const formSchema = z.object({
   email: z.string().email('Имэйл хаяг буруу байна.').optional().or(z.literal('')),
   website: z.string().url('Вэбсайт хаяг буруу байна.').optional().or(z.literal('')),
   address: z.string().min(5, 'Хаяг дор хаяж 5 тэмдэгттэй байх ёстой.'),
+  logo: z.string().url('Зөв лого URL оруулна уу.').optional().or(z.literal('')),
   images: z.array(z.string()).default([]),
 });
 
@@ -60,6 +61,7 @@ export default function EditBusinessPage() {
       email: '',
       website: '',
       address: '',
+      logo: '',
       images: [],
     },
   });
@@ -84,6 +86,7 @@ export default function EditBusinessPage() {
             email: data.data.contact.email || '',
             website: data.data.contact.website || '',
             address: data.data.address.full,
+            logo: data.data.logo || '',
             images: data.data.images || [],
           });
         } catch (error) {
@@ -121,15 +124,43 @@ export default function EditBusinessPage() {
 
   async function onSubmit(data: EditBusinessFormValues) {
     try {
+      // Transform form data to match API schema
+      const transformedData = {
+        name: data.businessName,
+        description: data.description,
+        categories: data.categories,
+        address: {
+          city: business?.address?.city || 'Улаанбаатар',
+          district: business?.address?.district || 'Сүхбаатар дүүрэг',
+          khoroo: business?.address?.khoroo || '1-р хороо',
+          full: data.address,
+        },
+        location: business?.location || {
+          lat: 47.918888,
+          lng: 106.917782,
+        },
+        contact: {
+          phone: data.phone.split(',').map(p => p.trim()).filter(p => p.length > 0),
+          email: data.email || undefined,
+          website: data.website || undefined,
+        },
+        logo: data.logo || undefined,
+        images: data.images.filter(img => img.trim().length > 0),
+      };
+
+      console.log('Sending data to API:', transformedData);
+
       const res = await fetch(`http://localhost:3001/api/yellow-books/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify(transformedData),
       });
 
       if (!res.ok) {
+        const errorData = await res.text();
+        console.error('API Error:', errorData);
         throw new Error('Failed to update business');
       }
 
@@ -194,13 +225,11 @@ export default function EditBusinessPage() {
                 name="businessName"
                 render={({ field }) => (
                   <FormItem>
-                    {' '}
-                    <FormLabel>Бизнесийн нэр</FormLabel>{' '}
+                    <FormLabel>Бизнесийн нэр</FormLabel>
                     <FormControl>
-                      {' '}
-                      <Input {...field} />{' '}
-                    </FormControl>{' '}
-                    <FormMessage />{' '}
+                      <Input {...field} />
+                    </FormControl>
+                    <FormMessage />
                   </FormItem>
                 )}
               />
@@ -209,13 +238,11 @@ export default function EditBusinessPage() {
                 name="description"
                 render={({ field }) => (
                   <FormItem>
-                    {' '}
-                    <FormLabel>Дэлгэрэнгүй тайлбар</FormLabel>{' '}
+                    <FormLabel>Дэлгэрэнгүй тайлбар</FormLabel>
                     <FormControl>
-                      {' '}
-                      <Textarea rows={6} {...field} />{' '}
-                    </FormControl>{' '}
-                    <FormMessage />{' '}
+                      <Textarea rows={6} {...field} />
+                    </FormControl>
+                    <FormMessage />
                   </FormItem>
                 )}
               />
@@ -293,11 +320,14 @@ export default function EditBusinessPage() {
                             control={form.control}
                             name={`images.${index}`}
                             render={({ field }) => (
-                              <Input
-                                {...field}
-                                className="flex-grow"
-                                placeholder="https://example.com/image.jpg"
-                              />
+                              <FormItem className="flex-grow">
+                                <FormControl>
+                                  <Input
+                                    {...field}
+                                    placeholder="https://example.com/image.jpg"
+                                  />
+                                </FormControl>
+                              </FormItem>
                             )}
                           />
                           <Button
@@ -326,14 +356,12 @@ export default function EditBusinessPage() {
                 name="phone"
                 render={({ field }) => (
                   <FormItem>
-                    {' '}
-                    <FormLabel>Утасны дугаар</FormLabel>{' '}
+                    <FormLabel>Утасны дугаар</FormLabel>
                     <FormControl>
-                      {' '}
-                      <Input {...field} />{' '}
-                    </FormControl>{' '}
-                    <FormDescription>Олон дугаар бол таслалаар (,) тусгаарлана уу.</FormDescription>{' '}
-                    <FormMessage />{' '}
+                      <Input {...field} />
+                    </FormControl>
+                    <FormDescription>Олон дугаар бол таслалаар (,) тусгаарлана уу.</FormDescription>
+                    <FormMessage />
                   </FormItem>
                 )}
               />
@@ -342,13 +370,11 @@ export default function EditBusinessPage() {
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    {' '}
-                    <FormLabel>Имэйл хаяг</FormLabel>{' '}
+                    <FormLabel>Имэйл хаяг</FormLabel>
                     <FormControl>
-                      {' '}
-                      <Input type="email" {...field} />{' '}
-                    </FormControl>{' '}
-                    <FormMessage />{' '}
+                      <Input type="email" {...field} />
+                    </FormControl>
+                    <FormMessage />
                   </FormItem>
                 )}
               />
@@ -357,13 +383,11 @@ export default function EditBusinessPage() {
                 name="website"
                 render={({ field }) => (
                   <FormItem>
-                    {' '}
-                    <FormLabel>Вэбсайт</FormLabel>{' '}
+                    <FormLabel>Вэбсайт</FormLabel>
                     <FormControl>
-                      {' '}
-                      <Input {...field} />{' '}
-                    </FormControl>{' '}
-                    <FormMessage />{' '}
+                      <Input {...field} />
+                    </FormControl>
+                    <FormMessage />
                   </FormItem>
                 )}
               />
@@ -372,13 +396,29 @@ export default function EditBusinessPage() {
                 name="address"
                 render={({ field }) => (
                   <FormItem>
-                    {' '}
-                    <FormLabel>Дэлгэрэнгүй хаяг</FormLabel>{' '}
+                    <FormLabel>Дэлгэрэнгүй хаяг</FormLabel>
                     <FormControl>
-                      {' '}
-                      <Input {...field} />{' '}
-                    </FormControl>{' '}
-                    <FormMessage />{' '}
+                      <Input {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              {/* Logo */}
+              <FormField
+                control={form.control}
+                name="logo"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Логоны зураг</FormLabel>
+                    <FormControl>
+                      <Input placeholder="https://example.com/logo.jpg" {...field} />
+                    </FormControl>
+                    <FormDescription>
+                      Бизнесийн логоны зургийн URL хаягийг оруулна уу.
+                    </FormDescription>
+                    <FormMessage />
                   </FormItem>
                 )}
               />

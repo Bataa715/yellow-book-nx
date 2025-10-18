@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "paths": {
+      "@yellow-book/contract": [
+        "../../libs/contract/src/index.ts"
+      ],
+      "@yellow-book/config": [
+        "../../libs/config/src/index.ts"
+      ]
+    }
+  },
+  "extends": "..\\..\\..\\..\\apps\\api\\tsconfig.json"
+}

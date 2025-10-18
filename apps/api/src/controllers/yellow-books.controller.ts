@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import { randomUUID } from 'crypto';
 import prisma from '../lib/prisma';
 import {
   SearchParamsSchema,
@@ -198,11 +199,8 @@ export async function createYellowBook(req: Request, res: Response) {
 
     const businessData = validatedData.data;
 
-    // Generate a new ID (simple increment based on existing entries)
-    const lastEntry = await prisma.yellowBookEntry.findFirst({
-      orderBy: { id: 'desc' },
-    });
-    const newId = lastEntry ? (parseInt(lastEntry.id) + 1).toString() : '1';
+    // Generate a new unique ID
+    const newId = randomUUID();
 
     // Create the new business entry
     const newBusiness = await prisma.yellowBookEntry.create({

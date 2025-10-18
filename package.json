@@ -6,7 +6,7 @@
     "dev": "nx run-many -t dev --parallel=2",
     "dev:web": "nx dev web",
     "dev:api": "nx dev api",
-    "build": "nx run-many -t build",
+    "build": "nx run-many -t build --exclude=web",
     "build:web": "nx build web",
     "build:api": "nx build api",
     "start:web": "nx start web",

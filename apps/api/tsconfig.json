@@ -10,12 +10,12 @@
     "strict": true,
     "noEmit": true,
     "moduleResolution": "node",
-    "baseUrl": ".",
+    "baseUrl": "../..",
     "paths": {
-      "@yellow-book/contract": ["../../libs/contract/src/index.ts"],
-      "@yellow-book/config": ["../../libs/config/src/index.ts"]
+      "@yellow-book/contract": ["libs/contract/src/index.ts"],
+      "@yellow-book/config": ["libs/config/src/index.ts"]
     }
   },
-  "include": ["src/**/*", "../../libs/**/*"],
+  "include": ["src/**/*"],
   "exclude": ["node_modules", "dist"]
 }
