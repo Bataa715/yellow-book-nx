@@ -1,7 +1,18 @@
 {
-  "/search/page": "app/search/page.js",
+  "/api/revalidate/route": "app/api/revalidate/route.js",
+  "/favicon.ico/route": "app/favicon.ico/route.js",
+  "/add-listing/page": "app/add-listing/page.js",
+  "/_not-found/page": "app/_not-found/page.js",
+  "/admin/businesses/page": "app/admin/businesses/page.js",
+  "/admin/categories/[id]/edit/page": "app/admin/categories/[id]/edit/page.js",
+  "/admin/page": "app/admin/page.js",
+  "/admin/businesses/[id]/edit/page": "app/admin/businesses/[id]/edit/page.js",
+  "/admin/categories/page": "app/admin/categories/page.js",
+  "/admin/categories/new/page": "app/admin/categories/new/page.js",
   "/page": "app/page.js",
   "/categories/page": "app/categories/page.js",
+  "/yellow-books/page": "app/yellow-books/page.js",
+  "/yellow-books/[id]/page": "app/yellow-books/[id]/page.js",
   "/business/[id]/page": "app/business/[id]/page.js",
-  "/admin/page": "app/admin/page.js"
+  "/search/page": "app/search/page.js"
 }

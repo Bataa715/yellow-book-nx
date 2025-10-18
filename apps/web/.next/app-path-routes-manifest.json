@@ -1,0 +1,18 @@
+{
+  "/api/revalidate/route": "/api/revalidate",
+  "/favicon.ico/route": "/favicon.ico",
+  "/add-listing/page": "/add-listing",
+  "/_not-found/page": "/_not-found",
+  "/admin/businesses/page": "/admin/businesses",
+  "/admin/categories/[id]/edit/page": "/admin/categories/[id]/edit",
+  "/admin/page": "/admin",
+  "/admin/businesses/[id]/edit/page": "/admin/businesses/[id]/edit",
+  "/admin/categories/page": "/admin/categories",
+  "/admin/categories/new/page": "/admin/categories/new",
+  "/page": "/",
+  "/categories/page": "/categories",
+  "/yellow-books/page": "/yellow-books",
+  "/yellow-books/[id]/page": "/yellow-books/[id]",
+  "/business/[id]/page": "/business/[id]",
+  "/search/page": "/search"
+}
